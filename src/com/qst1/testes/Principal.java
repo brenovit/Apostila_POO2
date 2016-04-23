@@ -1,4 +1,4 @@
-package com.qts1.testes;
+package com.qst1.testes;
 
 import com.qst1.dao.AlunoDAO;
 import com.qst1.vo.Aluno;
