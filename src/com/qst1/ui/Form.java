@@ -109,7 +109,7 @@ public class Form extends JFrame {
 		panel.add(lblMatricula);
 		
 		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("New tab", null, panel_1, null);
+		tabbedPane.addTab("Disciplina", null, panel_1, null);
 		panel_1.setLayout(null);
 		
 		JLabel lblNome = new JLabel("Nome:");
@@ -122,7 +122,7 @@ public class Form extends JFrame {
 		textField_2.setColumns(10);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBounds(55, 345, 89, 23);
+		btnCadastrar.setBounds(10, 297, 89, 23);
 		contentPane.add(btnCadastrar);
 	}
 }
