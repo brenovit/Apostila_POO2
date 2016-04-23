@@ -6,7 +6,7 @@ import com.qst1.dao.GradeEscolar;
 
 public class Aluno {
 	private String nome;	
-	private int matricula;
+	private Integer matricula;
 	private String cpf;
 	
 	private static int geradorMatricula = 0;
@@ -38,7 +38,7 @@ public class Aluno {
 		this.nome = nome;
 	}
 
-	public int getMatricula() {
+	public Integer getMatricula() {
 		return matricula;
 	}
 

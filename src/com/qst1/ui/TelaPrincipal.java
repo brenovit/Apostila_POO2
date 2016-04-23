@@ -46,7 +46,7 @@ public class TelaPrincipal {
 					InOut.OutMessage("Opção Invalida!", "Erro!");
 					break;		
 			}
-			}while(op != 0);
+		}while(op != 0);
 	}
 	
 	
@@ -57,7 +57,7 @@ public class TelaPrincipal {
 		String opcoes = "Digite um dos Numeros abaixo:\n"+
 						"1 - Cadastrar Aluno\n"+
 						"2 - Listar Alunos\n"+
-						"3 - Alterar Aluno\n"+
+						"3 - Alterar Dados do Aluno\n"+
 						"4 - Procurar por Aluno\n"+
 						"5 - Deletar Aluno\n"+
 						"6 - Apagar Aluno\n"+
@@ -67,13 +67,29 @@ public class TelaPrincipal {
 		nome:breno
 		cpf: 123
 		"2 - Lista Aluno\n"+
+		mostra uma lista com todas as informações dos alunos: 
+		matricula:123
+		nome: breno
+		cpf:123456789
 		"3 - Alterar Aluno\n"+
+		mostra lista com matricula e nome de todos os alunos:
+		matricula:123
+		nome:breno
+		digita a matricula do aluno que deseja.
+		altera todos os dados deste aluno.
 		"4 - Procurar por Aluno\n"+
+		digita a matricula do aluno:123
+		se exisistir, mostra as informações deste aluno;
 		"5 - Deletar Aluno\n"+
+		digita a matricula do aluno
+		deleta ele
 		"6 - Apagar Aluno\n"+
+		deleta todos os alunos
 		"0 - Sair";*/
 		op = InOut.InInt(opcoes);
 		switch(op){
+			case 0:
+				break;
 			case 1:
 				CadastrarAluno();
 				break;
@@ -108,20 +124,23 @@ public class TelaPrincipal {
 							"2 - Listar Disciplinas Disponiveis\n"+
 							"3 - Remover Grade de Aluno\n"+
 							"0 - Voltar";
-			/*"cadsatrar grade do aluno:
-			1 escolha o aluno:
+			/*"1 - Cadsatrar grade do aluno:
+			mostra lista com matricula e nome dos alunos cadastrados:
 			"1 - Breno\n"+
 			"2 - mauricio\n"+
 			digitar matricula = 1
+			mostra uma lista das materias disponiveis no sistema:
 			escolha as materias
 			1 - poo 
 			2 - ed
 			3 - ads
 			digite o codigo da materia = 1
-			a materia poo vai ser adicionada em breno
-			cadastreu denovo na opçãpo 2*/
+			a materia escolhida é adicionada ao aluno
+			se o alunos ja esetiver cadastrado mostra mensagem de erro.*/
 			op = InOut.InInt(opcoes);
 			switch(op){
+				case 0:
+					break;
 				case 1:
 					//metdodo para cadastrar grade dos alunos
 					break;
@@ -162,6 +181,8 @@ public class TelaPrincipal {
 			*/
 			op = InOut.InInt(opcoes);
 			switch(op){
+				case 0:
+					break;
 				case 1:
 					//metdodo para cadastrar grade dos alunos
 					break;
