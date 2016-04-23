@@ -6,6 +6,7 @@ import com.qst1.vo.Aluno;
 import com.recursos.InOut;
 
 public class AlunoDAO implements DAO {
+	
 	private ArrayList<Aluno> listaAluno;
 	private String msg = "";
 	private int pos = 0;
@@ -33,20 +34,40 @@ public class AlunoDAO implements DAO {
 	}
 	
 	@Override
-	public <T> void Find(T o) {
-		// TODO Auto-generated method stub
-		
+	public <T> int Find(T o) {
+		Aluno aluno = (Aluno) o;
+        int posicao = -1;
+        
+        int posAux = 0;
+        
+        while((posAux < listaAluno.size() ) &&
+                (!listaAluno.get(posAux).getMatricula().equals(aluno.getMatricula()))){
+             
+            posAux++;
+        }
+        if((posAux<listaAluno.size()) && (listaAluno.get(posAux).getMatricula().equals(aluno.getMatricula())) == true  ){
+            posicao = posAux;
+        }
+        return posicao; 
 	}
 	
 	@Override
 	public <T> void Uptade(T o) {
-		// TODO Auto-generated method stub
-		
+		Aluno aluno = (Aluno) o;
+        int posicao = Find(aluno);
+       if(posicao != -1){
+    	   listaAluno.get(posicao).setNome(aluno.getNome());
+    	   listaAluno.get(posicao).setCPF(aluno.getCPF());
+       }
 	}
 
 	@Override
 	public <T> void Delete(T o) {
-		// TODO Auto-generated method stub
+		 Aluno aluno = (Aluno) o;
+	        int posicao = Find(aluno);
+	        if(posicao != -1){
+	        	listaAluno.remove(posicao);
 		
-	}	
+	     }	
+	}
 }
