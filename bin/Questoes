@@ -1,9 +1,9 @@
 
 5.1 – Desenvolva um programa em Java que faça o controle acadêmico de uma universidade. O sistema deverá oferecer as seguintes funcionalidades:
 
-a)	Cadastro dos dados pessoais dos alunos;
-b)	Cadastro da grade escolar do aluno;
-c)	Cadastro das notas associadas à grade do aluno
+a)	Cadastro dos dados pessoais dos alunos;-
+b)	Cadastro da grade escolar do aluno;-
+c)	Cadastro das notas associadas à grade do aluno-
 
 Crie um menu de opções e utilize todos os recursos aprendidos até agora. O sistema deverá retornar se o aluno foi aprovado ou reprovado nas disciplinas.
 
@@ -20,7 +20,7 @@ Crie um menu de opções e utilize todos os recursos aprendidos até agora. O siste
 5.4 – Crie um programa em Java para cadastra os gastos mensais de um usuário
 
 a) O sistema deverá cadastrar os tipos de Gastos do usuário (Casa, Lazer e alimentação)
-	b)  O sistema deverá registrar os valores dos gastos e as suas descrições
+b)  O sistema deverá registrar os valores dos gastos e as suas descrições
 c) O sistema deverá exibir os valores totais de gastos adquiridos pelo usuário
 
-Crie um menu de opções e utilize todos os recursos aprendidos até agora. O sistema 
+Crie um menu de opções e utilize todos os recursos aprendidos até agora. O sistema deverá retornar se o aluno foi aprovado ou reprovado nas disciplinas.

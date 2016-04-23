@@ -11,7 +11,7 @@ public class Aluno {
 	
 	private static int geradorMatricula = 0;
 	
-	GradeEscolar grade;
+	private List<Disciplina> grade;
 	
 	public Aluno(){
 		geradorMatricula++;
@@ -52,5 +52,9 @@ public class Aluno {
 
 	public void setCPF(String cpf) {
 		this.cpf = cpf;
+	}
+	
+	public void addMateria(Disciplina materia){
+		this.grade.add(materia);
 	}
 }

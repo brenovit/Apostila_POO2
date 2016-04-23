@@ -23,18 +23,59 @@ public class TelaPrincipal {
 	public static void Menu() throws IOException{
 		int op;
 		do{
+			String opcoes = "Digite um dos Numeros abaixo:\n"+
+							"1 - Aluno\n"+
+							"2 - Gerir Grade Escolar\n"+
+							"3 - Gerir Notas do Aluno\n"+
+							"0 - Voltar";
+			op = InOut.InInt(opcoes);
+			switch(op){
+				case 0:
+					InOut.OutMessage("O programa será Finalizado", "Atenção");
+					break;
+				case 1:
+					MenuAluno();
+					break;
+				case 2:
+					MenuGrade();
+					break;
+				case 3:
+					AlterarAluno();
+					break;
+				default:
+					InOut.OutMessage("Opção Invalida!", "Erro!");
+					break;		
+			}
+			}while(op != 0);
+	}
+	
+	
+	
+	public static void MenuAluno() throws IOException{
+		int op;
+		do{
 		String opcoes = "Digite um dos Numeros abaixo:\n"+
 						"1 - Cadastrar Aluno\n"+
-						"2 - Lista Aluno\n"+
+						"2 - Listar Alunos\n"+
 						"3 - Alterar Aluno\n"+
 						"4 - Procurar por Aluno\n"+
 						"5 - Deletar Aluno\n"+
 						"6 - Apagar Aluno\n"+
-						"0 - Sair";
+						"0 - Voltar";
+		/*"Digite um dos Numeros abaixo:\n"+
+		"1 - Cadastrar Aluno\n"+
+		nome:breno
+		cpf: 123
+		"2 - Lista Aluno\n"+
+		"3 - Alterar Aluno\n"+
+		"4 - Procurar por Aluno\n"+
+		"5 - Deletar Aluno\n"+
+		"6 - Apagar Aluno\n"+
+		"0 - Sair";*/
 		op = InOut.InInt(opcoes);
 		switch(op){
 			case 0:
-				InOut.OutMessage("O programa será Finalizado", "Atenção");
+				//InOut.OutMessage("O programa será Finalizado", "Atenção");
 				break;
 			case 1:
 				CadastrarAluno();
@@ -59,8 +100,72 @@ public class TelaPrincipal {
 				break;		
 		}
 		}while(op != 0);
+		Menu();
 	}
 	
+	public static void MenuGrade(){
+		int op;
+		do{
+			String opcoes = "Digite um dos Numeros abaixo:\n"+
+							"1 - Cadastrar Grade do Aluno\n"+
+							"2 - Listar Alunos\n"+
+							"3 - Alterar Aluno\n"+
+							"4 - Procurar por Aluno\n"+
+							"5 - Deletar Aluno\n"+
+							"6 - Apagar Aluno\n"+
+							"0 - Voltar";
+			/*"cadsatrar grade do aluno:
+			1 escolha o aluno:
+			"1 - Breno\n"+
+			"2 - mauricio\n"+
+			digitar matricula = 1
+			escolha as materias
+			1 - poo 
+			2 - ed
+			3 - ads
+			digite o codigo da materia = 1
+			a materia poo vai ser adicionada em breno
+			cadastreu denovo na opçãpo 2
+			
+			"3 - Alterar Aluno\n"+
+			"4 - Procurar por Aluno\n"+
+			"5 - Deletar Aluno\n"+
+			"6 - Apagar Aluno\n"+
+			"0 - Sair";*/
+			op = InOut.InInt(opcoes);
+			switch(op){
+				case 0:
+					InOut.OutMessage("O programa será Finalizado", "Atenção");
+					break;
+				case 1:
+					//CadastrarMateria();
+					break;
+				case 2:
+					//ListaAluno();
+					break;		
+				default:
+					InOut.OutMessage("Opção Invalida!", "Erro!");
+					break;		
+			}
+			}while(op != 0);
+	}
+	
+	public static void MenuNota(){
+		/*"Digite um dos Numeros abaixo:\n"+
+		"1 - inserir nota do aluno:\n"+
+		"2 - checar aprovação
+		1 = escolha o aluno:
+		"1- breno
+		"2- mauricio
+		digite a matricula - 1
+		materias do aluno breno:
+		"1 - poo;
+		"2 - ed;
+		escolha a materia: 1
+		digite a nota do aluno: 10;
+		mostrar na tela - que o aluno foi reprovado.
+		*/
+	}
 	public static void CadastrarAluno() {
 		String nome = InOut.InString("Insira o Nome do Aluno:");
 		String cpf = InOut.InString("Digite o CPF do Aluno:");
