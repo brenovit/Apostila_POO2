@@ -9,7 +9,7 @@ public class AlunoDAO implements DAO {
 
 	@Override
 	public <T> void Create(T o) {
-		// TODO Auto-generated method stub		
+		listaAluno.add((Aluno) o);
 	}
 
 	@Override
