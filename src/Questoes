@@ -1,0 +1,26 @@
+
+5.1 – Desenvolva um programa em Java que faça o controle acadêmico de uma universidade. O sistema deverá oferecer as seguintes funcionalidades:
+
+a)	Cadastro dos dados pessoais dos alunos;
+b)	Cadastro da grade escolar do aluno;
+c)	Cadastro das notas associadas à grade do aluno
+
+Crie um menu de opções e utilize todos os recursos aprendidos até agora. O sistema deverá retornar se o aluno foi aprovado ou reprovado nas disciplinas.
+
+5.2 – Crie um programa em Java que leia cem números e construa uma pilha apenas com números pares
+
+5.3 – Crie um programa em Java para gerenciar os usuários da rede de uma determinada empresa. O sistema deverá apresentar as seguintes funcionalidades
+
+a)	Cadastrar usuários novos
+b)	Os usuários deverão ter o nome, login, email  e senha armazenados na aplicação.
+c)	O sistema deverá oferecer um menu com as opões de buscas, atualização, cadastro, listagem de usuários e teste de autenticação.
+
+Crie um menu de opções e utilize todos os recursos aprendidos até agora. O sistema deverá retornar se o aluno foi aprovado ou reprovado nas disciplinas.
+
+5.4 – Crie um programa em Java para cadastra os gastos mensais de um usuário
+
+a) O sistema deverá cadastrar os tipos de Gastos do usuário (Casa, Lazer e alimentação)
+	b)  O sistema deverá registrar os valores dos gastos e as suas descrições
+c) O sistema deverá exibir os valores totais de gastos adquiridos pelo usuário
+
+Crie um menu de opções e utilize todos os recursos aprendidos até agora. O sistema 
