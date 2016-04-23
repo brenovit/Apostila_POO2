@@ -10,6 +10,7 @@ public class AlunoDAO implements DAO {
 	@Override
 	public <T> void Create(T o) {
 		listaAluno.add((Aluno) o);
+		//o aluno foi adicionado na lista
 	}
 
 	@Override
