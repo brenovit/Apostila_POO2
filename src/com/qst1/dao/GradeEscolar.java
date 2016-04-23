@@ -19,9 +19,9 @@ public class GradeEscolar {
 	}
 
 	public void Show() {
-		msg = "Codigo\t-\tNome\n";
+		msg = "Codigo - Nome\n";
 		for(Disciplina disciplina : listaDisc){
-			msg += disciplina.getCodigo()+"\t-\t"+disciplina.getNome() + "\n";
+			msg += disciplina.getCodigo()+" - "+disciplina.getNome() + "\n";
 		}
 		InOut.OutMessage(msg);
 	}
@@ -48,6 +48,6 @@ public class GradeEscolar {
 	}	
 	
 	public void CadastrarGrade(Aluno aluno, Disciplina disc){
-				
+		aluno.addMateria(disc);
 	}
 }

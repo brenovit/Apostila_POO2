@@ -1,5 +1,6 @@
 package com.qst1.vo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.qst1.dao.GradeEscolar;
@@ -11,15 +12,15 @@ public class Aluno {
 	
 	private static int geradorMatricula = 0;
 	
-	private List<Disciplina> grade;
-	
-	
+	private ArrayList<Disciplina> grade;
 	
 	public Aluno(){
+		grade = new ArrayList<Disciplina>();
 		geradorMatricula++;
 	}
 	
 	public Aluno(String nome, String cpf){
+		grade = new ArrayList<Disciplina>();
 		geradorMatricula++;
 		this.nome = nome;
 		this.matricula = geradorMatricula;
@@ -27,6 +28,7 @@ public class Aluno {
 	}
 	
 	public Aluno(String nome, int matricula, String cpf){
+		grade = new ArrayList<Disciplina>();
 		this.nome = nome;
 		this.matricula = matricula;
 		this.cpf = cpf;
@@ -58,5 +60,9 @@ public class Aluno {
 	
 	public void addMateria(Disciplina materia){
 		this.grade.add(materia);
+	}
+	
+	public ArrayList<Disciplina> getMaterias(){		
+		return this.grade;
 	}
 }

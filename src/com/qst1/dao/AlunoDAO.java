@@ -1,8 +1,10 @@
 package com.qst1.dao;
 
+import java.awt.List;
 import java.util.ArrayList;
 
 import com.qst1.vo.Aluno;
+import com.qst1.vo.Disciplina;
 import com.recursos.InOut;
 
 public class AlunoDAO implements DAO {
@@ -66,8 +68,18 @@ public class AlunoDAO implements DAO {
 		 Aluno aluno = (Aluno) o;
 	        int posicao = Find(aluno);
 	        if(posicao != -1){
-	        	listaAluno.remove(posicao);
-		
+	        	listaAluno.remove(posicao);		
 	     }	
+	}
+	
+	public void ShowDisciplinas(Aluno aluno) {
+		msg = "";
+		ArrayList<Disciplina> listaDisciplina = aluno.getMaterias();
+		for(Disciplina disciplina : listaDisciplina){
+			msg += "\nCodigo: " + disciplina.getCodigo() +
+					"\nNome: " + disciplina.getNome() +
+					"\n------------------------------------";
+		}
+		InOut.OutMessage(msg);
 	}
 }

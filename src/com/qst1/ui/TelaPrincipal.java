@@ -60,7 +60,8 @@ public class TelaPrincipal {
 						"3 - Alterar Dados do Aluno\n"+
 						"4 - Procurar por Aluno\n"+
 						"5 - Deletar Aluno\n"+
-						"6 - Apagar Aluno\n"+
+						"6 - Mostrar Materias Cadastradas\n"+
+						"7 - Apagar Aluno\n"+
 						"0 - Voltar";
 		/*"Digite um dos Numeros abaixo:\n"+
 		"1 - Cadastrar Aluno\n"+
@@ -83,7 +84,12 @@ public class TelaPrincipal {
 		"5 - Deletar Aluno\n"+
 		digita a matricula do aluno
 		deleta ele
-		"6 - Apagar Aluno\n"+
+		"6 - Mostrar Materias Cadastradas\n"+
+		digita a matricula do aluno: 1
+		checa se aluno existe
+		se existir
+		mostrar uma lista com todas as materias que o aluno tiver.
+		se não, volta
 		deleta todos os alunos
 		"0 - Sair";*/
 		op = InOut.InInt(opcoes);
@@ -106,6 +112,9 @@ public class TelaPrincipal {
 				DeletarAluno();
 				break;
 			case 6:
+				//executart metodo de mostrar materias de um aluno
+				break;
+			case 7:
 				ApagarAluno();
 				break;
 			default:

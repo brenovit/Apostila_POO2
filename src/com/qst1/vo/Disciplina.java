@@ -15,6 +15,7 @@ public class Disciplina {
 	public Disciplina(String nome){
 		geradorCodigo++;
 		this.nome = nome;
+		this.codigo = geradorCodigo;
 	}
 	
 	public String getNome() {
