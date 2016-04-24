@@ -1,10 +1,12 @@
 package com.qst1.dao;
 
+import com.qst1.vo.Aluno;
+
 public interface DAO {
-	public <T> void Create (T o);
+	public void Create (Object o);
 	public void Show ();
-	public <T> int Find (T o);
-	public <T> void Uptade (T o);
-	public <T> void Delete (T o);	
+	public int Find (Object o);
+	public void Uptade (Object o);
+	public void Delete (Object o);	
 	//sou um comnetario
 }

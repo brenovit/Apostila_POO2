@@ -6,7 +6,8 @@ import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
 import com.recursos.InOut;
 
-public class GradeEscolar {
+public class GradeEscolar{
+	
 	private ArrayList<Disciplina> listaDisc;
 	private String msg = ""; 
 
@@ -14,40 +15,47 @@ public class GradeEscolar {
 		listaDisc = new ArrayList<Disciplina>();	
 	}
 	
-	public void AdicionarDiciplina(Disciplina disciplina){
-		listaDisc.add(disciplina);
+	public void CadastrarDisciplina(Disciplina disc) {
+		listaDisc.add(disc);
+		
 	}
 
 	public void Show() {
-		msg = "Codigo - Nome\n";
+		msg = "Disciplinas Cadastradas\nCodigo - Nome\n";
 		for(Disciplina disciplina : listaDisc){
 			msg += disciplina.getCodigo()+" - "+disciplina.getNome() + "\n";
 		}
 		InOut.OutMessage(msg);
 	}
-
-	public int Find(Disciplina disc) {
-		int pos = -1;
-		int posAux = 0;
-		while((posAux < listaDisc.size()) && (!listaDisc.get(posAux).getCodigo().equals(disc.getNome()))){
-			posAux++;
-		}
-		if((posAux < listaDisc.size()) && (!listaDisc.get(posAux).getCodigo().equals(disc.getNome())) == true){
-			pos = posAux;
-		}
-		return pos;
+	
+	public int Find(Disciplina disc){
+        int posicao = -1;        
+        int posAux = 0;
+        
+        while((posAux < listaDisc.size()) &&
+                (!listaDisc.get(posAux).getCodigo().equals(disc.getCodigo()))){
+            posAux++;
+        }
+        if((posAux < listaDisc.size()) && 
+        		(listaDisc.get(posAux).getCodigo().equals(disc.getCodigo())) == true){
+            posicao = posAux;
+        }
+        return posicao; 
 	}
-
-	public <T> void Delete(T o) {
-		/*int pos = Procurar(o);
+	
+	public void Delete(Disciplina disciplina) {
+		int pos = Find(disciplina);
 		if(pos != -1){
 			listaDisc.remove(pos);
 		}else{
-			InOut.OutMessage("Cliente não Cadastrado");
-		}	*/
-	}	
+			InOut.OutMessage("Disciplina não Cadastrado");
+		}
+	}
 	
 	public void CadastrarGrade(Aluno aluno, Disciplina disc){
-		aluno.addMateria(disc);
-	}
+		int pos = Find(disc);
+		if(pos != -1){
+			aluno.addMateria(disc);
+		}
+	}	
 }

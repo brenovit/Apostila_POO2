@@ -7,7 +7,6 @@ public class InOut {
 		int in = Integer.parseInt(JOptionPane.showInputDialog(titulo));		
 		return in;
 	}
-	//ççççççççççç
 	
 	public static float InFloat(String titulo){
 		float in = Float.parseFloat(JOptionPane.showInputDialog(titulo));		
@@ -30,6 +29,5 @@ public class InOut {
 	
 	public static void  OutMessage(String msg) {
 		JOptionPane.showMessageDialog(null, msg);
-	}
-	
+	}	
 }

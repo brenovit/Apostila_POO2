@@ -6,10 +6,11 @@ public class Disciplina {
 	private Float nota;
 	private Integer codigo;
 	
-	private static Integer geradorCodigo = 0;
+	private static int geradorCodigo = 0;
 	
 	public Disciplina(){
 		geradorCodigo++;
+		this.codigo = geradorCodigo;
 	}
 	
 	public Disciplina(String nome){
@@ -26,11 +27,11 @@ public class Disciplina {
 		this.nome = nome;
 	}
 	
-	public float getNota(){
+	public Float getNota(){
 		return this.nota;
 	}
 	
-	public void setNota(float valor){
+	public void setNota(Float valor){
 		this.nota = valor;
 		if(this.nota < 6){
 			this.aprovado = false;
@@ -44,7 +45,7 @@ public class Disciplina {
 	}
 	
 	public Integer getCodigo(){
-		return this.codigo;
+		return codigo;
 	}
 	
 	public void setCodigo(Integer codigo){
