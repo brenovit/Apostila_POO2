@@ -9,6 +9,8 @@ import com.recursos.InOut;
 public class AlunoDAO implements DAO {
 	
 	private ArrayList<Aluno> listaAluno;
+	private ArrayList<Disciplina> listaDisciplina;
+
 	private String msg = "";
 	
 	public AlunoDAO(){
@@ -18,7 +20,6 @@ public class AlunoDAO implements DAO {
 	@Override
 	public void Create(Object o) {
 		listaAluno.add((Aluno) o);
-		//o aluno foi adicionado na lista
 	}
 
 	@Override
@@ -73,19 +74,51 @@ public class AlunoDAO implements DAO {
 		int pos = Find(aluno);
 		if(pos != -1){
 			msg = "";
-			ArrayList<Disciplina> listaDisciplina = aluno.getMaterias();
+			listaDisciplina = aluno.getMaterias();
 			for(Disciplina disciplina : listaDisciplina){
 				msg += "\nCodigo: " + disciplina.getCodigo() +
 						"\nNome: " + disciplina.getNome() +
+						"\nNota: " + disciplina.getNota() +
+						"\nAprovado: " + disciplina.getAprovado() +
 						"\n------------------------------------";
 			}
 		}
-		InOut.OutMessage(msg);
-		
+		InOut.OutMessage(msg);		
 	}
 	
-	public void AddNota(Aluno aluno, Disciplina disciplina, Double nota){
-		
+	public int FindMateria(Aluno aluno, Disciplina disc){
+		int pos = Find(aluno);
+		if(pos != -1){
+			int posAux = 0;
+			pos = -1;
+			listaDisciplina = aluno.getMaterias();
+			while((posAux < listaDisciplina.size()) && 
+					(!listaDisciplina.get(posAux).getCodigo().equals(disc.getCodigo()))){
+				posAux++;
+			}
+			if((posAux < listaDisciplina.size()) && 
+					(listaDisciplina.get(posAux).getCodigo().equals(disc.getCodigo())) == true){
+				pos = posAux;
+			}
+		}
+		return pos;
 	}
 	
+	public void AddNota(Aluno aluno, Disciplina disc, Double nota){
+		int pos = FindMateria(aluno, disc);
+		if(pos != -1){
+			listaDisciplina = aluno.getMaterias();
+			listaDisciplina.get(pos).setNota(nota);
+		}
+	}
+	
+	public boolean Aprovado (Aluno aluno, Disciplina disc){
+		int pos = FindMateria(aluno, disc);
+		boolean aprovacao = false;
+		if(pos != -1){
+			listaDisciplina = aluno.getMaterias();
+			aprovacao = listaDisciplina.get(pos).getAprovado();
+		}
+		return aprovacao;		
+	}
 }

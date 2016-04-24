@@ -3,7 +3,7 @@ package com.qst1.vo;
 public class Disciplina {
 	private String nome;
 	private boolean aprovado;
-	private Float nota;
+	private Double nota;
 	private Integer codigo;
 	
 	private static int geradorCodigo = 0;
@@ -27,11 +27,11 @@ public class Disciplina {
 		this.nome = nome;
 	}
 	
-	public Float getNota(){
+	public Double getNota(){
 		return this.nota;
 	}
 	
-	public void setNota(Float valor){
+	public void setNota(Double valor){
 		this.nota = valor;
 		if(this.nota < 6){
 			this.aprovado = false;
