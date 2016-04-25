@@ -1,9 +1,6 @@
 package com.qst1.vo;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import com.qst1.dao.GradeEscolar;
 
 public class Aluno {
 	private String nome;	
@@ -35,7 +32,7 @@ public class Aluno {
 	}
 	
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	public void setNome(String nome) {
@@ -51,7 +48,7 @@ public class Aluno {
 	}
 
 	public String getCPF() {
-		return cpf;
+		return this.cpf;
 	}
 
 	public void setCPF(String cpf) {

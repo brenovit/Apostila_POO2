@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
-import com.recursos.InOut;
 
 public class AlunoDAO implements DAO {
 	
@@ -23,7 +22,7 @@ public class AlunoDAO implements DAO {
 	}
 
 	@Override
-	public void Show() {
+	public String Show() {
 		msg = "";
 		for(Aluno aluno : listaAluno){
 			msg += "\nMatricula: " + aluno.getMatricula()+
@@ -31,7 +30,7 @@ public class AlunoDAO implements DAO {
 					"\nCPF: " + aluno.getCPF()+
 					"\n------------------------------------";
 		}
-		InOut.OutMessage(msg);
+		return msg;
 	}
 	
 	@Override
@@ -51,6 +50,25 @@ public class AlunoDAO implements DAO {
         return posicao; 
 	}
 	
+	public int Find(Aluno aluno, boolean alterar) {
+		//Aluno aluno = (Aluno) o;
+        int posicao = -1;        
+        int posAux = 0;
+        
+        while((posAux < listaAluno.size()) &&
+                (!listaAluno.get(posAux).getMatricula().equals(aluno.getMatricula()))){
+            posAux++;
+        }
+        if((posAux < listaAluno.size()) && 
+        		(listaAluno.get(posAux).getMatricula().equals(aluno.getMatricula())) == true){
+        	if(alterar){
+	        	aluno.setCPF(listaAluno.get(posAux).getCPF());
+	        	aluno.setNome(listaAluno.get(posAux).getNome());
+        	}
+            posicao = posAux;
+        }
+        return posicao; 
+	}
 	@Override
 	public void Uptade(Object o) {
 		Aluno aluno = (Aluno) o;
@@ -58,19 +76,21 @@ public class AlunoDAO implements DAO {
         if(posicao != -1){
         	listaAluno.get(posicao).setNome(aluno.getNome());
         	listaAluno.get(posicao).setCPF(aluno.getCPF());
-       }
+        }
 	}
 
 	@Override
-	public void Delete(Object o) {
+	public boolean Delete(Object o) {
 		Aluno aluno = (Aluno) o;
 	    int posicao = Find(aluno);
 	    if(posicao != -1){
-	    	listaAluno.remove(posicao);		
+	    	listaAluno.remove(posicao);	
+	    	return true;
 	    }
+	    return false;
 	}
 	
-	public void ShowDisciplinasMatriculadas(Aluno aluno) {
+	public String ShowDisciplinasMatriculadas(Aluno aluno) {
 		int pos = Find(aluno);
 		if(pos != -1){
 			msg = "";
@@ -83,7 +103,7 @@ public class AlunoDAO implements DAO {
 						"\n------------------------------------";
 			}
 		}
-		InOut.OutMessage(msg);		
+		return msg;		
 	}
 	
 	public int FindMateria(Aluno aluno, Disciplina disc){

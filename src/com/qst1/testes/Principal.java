@@ -60,6 +60,7 @@ public class Principal {
 		grade.CadastrarDisciplina(disc1);
 		grade.CadastrarDisciplina(disc2);
 		grade.CadastrarDisciplina(disc3);
+		grade.CadastrarDisciplina(disc4);
 		
 		//mostrar todas as disciplinas cadastradas
 		grade.Show();
