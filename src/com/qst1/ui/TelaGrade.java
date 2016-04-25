@@ -1,9 +1,17 @@
 package com.qst1.ui;
 
+import com.qst1.dao.GradeEscolar;
+import com.qst1.vo.Disciplina;
 import com.recursos.InOut;
 
 public class TelaGrade {
+	private static GradeEscolar grade = new GradeEscolar();
+	private static Disciplina disc;
 	public static void MenuGrade(){
+		if(TelaPrincipal.programaJaRodou == false){
+			CriarDisciplinas();
+			System.out.println("Criei as Disciplinas");
+		}
 		int op;
 		do{
 			String opcoes = "Digite um dos Numeros abaixo:\n"+
@@ -29,13 +37,13 @@ public class TelaGrade {
 				case 0:
 					break;
 				case 1:
-					//metdodo para cadastrar grade dos alunos
+					CadastrarGradeAluno();
 					break;
 				case 2:
-					//metodos para listar todas as grades
+					ListarDisciplinas();
 					break;
 				case 3:
-					//Metodo para remover alguma grade do aluno
+					RemoverGradeAluno();
 					break;
 				default:
 					InOut.OutMessage("Opção Invalida!", "Erro!");
@@ -43,5 +51,40 @@ public class TelaGrade {
 			}
 		}while(op != 0);
 		TelaPrincipal.Menu();
+	}
+	
+	private static void CriarDisciplinas(){
+		disc = new Disciplina("Programação Orientada a Objetos");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Estrutura de Dados");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Análise de Sistemas de Informações Comerciais");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Projeto Integrador");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Lógica de Programação");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Estatística");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Banco de Dados");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Sistemas Operacionais");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Sistemas de Informações");
+		grade.CadastrarDisciplina(disc);
+		TelaPrincipal.programaJaRodou = true;
+	}
+	
+	private static void CadastrarGradeAluno(){
+		
+	}
+
+	private static void ListarDisciplinas(){
+		String msg = "Alunos Cadastrados no Sistema\n------------------------------------"+grade.Show();
+		InOut.OutMessage(msg);;
+	}
+
+	private static void RemoverGradeAluno(){
+		
 	}
 }

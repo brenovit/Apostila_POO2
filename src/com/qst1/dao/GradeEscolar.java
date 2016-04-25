@@ -20,12 +20,13 @@ public class GradeEscolar{
 		
 	}
 
-	public void Show() {
-		msg = "Disciplinas Cadastradas\nCodigo - Nome\n";
+	public String Show() {
 		for(Disciplina disciplina : listaDisc){
-			msg += disciplina.getCodigo()+" - "+disciplina.getNome() + "\n";
+			msg += "\nCodigo: " + disciplina.getCodigo()+
+					"\nNome: "+disciplina.getNome() + 
+					"\n------------------------------------";
 		}
-		InOut.OutMessage(msg);
+		return msg;
 	}
 	
 	public int Find(Disciplina disc){

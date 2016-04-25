@@ -3,6 +3,7 @@ package com.qst1.ui;
 import com.recursos.InOut;
 
 public class TelaPrincipal {
+	protected static boolean programaJaRodou = false;
 	
 	public static void main(String[] args){
 		Menu();
