@@ -30,7 +30,7 @@ public class TelaPrincipal {
 					TelaGrade.MenuGrade();
 					break;
 				case 3:
-					TelaAluno.MenuNota();
+					TelaNota.MenuNota();
 					break;
 				default:
 					InOut.OutMessage("Opção Invalida!", "Erro!");

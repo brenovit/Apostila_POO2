@@ -23,6 +23,8 @@ import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Form extends JFrame {
 
@@ -122,6 +124,11 @@ public class Form extends JFrame {
 		textField_2.setColumns(10);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
 		btnCadastrar.setBounds(10, 297, 89, 23);
 		contentPane.add(btnCadastrar);
 	}

@@ -80,48 +80,6 @@ public class TelaAluno {
 		}while(op != 0);
 		TelaPrincipal.Menu();
 	}
-	public static void MenuNota() {
-		int op;
-		do{
-			String opcoes = "Digite um dos Numeros abaixo:\n"+
-							"1 - Inserir Nota do Aluno\n"+
-							"2 - Alterar Nota do Aluno\n"+
-							"3 - Checar Aprovação dos Alunos\n"+
-							"0 - Voltar";
-			/*"Digite um dos Numeros abaixo:\n"+
-			"1 - inserir nota do aluno:\n"+
-			"2 - checar aprovação
-			1 = escolha o aluno:
-			"1- breno
-			"2- mauricio
-			digite a matricula - 1
-			materias do aluno breno:
-			"1 - poo;
-			"2 - ed;
-			escolha a materia: 1
-			digite a nota do aluno: 10;
-			mostrar na tela - que o aluno foi reprovado.
-			*/
-			op = InOut.InInt(opcoes);
-			switch(op){
-				case 0:
-					break;
-				case 1:
-					//metdodo para cadastrar grade dos alunos
-					break;
-				case 2:
-					//metodos para listar todas as grades
-					break;
-				case 3:
-					//Metodo para remover alguma grade do aluno
-					break;
-				default:
-					InOut.OutMessage("Opção Invalida!", "Erro!");
-					break;		
-			}
-		}while(op != 0);
-		TelaPrincipal.Menu();		
-	}
 	
 	public static void CadastrarAluno() {
 		String nome = InOut.InString("Insira o Nome do Aluno:");
@@ -207,6 +165,11 @@ public class TelaAluno {
 	
 	public static void AlunoNaoEncontrado(){
 		InOut.OutMessage("No registro não consta nenhum aluno com esta matricula.\n"
-				+ "Por favor verifique se digitou corretamente\ne tente novamente.", "Aluno Não Encontrado");
+				+ "Por favor verifique se digitou corretamente\ne tente novamente.", 
+				"Aluno Não Encontrado");
+	}
+	
+	public static AlunoDAO RetornaLista(){
+		return listaAluno;
 	}
 }
