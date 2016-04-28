@@ -1,14 +1,16 @@
 package com.qst1.ui;
 
+import com.qst1.dao.AlunoDAO;
+import com.qst1.dao.GradeEscolar;
 import com.recursos.InOut;
 
 public class TelaPrincipal {
 	protected static boolean programaJaRodou = false;
-	//eu sou a tela principal
+	private static AlunoDAO listaAluno = new AlunoDAO();
+	private static GradeEscolar grade = new GradeEscolar();
 	
-	public static void main(String[] args){//esse é o main
+	public static void main(String[] args){
 		Menu();
-		System.out.println("Programa Finzalizado");
 	}
 	
 	public static void Menu(){
@@ -23,6 +25,7 @@ public class TelaPrincipal {
 			switch(op){
 				case 0:
 					InOut.OutMessage("O programa será Finalizado", "Atenção");
+					System.exit(0);
 					break;
 				case 1:
 					TelaAluno.MenuAluno();
@@ -38,5 +41,11 @@ public class TelaPrincipal {
 					break;		
 			}
 		}while(op != 0);
-	}	
+	}
+	public static AlunoDAO RetornaListaAluno(){
+		return listaAluno;
+	}
+	public static GradeEscolar RetornaGradeEscolar(){
+		return grade;
+	}
 }

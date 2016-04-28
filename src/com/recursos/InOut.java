@@ -4,7 +4,15 @@ import javax.swing.JOptionPane;
 public class InOut {
 	
 	public static int InInt(String titulo){
-		int in = Integer.parseInt(JOptionPane.showInputDialog(titulo));		
+		int in;
+		try {
+			in = Integer.parseInt(JOptionPane.showInputDialog(titulo));
+			return in;
+		}catch(Exception e){
+			OutMessage("Erro de Execução:\n"+e,"ERRO");
+		}finally {
+			in = 9999999;
+		}
 		return in;
 	}
 	

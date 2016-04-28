@@ -2,6 +2,7 @@ package com.qst1.testes;
 
 import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
+import com.qst1.ui.TelaAluno;
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
 import com.recursos.InOut;
@@ -51,44 +52,63 @@ public class Principal {
 		GradeEscolar grade = new GradeEscolar();
 		
 		//criar as materias
-		Disciplina disc1 = new Disciplina("POO");
-		Disciplina disc2 = new Disciplina("ED");
-		Disciplina disc3 = new Disciplina("ASIC");
-		Disciplina disc4 = new Disciplina("PI");
+		Disciplina disc = new Disciplina("POO");
+		grade.CadastrarDisciplina(disc);
+		grade.CadastrarGrade(al1, disc);
+		lista.AddNota(al1,disc,5.0);
+		
+		disc = new Disciplina("ED");
+		grade.CadastrarDisciplina(disc);
+		grade.CadastrarGrade(al1, disc);
+		lista.AddNota(al1,disc,8.0);
+		
+		disc = new Disciplina("ASIC");
+		grade.CadastrarDisciplina(disc);
+		grade.CadastrarGrade(al1, disc);
+		lista.AddNota(al1,disc,7.0);
+		
+		disc = new Disciplina("PI");
+		grade.CadastrarDisciplina(disc);
+		//grade.CadastrarGrade(al1, disc);
+		lista.AddNota(al1,disc,6.0);
+		
+		Aluno al = new Aluno();
+		al.setMatricula(al1.getMatricula());
+		
 		
 		//cadastrar as materias na grade escolar
-		grade.CadastrarDisciplina(disc1);
+		/*grade.CadastrarDisciplina(disc);
 		grade.CadastrarDisciplina(disc2);
 		grade.CadastrarDisciplina(disc3);
-		grade.CadastrarDisciplina(disc4);
+		grade.CadastrarDisciplina(disc4);*/
 		
 		//mostrar todas as disciplinas cadastradas
 		grade.Show();
 
 		//checar existencia do aluno na lista
-		if(grade.Find(disc3) == -1){
+		/*if(grade.Find(disc,true) == -1){
 			InOut.OutMessage("Disciplina não cadastrada");
 		}else{
-			InOut.OutMessage("Disciplina Cadastrada\nNome: " + disc3.getNome());
-		}
+			InOut.OutMessage("Disciplina Cadastrada\nNome: " + disc.getNome());
+		}*/
 		
 		//adicionar materias ao aluno
-		grade.CadastrarGrade(al1, disc1);
-		grade.CadastrarGrade(al1, disc2);
+		/*grade.CadastrarGrade(al1, disc);
+		grade.CadastrarGrade(al1, disc);*/
 		
 		//Checar se o aluno esta cadastrado em uma materia
-		if(lista.FindMateria(al1, disc2) == -1){
+		/*if(lista.FindMateria(al1, disc) == -1){
 			InOut.OutMessage("Disciplina não cadastrada");
 		}else{
-			InOut.OutMessage("Disciplina Cadastrada\nDisciplina: " + disc1.getNome() + "\nAluno: "+al1.getNome());
-		}
+			InOut.OutMessage("Disciplina Cadastrada\nDisciplina: " + disc.getNome() + "\nAluno: "+al1.getNome());
+		}*/
 		
 		//adicionar nota na disciplina cadastrada de um aluno
-		lista.AddNota(al1,disc1,8.0);
+		/*lista.AddNota(al1,disc1,8.0);
 		lista.AddNota(al1,disc2,5.0);
 		
 		//verificar se o aluno esta aprovado na disciplina1
-		if(lista.Aprovado(al1, disc1)){
+		/*if(lista.Aprovado(al1, disc1)){
 			InOut.OutMessage("Aluno Aprovado");
 		}else{
 			InOut.OutMessage("Aluno Reprovado");
@@ -99,9 +119,17 @@ public class Principal {
 			InOut.OutMessage("Aluno Aprovado");
 		}else{
 			InOut.OutMessage("Aluno Reprovado");
+		}*/
+		if(lista.Find(al,true) != -1){
+			String msg = TelaAluno.DadosAlunoEncontrado(al) +
+					"\nMaterias do Aluno:\n------------------------------------"+
+					lista.ShowDisciplinasMatriculadas(al);						 
+			InOut.OutMessage(msg);
+		}else{
+			TelaAluno.AlunoNaoEncontrado();
 		}
 		
 		//mostrar as disciplinas cadastrados do aluno, sua nota, nome da disciplina, estado da aprovação
-		lista.ShowDisciplinasMatriculadas(al1);
+		//InOut.OutMessage(lista.ShowDisciplinasMatriculadas(al1));
 	}
 }

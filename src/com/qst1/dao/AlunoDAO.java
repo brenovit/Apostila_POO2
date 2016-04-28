@@ -9,7 +9,6 @@ public class AlunoDAO implements DAO {
 	
 	private ArrayList<Aluno> listaAluno;
 	private ArrayList<Disciplina> listaDisciplina;
-
 	private String msg = "";
 	
 	public AlunoDAO(){
@@ -64,11 +63,13 @@ public class AlunoDAO implements DAO {
         	if(alterar){
 	        	aluno.setCPF(listaAluno.get(posAux).getCPF());
 	        	aluno.setNome(listaAluno.get(posAux).getNome());
+	        	aluno.setMaterias(listaAluno.get(posAux).getMaterias());
         	}
             posicao = posAux;
         }
-        return posicao; 
+        return posicao;
 	}
+	
 	@Override
 	public void Uptade(Object o) {
 		Aluno aluno = (Aluno) o;
@@ -91,9 +92,9 @@ public class AlunoDAO implements DAO {
 	}
 	
 	public String ShowDisciplinasMatriculadas(Aluno aluno) {
-		int pos = Find(aluno);
+		msg = "";
+		int pos = Find(aluno,true);
 		if(pos != -1){
-			msg = "";
 			listaDisciplina = aluno.getMaterias();
 			for(Disciplina disciplina : listaDisciplina){
 				msg += "\nCodigo: " + disciplina.getCodigo() +
@@ -103,7 +104,7 @@ public class AlunoDAO implements DAO {
 						"\n------------------------------------";
 			}
 		}
-		return msg;		
+		return msg;
 	}
 	
 	public int FindMateria(Aluno aluno, Disciplina disc){

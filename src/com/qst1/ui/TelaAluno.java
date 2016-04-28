@@ -5,7 +5,7 @@ import com.qst1.vo.Aluno;
 import com.recursos.InOut;
 
 public class TelaAluno {
-	private static AlunoDAO listaAluno = new AlunoDAO();
+	private static AlunoDAO listaAluno = TelaPrincipal.RetornaListaAluno();
 	private static Aluno aluno;
 	protected static void MenuAluno(){
 		int op;
@@ -15,9 +15,8 @@ public class TelaAluno {
 						"2 - Listar Alunos\n"+
 						"3 - Alterar Dados do Aluno\n"+
 						"4 - Procurar por Aluno\n"+
-						"5 - Deletar Aluno\n"+
-						"6 - Mostrar Materias Cadastradas\n"+
-						"7 - Limpar Lista\n"+
+						"5 - Deletar Aluno\n"+						
+						"6 - Limpar Lista\n"+
 						"0 - Voltar";
 		/*"Digite um dos Numeros abaixo:\n"+
 		"1 - Cadastrar Aluno\n"+
@@ -68,9 +67,6 @@ public class TelaAluno {
 				DeletarAluno();
 				break;
 			case 6:
-				MostrarMateriasAluno();
-				break;
-			case 7:
 				ApagarAluno();
 				break;
 			default:
@@ -84,7 +80,7 @@ public class TelaAluno {
 	private static void CadastrarAluno() {
 		String nome = InOut.InString("Insira o Nome do Aluno:");
 		String cpf = InOut.InString("Digite o CPF do Aluno:");
-		Aluno aluno = new Aluno(nome, cpf);
+		Aluno aluno = new Aluno(nome,cpf);
 		listaAluno.Create(aluno);
 	}
 	
@@ -95,18 +91,16 @@ public class TelaAluno {
 	
 	private static void AlterarAluno(){
 		aluno = new Aluno();
-		Integer matricula = InOut.InInt("Insira a matricula do Aluno que deseja Procurar:");
-		aluno.setMatricula(matricula);
-		String msg = "Aluno Encontrado\n------------------------------------\n";
-		if(listaAluno.Find(aluno) != -1){					 
-			String nome = InOut.InString(msg + "Digite o novo Nome:");
-			String cpf = InOut.InString(msg + "Digite o novo CPF do Aluno:");
+		ProcurarDefinindoMatricula (aluno, "Alterar");
+		if(listaAluno.Find(aluno,false) != -1){					 
+			String nome = InOut.InString(DadosAlunoEncontrado(aluno) + "Digite o novo Nome:");
+			String cpf = InOut.InString(DadosAlunoEncontrado(aluno) + "Digite o novo CPF do Aluno:");
 			aluno.setNome(nome);
 			aluno.setCPF(cpf);
 			listaAluno.Uptade(aluno);
 		}else{
 			AlunoNaoEncontrado();
-		}		
+		}
 	}
 	
 	private static void ProcurarAluno(){
@@ -119,7 +113,7 @@ public class TelaAluno {
 		}	
 	}
 	
-	private static void DeletarAluno(){		
+	private static void DeletarAluno(){
 		aluno = new Aluno();
 		ProcurarDefinindoMatricula (aluno, "Deletar");
 		if(listaAluno.Delete(aluno)){						 
@@ -132,26 +126,11 @@ public class TelaAluno {
 	private static void ApagarAluno() {
 		InOut.OutMessage("Esta Função ainda não foi Feita!");
 	}
-	
-	public static void MostrarMateriasAluno(){
-		aluno = new Aluno();
-		ProcurarDefinindoMatricula (aluno, "Visualizar as Materias");
-		if(listaAluno.Find(aluno,true) != -1){
-			String msg = DadosAlunoEncontrado(aluno) +
-					"\nMaterias do Aluno:\n------------------------------------"+
-					listaAluno.ShowDisciplinasMatriculadas(aluno);
-						 
-			InOut.OutMessage(msg);			
-			listaAluno.Delete(aluno);
-		}else{
-			AlunoNaoEncontrado();
-		}
-	}
-	
+
 	public static String ProcurarDefinindoMatricula (Aluno paluno, String complemento) {
 		Integer matricula = InOut.InInt("Insira a matricula do Aluno que deseja "+complemento+":");
 		paluno.setMatricula(matricula);
-		return DadosAlunoEncontrado (paluno);		
+		return DadosAlunoEncontrado (paluno);
 	}
 	
 	public static String DadosAlunoEncontrado (Aluno aluno){
@@ -167,9 +146,5 @@ public class TelaAluno {
 		InOut.OutMessage("No registro não consta nenhum aluno com esta matricula.\n"
 				+ "Por favor verifique se digitou corretamente\ne tente novamente.", 
 				"Aluno Não Encontrado");
-	}
-	
-	public static AlunoDAO RetornaListaAluno(){
-		return listaAluno;
 	}
 }

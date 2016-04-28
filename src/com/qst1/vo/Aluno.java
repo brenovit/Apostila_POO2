@@ -62,4 +62,8 @@ public class Aluno {
 	public ArrayList<Disciplina> getMaterias(){		
 		return this.grade;
 	}
+	
+	public void setMaterias(ArrayList<Disciplina> materias){
+		this.grade = materias;
+	}
 }

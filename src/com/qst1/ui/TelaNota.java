@@ -7,19 +7,17 @@ import com.qst1.vo.Disciplina;
 import com.recursos.InOut;
 
 public class TelaNota {
-	public static AlunoDAO listaAluno = TelaGrade.RetornaListaAlunoGrade();
-	private static GradeEscolar grade = TelaGrade.RetornaGrade();
+	public static AlunoDAO listaAluno = TelaPrincipal.RetornaListaAluno();
+	private static GradeEscolar grade = TelaPrincipal.RetornaGradeEscolar();
 	private static Disciplina disc;
 	private static Aluno aluno;
 	
 	public static void MenuNota() {
-		listaAluno = TelaAluno.RetornaListaAluno();
 		int op;
 		do{
 			String opcoes = "Digite um dos Numeros abaixo:\n"+
-							"1 - Inserir Nota do Aluno\n"+
-							"2 - Alterar Nota do Aluno\n"+
-							"3 - Checar Aprovação dos Alunos\n"+
+							"1 - Inserir/Alterar Nota do Aluno\n"+
+							"2 - Checar Aprovação dos Alunos\n"+
 							"0 - Voltar";
 			/*"Digite um dos Numeros abaixo:\n"+
 			"1 - inserir nota do aluno:\n"+
@@ -42,10 +40,7 @@ public class TelaNota {
 				case 1:
 					InserirNotaAluno();
 					break;
-				case 2:
-					AlterarNotaAluno();
-					break;
-				case 3:
+				case 2:					
 					AprovacaoAluno();
 					break;
 				default:
@@ -57,14 +52,14 @@ public class TelaNota {
 	}
 	
 	public static void InserirNotaAluno(){
-		
-	}
-	
-	public static void AlterarNotaAluno(){
-		
+		//procurar aluno
+		//procurar materia
+		//inserir nota
 	}
 	
 	public static void AprovacaoAluno(){
-		
+		//procurar aluno
+		//procurar materia
+		//retornar aprovação
 	}	
 }
