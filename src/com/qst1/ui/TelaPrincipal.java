@@ -4,7 +4,7 @@ import com.recursos.InOut;
 
 public class TelaPrincipal {
 	protected static boolean programaJaRodou = false;
-	
+	//eu sou a tela principal
 	public static void main(String[] args){
 		Menu();
 		System.out.println("Programa Finzalizado");
