@@ -36,7 +36,7 @@ public class TelaGrade {
 					InOut.OutMessage(ListarDisciplinas());
 					break;
 				case 3:
-					MostrarMateriasAluno();
+					InOut.OutMessage(MostrarMateriasAluno());
 					break;
 				case 4:
 					RemoverGradeAluno();
@@ -75,7 +75,7 @@ public class TelaGrade {
 		aluno = new Aluno();
 		disc = new Disciplina();
 		if(ProcurarAluno(aluno, "Cadastrar uma Matéria")){		//procura o aluno
-			if(ProcurarDisciplina(disc)){						//procura a materia
+			if(ProcurarDisciplina(disc,"Cadastrar no Aluno")){	//procura a materia
 				if(listaAluno.FindMateria(aluno, disc) == -1){	//verifica se o aluno ja esta cadastrado na materia
 					grade.CadastrarGrade(aluno, disc);
 				}else{
@@ -83,25 +83,21 @@ public class TelaGrade {
 				}
 			}
 		}
-	}
+	}	
 	
-	
-	private static boolean ProcurarDisciplina(Disciplina disc){
-		String disciplinas = ListarDisciplinas();
-		Integer codigo = InOut.InInt(disciplinas +
-									"\nDigite o Codigo da Disciplina que você deseja Cadastrar no Aluno:");
-		disc.setCodigo(codigo);
-		if(grade.Find(disc,true) != -1){
-			InOut.OutMessage("Diciplina: "+disc.getNome()+
-							 "\nCodigo: "+disc.getCodigo());
-			return true;
+	protected static String MostrarMateriasAluno(){
+		aluno = new Aluno();
+		if(ProcurarAluno(aluno, "Visualizar as Materias")){
+			String msg = TelaAluno.DadosAlunoEncontrado(aluno) +
+					"\nMaterias do Aluno:\n------------------------------------"+
+					listaAluno.ShowDisciplinasMatriculadas(aluno);						 
+			return msg;
 		}
-		InOut.OutMessage("Disciplina não cadastrada");
-		return false;
+		TelaAluno.AlunoNaoEncontrado();
+		return null;
 	}
 	
-	
-	private static String ListarDisciplinas(){
+	protected static String ListarDisciplinas(){
 		String msg = "Disciplinas Cadastradas no Sistema"+
 				     "\n------------------------------------"+grade.Show();
 		return msg;
@@ -111,7 +107,7 @@ public class TelaGrade {
 		
 	}
 	
-	private static boolean ProcurarAluno(Aluno aluno, String msg){
+	protected static boolean ProcurarAluno(Aluno aluno, String msg){
 		TelaAluno.ProcurarDefinindoMatricula(aluno, msg);
 		if(listaAluno.Find(aluno,true) != -1){
 			InOut.OutMessage(TelaAluno.DadosAlunoEncontrado(aluno));
@@ -122,15 +118,19 @@ public class TelaGrade {
 		return false;
 	}
 	
-	public static void MostrarMateriasAluno(){
-		aluno = new Aluno();
-		if(ProcurarAluno(aluno, "Visualizar as Materias")){
-			String msg = TelaAluno.DadosAlunoEncontrado(aluno) +
-					"\nMaterias do Aluno:\n------------------------------------"+
-					listaAluno.ShowDisciplinasMatriculadas(aluno);						 
-			InOut.OutMessage(msg);
-		}else{
-			TelaAluno.AlunoNaoEncontrado();
+	protected static boolean ProcurarDisciplina(Disciplina disc, String msg){
+		String disciplinas = ListarDisciplinas();
+		Integer codigo = InOut.InInt(disciplinas +
+									"\nDigite o Codigo da Disciplina que você deseja " +msg+ ":");
+		disc.setCodigo(codigo);
+		if(grade.Find(disc,true) != -1){
+			InOut.OutMessage("Diciplina: "+disc.getNome()+
+							 "\nCodigo: "+disc.getCodigo());
+			return true;
 		}
-	}
+		InOut.OutMessage("Disciplina não cadastrada");
+		return false;
+	}	
+	
+	
 }

@@ -78,9 +78,9 @@ public class TelaAluno {
 	}
 	
 	private static void CadastrarAluno() {
-		String nome = InOut.InString("Insira o Nome do Aluno:");
-		String cpf = InOut.InString("Digite o CPF do Aluno:");
-		Aluno aluno = new Aluno(nome,cpf);
+		//String nome = InOut.InString("Insira o Nome do Aluno:");
+		//String cpf = InOut.InString("Digite o CPF do Aluno:");
+		Aluno aluno = new Aluno("Breno","07049603546");
 		listaAluno.Create(aluno);
 	}
 	

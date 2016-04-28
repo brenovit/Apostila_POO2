@@ -52,6 +52,18 @@ public class TelaNota {
 	}
 	
 	public static void InserirNotaAluno(){
+		aluno = new Aluno();
+		disc = new Disciplina();
+		String msg = "";
+		if(TelaGrade.ProcurarAluno(aluno, "Inserir Nota")){
+			msg = MostrarMateriasAluno(aluno);		
+			if(ProcurarDisciplina(disc, msg)){
+				Double nota = InOut.InDouble("Digite a Nota obitida pelo Aluno:");
+				if(!nota.equals(null)){
+					listaAluno.AddNota(aluno, disc, nota);
+				}
+			}
+		}
 		//procurar aluno
 		//procurar materia
 		//inserir nota
@@ -61,5 +73,28 @@ public class TelaNota {
 		//procurar aluno
 		//procurar materia
 		//retornar aprovação
+	}
+	
+	protected static String MostrarMateriasAluno(Aluno aluno){
+		if(TelaGrade.ProcurarAluno(aluno, "Visualizar as Materias")){
+			String msg = TelaAluno.DadosAlunoEncontrado(aluno) +
+					"\nMaterias do Aluno:\n------------------------------------"+
+					listaAluno.ShowDisciplinasMatriculadas(aluno);						 
+			return msg;
+		}
+		TelaAluno.AlunoNaoEncontrado();
+		return null;
+	}
+	
+	protected static boolean ProcurarDisciplina(Disciplina disc, String disciplinasDoAluno){
+		Integer codigo = InOut.InInt("Digite o Codigo da Disciplina que você deseja Inserir Nota:\n" +disciplinasDoAluno); 
+		disc.setCodigo(codigo);
+		if(listaAluno.FindMateria(aluno, disc) != -1){
+			InOut.OutMessage("Diciplina: "+disc.getNome()+
+							 "\nCodigo: "+disc.getCodigo());
+			return true;
+		}
+		InOut.OutMessage("Disciplina não cadastrada");
+		return false;
 	}	
 }
