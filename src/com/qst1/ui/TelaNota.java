@@ -7,13 +7,13 @@ import com.qst1.vo.Disciplina;
 import com.recursos.InOut;
 
 public class TelaNota {
-	public static AlunoDAO listaAluno = TelaGrade.RetornaListaAluno();
+	public static AlunoDAO listaAluno = TelaGrade.RetornaListaAlunoGrade();
 	private static GradeEscolar grade = TelaGrade.RetornaGrade();
 	private static Disciplina disc;
 	private static Aluno aluno;
 	
 	public static void MenuNota() {
-		listaAluno = TelaAluno.RetornaLista();
+		listaAluno = TelaAluno.RetornaListaAluno();
 		int op;
 		do{
 			String opcoes = "Digite um dos Numeros abaixo:\n"+

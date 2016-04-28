@@ -12,8 +12,8 @@ public class TelaGrade {
 	private static AlunoDAO listaAluno;
 	private static Aluno aluno;
 	
-	public static void MenuGrade(){
-		listaAluno = TelaAluno.RetornaLista();		
+	protected static void MenuGrade(){
+		listaAluno = TelaAluno.RetornaListaAluno();		
 		if(TelaPrincipal.programaJaRodou == false){
 			CriarDisciplinas();
 			System.out.println("Criei as Disciplinas");
@@ -85,10 +85,22 @@ public class TelaGrade {
 		aluno = new Aluno();
 		disc = new Disciplina();
 		if(ProcurarAluno(aluno)){
-			grade.CadastrarGrade(al1, disc2);		
+			if(ProcurarDisciplina(disc)){
+				grade.CadastrarGrade(aluno, disc);
+			}
 		}
 	}
-
+	
+	private static boolean ProcurarDisciplina(Disciplina disc){
+		String disciplinas = ListarDisciplinas();
+		Integer codigo = InOut.InInt("Digite o Codigo da Disciplina que você deseja Cadastrar no Aluno:");
+		disc.setCodigo(codigo);
+		if(grade.Find(disc) != -1){
+			return true;
+		}
+		return false;
+	}
+	
 	private static String ListarDisciplinas(){
 		String msg = "Disciplinas Cadastradas no Sistema"+
 				     "\n------------------------------------"+grade.Show();
@@ -99,43 +111,36 @@ public class TelaGrade {
 		
 	}
 	
-	Procurar
-	public static boolean ProcurarAluno(Aluno aluno){
-		DadosAlunoEncontrado (aluno, "Cadastrar a Materia");
+	private static boolean ProcurarAluno(Aluno aluno){
+		TelaAluno.ProcurarDefinindoMatricula(aluno, "Cadastrar uma Matéria");
 		if(listaAluno.Find(aluno,true) != -1){
-			InOut.OutMessage(DadosAlunoEncontrado(aluno));
+			InOut.OutMessage(TelaAluno.DadosAlunoEncontrado(aluno));
 			return true;
 		}else{
-			AlunoNaoEncontrado();
+			TelaAluno.AlunoNaoEncontrado();
 		}
 		return false;
 	}
 	
-	public static String DadosAlunoEncontrado (Aluno paluno, String complemento) {
-		Integer matricula = InOut.InInt("Insira a matricula do Aluno que deseja "+complemento+":");
-		paluno.setMatricula(matricula);
-		return DadosAlunoEncontrado (paluno);		
-	}
-	
-	public static String DadosAlunoEncontrado (Aluno aluno){
-		String msg = "Aluno Encontrado\n------------------------------------" +
-				 "\nMatricula: " + aluno.getMatricula() +
-			     "\nNome: "+aluno.getNome()+
-			     "\nCPF: "+aluno.getCPF()+
-			     "\n------------------------------------\n";
-		return msg;		
-	}
-	
-	public static void AlunoNaoEncontrado(){
-		InOut.OutMessage("No registro não consta nenhum aluno com esta matricula.\n"
-				+ "Por favor verifique se digitou corretamente\ne tente novamente.", 
-				"Aluno Não Encontrado");
+	public static void MostrarMateriasAluno(){
+		aluno = new Aluno();
+		TelaAluno.ProcurarDefinindoMatricula (aluno, "Visualizar as Materias");
+		if(listaAluno.Find(aluno,true) != -1){
+			String msg = TelaAluno.DadosAlunoEncontrado(aluno) +
+					"\nMaterias do Aluno:\n------------------------------------"+
+					listaAluno.ShowDisciplinasMatriculadas(aluno);
+						 
+			InOut.OutMessage(msg);			
+			listaAluno.Delete(aluno);
+		}else{
+			TelaAluno.AlunoNaoEncontrado();
+		}
 	}
 	
 	public static GradeEscolar RetornaGrade(){
 		return grade;
 	}
-	public static AlunoDAO RetornaListaAluno(){
+	public static AlunoDAO RetornaListaAlunoGrade(){
 		return listaAluno;
 	}
 }

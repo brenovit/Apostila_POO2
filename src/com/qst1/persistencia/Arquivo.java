@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Arquivo {
+	File dir = new File("DadosAluno.txt");				//objeto que vair tratar do diretorio	
 	/*private void parte1(){
 		File dir = new File("C:\\TutoArquivo");				//objeto que vair tratar do diretorio
 		File arq = new File(dir,"arq_01.txt");				//objeto que vair tratar do arquivo
