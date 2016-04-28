@@ -5,7 +5,8 @@ import com.recursos.InOut;
 public class TelaPrincipal {
 	protected static boolean programaJaRodou = false;
 	//eu sou a tela principal
-	public static void main(String[] args){
+	
+	public static void main(String[] args){//esse √© o main
 		Menu();
 		System.out.println("Programa Finzalizado");
 	}
@@ -21,7 +22,7 @@ public class TelaPrincipal {
 			op = InOut.InInt(opcoes);
 			switch(op){
 				case 0:
-					InOut.OutMessage("O programa ser· Finalizado", "AtenÁ„o");
+					InOut.OutMessage("O programa ser√° Finalizado", "Aten√ß√£o");
 					break;
 				case 1:
 					TelaAluno.MenuAluno();
@@ -33,7 +34,7 @@ public class TelaPrincipal {
 					TelaNota.MenuNota();
 					break;
 				default:
-					InOut.OutMessage("OpÁ„o Invalida!", "Erro!");
+					InOut.OutMessage("Op√ß√£o Invalida!", "Erro!");
 					break;		
 			}
 		}while(op != 0);
