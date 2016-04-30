@@ -10,7 +10,7 @@ import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
 import com.recursos.InOut;
 
-public class Principal {
+public class TesteQuestao1 {
 	public static void main(String[] args){
 		SystemManager sm = new SystemManager();
 		//lista de alunos cadastrados
@@ -24,7 +24,7 @@ public class Principal {
 		
 		//cadastrar alunos
 		lista.Create(al1);
-		//lista.Create(al2);
+		lista.Create(al2);
 		/*lista.Create(al3);
 		
 		//mostrar alunos cadastrados
@@ -71,12 +71,12 @@ public class Principal {
 		grade.CadastrarGrade(al1, disc2);
 		grade.CadastrarGrade(al1, disc3);
 		
-		/*grade.CadastrarGrade(al2, disc1);
+		grade.CadastrarGrade(al2, disc1);
 		grade.CadastrarGrade(al2, disc2);
 		grade.CadastrarGrade(al2, disc4);
 		
 		lista.AddNota(al2,disc2,8.0);
-		lista.AddNota(al2,disc3,7.0);*/
+		lista.AddNota(al2,disc3,7.0);
 		
 		lista.AddNota(al1,disc1,5.0);
 		lista.AddNota(al1,disc2,8.0);

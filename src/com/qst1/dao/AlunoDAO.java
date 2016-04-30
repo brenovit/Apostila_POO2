@@ -211,7 +211,9 @@ public class AlunoDAO implements DAO {
 					if(grade.Find(disc,true) != -1){
 						grade.CadastrarGrade(aluno, disc);
 					}
-					AddNota(aluno, disc, Double.parseDouble(user[i+1]));
+					if(!user[i+1].equals("null")){
+						AddNota(aluno, disc, Double.parseDouble(user[i+1]));
+					}
 				}
 				
 				/*Disciplina disc = new Disciplina();

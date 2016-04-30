@@ -29,7 +29,7 @@ public class CadastroUsuario {
 	}
 	
 	public int Update(){
-		
+		return 1;
 	}
 	
 }
