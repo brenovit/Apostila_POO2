@@ -12,8 +12,8 @@ public class Usuario {
 	
 	public Usuario(String nome, String email, String login, String senha){
 		this.nome = nome;
-		this.login = email;
-		this.email = login;
+		this.login = login;
+		this.email = email;
 		this.senha = senha;
 	}
 	
