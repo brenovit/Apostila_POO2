@@ -17,9 +17,6 @@ public class TelaGrade {
 	protected static void MenuGrade(){
 		aluno = new Aluno();
 		disc = new Disciplina();
-		if(sm.ProgramaJaRodou == false){
-			CriarDisciplinas();
-		}
 		int op;
 		do{
 			String opcoes = "Digite um dos Numeros abaixo:\n"+
@@ -48,30 +45,9 @@ public class TelaGrade {
 					InOut.OutMessage("Opção Invalida!", "Erro!");
 					break;		
 			}
+			listaAluno.SaveData();
 		}while(op != 0);
 		TelaPrincipal.Menu();
-	}
-	
-	private static void CriarDisciplinas(){
-		disc = new Disciplina("Programação Orientada a Objetos");
-		grade.CadastrarDisciplina(disc);
-		disc = new Disciplina("Estrutura de Dados");
-		grade.CadastrarDisciplina(disc);
-		disc = new Disciplina("Análise de Sistemas de Informações Comerciais");
-		grade.CadastrarDisciplina(disc);
-		disc = new Disciplina("Projeto Integrador");
-		grade.CadastrarDisciplina(disc);/*
-		Disciplina disc = new Disciplina("Lógica de Programação");
-		grade.CadastrarDisciplina(disc);
-		disc = new Disciplina("Estatística");
-		grade.CadastrarDisciplina(disc);
-		disc = new Disciplina("Banco de Dados");
-		grade.CadastrarDisciplina(disc);
-		disc = new Disciplina("Sistemas Operacionais");
-		grade.CadastrarDisciplina(disc);
-		disc = new Disciplina("Sistemas de Informações");
-		grade.CadastrarDisciplina(disc);*/
-		sm.ProgramaJaRodou = true;
 	}
 	
 	private static void CadastrarGradeAluno(){

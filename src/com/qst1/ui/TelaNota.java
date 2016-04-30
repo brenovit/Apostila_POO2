@@ -35,6 +35,7 @@ public class TelaNota {
 					InOut.OutMessage("Opção Invalida!", "Erro!");
 					break;		
 			}
+			listaAluno.SaveData();
 		}while(op != 0);
 		TelaPrincipal.Menu();
 	}

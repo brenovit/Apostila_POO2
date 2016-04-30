@@ -1,5 +1,7 @@
 package com.qst1.testes;
 
+import java.util.ArrayList;
+
 import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
 import com.qst1.ui.SystemManager;
@@ -13,6 +15,7 @@ public class Principal {
 		SystemManager sm = new SystemManager();
 		//lista de alunos cadastrados
 		AlunoDAO lista = new AlunoDAO();
+		AlunoDAO lista2 = new AlunoDAO();
 		
 		//criar os aluno
 		Aluno al1 = new Aluno("Breno", "01234567890");
@@ -20,9 +23,9 @@ public class Principal {
 		Aluno al3 = new Aluno("Mateus", "1238569753");
 		
 		//cadastrar alunos
-		/*lista.Create(al1);
+		lista.Create(al1);
 		lista.Create(al2);
-		lista.Create(al3);
+		/*lista.Create(al3);
 		
 		//mostrar alunos cadastrados
 		lista.Show();
@@ -54,22 +57,38 @@ public class Principal {
 		GradeEscolar grade = new GradeEscolar();
 		
 		//criar as materias
-		Disciplina disc = new Disciplina("POO");
-		grade.CadastrarDisciplina(disc);
-		grade.CadastrarGrade(al1, disc);
-		lista.AddNota(al1,disc,5.0);
+		Disciplina disc1 = new Disciplina("POO");		
+		Disciplina disc2 = new Disciplina("ED");		
+		Disciplina disc3 = new Disciplina("ASIC");
+		Disciplina disc4 = new Disciplina("PI");
 		
-		disc = new Disciplina("ED");
-		grade.CadastrarDisciplina(disc);
-		grade.CadastrarGrade(al1, disc);
-		lista.AddNota(al1,disc,8.0);
+		grade.CadastrarDisciplina(disc1);
+		grade.CadastrarDisciplina(disc2);
+		grade.CadastrarDisciplina(disc3);
+		grade.CadastrarDisciplina(disc4);
 		
-		disc = new Disciplina("ASIC");
-		grade.CadastrarDisciplina(disc);
-		grade.CadastrarGrade(al1, disc);
-		lista.AddNota(al1,disc,7.0);
+		grade.CadastrarGrade(al1, disc1);
+		grade.CadastrarGrade(al1, disc2);
+		grade.CadastrarGrade(al1, disc3);
+		
+		grade.CadastrarGrade(al2, disc1);
+		grade.CadastrarGrade(al2, disc2);
+		grade.CadastrarGrade(al2, disc4);
+		
+		lista.AddNota(al2,disc2,8.0);
+		lista.AddNota(al2,disc3,7.0);
+		
+		lista.AddNota(al1,disc1,5.0);
+		lista.AddNota(al1,disc2,8.0);
+		lista.AddNota(al1,disc3,7.0);
 		
 		lista.SaveData();
+		
+		lista2.LoadDataFile(grade);
+		
+		InOut.OutMessage("Lista 1: \n" + lista.Show() + "\nLista 2: \n" + lista2.Show());
+		
+		InOut.OutMessage("Lista 1: \n" + lista.ShowDisciplinasMatriculadas(al2) + "\nLista 2: \n" + lista2.ShowDisciplinasMatriculadas(al2));
 		/*disc = new Disciplina("PI");
 		grade.CadastrarDisciplina(disc);
 		grade.CadastrarGrade(al1, disc);

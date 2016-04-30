@@ -1,5 +1,11 @@
 package com.qst1.dao;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import com.qst1.persistencia.Arquivo;
@@ -150,7 +156,50 @@ public class AlunoDAO implements DAO {
 		listaAluno.clear();
 	}
 	
-	public void SaveData(){
+	public void SaveData(){		
 		arquivo.SaveDataFile(listaAluno);
 	}
+	
+	public void LoadDataFile(GradeEscolar grade){
+		File arq = new File("DadosAluno.txt");
+		try {
+			FileReader fr = new FileReader(arq);
+			BufferedReader br = new BufferedReader(fr);
+			String linha = "";
+			
+			ArrayList <String> result = new ArrayList<String>();
+			
+			while((linha = br.readLine())!= null){
+				System.out.println(linha);
+				if(linha != null && !linha.isEmpty()){
+					result.add(linha);
+				}
+			}
+			fr.close();
+			br.close();
+			
+			for(String s: result){
+				String[] user = s.split(";");
+				System.out.println("Estou no For de Strings\n");
+				Aluno aluno = new Aluno(user[1],Integer.parseInt(user[0]),user[2]);
+				Create(aluno);
+				
+				if(user.length > 2){
+					for(int i = 3; i < user.length - 1; i+=2){
+						Disciplina disc = new Disciplina();
+						disc.setCodigo(Integer.parseInt(user[i]));
+						if(grade.Find(disc, true) != 1){
+							grade.CadastrarGrade(aluno, disc);
+							if(!user[i].equals(null)){
+								AddNota(aluno, disc, Double.parseDouble(user[i+1]));
+							}
+						}
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

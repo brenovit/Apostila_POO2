@@ -1,18 +1,25 @@
 package com.qst1.ui;
 
+import javax.security.auth.login.CredentialException;
+
 import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
+import com.qst1.vo.Disciplina;
 import com.recursos.InOut;
 
 public class TelaPrincipal {
 	private static AlunoDAO listaAluno = new AlunoDAO();
 	private static GradeEscolar grade = new GradeEscolar();
+	private static Disciplina disc;
 	
 	public static void main(String[] args){
 		Menu();
 	}
 	
 	public static void Menu(){
+		if(!SystemManager.ProgramaJaRodou){
+			CriarDisciplinas();
+		}
 		int op;
 		do{
 			String opcoes = "Digite um dos Numeros abaixo:\n"+
@@ -40,6 +47,28 @@ public class TelaPrincipal {
 					break;		
 			}
 		}while(op != 0);
+	}
+	
+	private static void CriarDisciplinas(){
+		disc = new Disciplina("Programação Orientada a Objetos");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Estrutura de Dados");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Análise de Sistemas de Informações Comerciais");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Projeto Integrador");
+		grade.CadastrarDisciplina(disc);/*
+		Disciplina disc = new Disciplina("Lógica de Programação");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Estatística");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Banco de Dados");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Sistemas Operacionais");
+		grade.CadastrarDisciplina(disc);
+		disc = new Disciplina("Sistemas de Informações");
+		grade.CadastrarDisciplina(disc);*/
+		SystemManager.ProgramaJaRodou = true;
 	}
 	
 	public static AlunoDAO getListaAluno(){

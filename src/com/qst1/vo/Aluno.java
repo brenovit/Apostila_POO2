@@ -25,6 +25,7 @@ public class Aluno {
 	}
 	
 	public Aluno(String nome, int matricula, String cpf){
+		geradorMatricula++;
 		grade = new ArrayList<Disciplina>();
 		this.nome = nome;
 		this.matricula = matricula;

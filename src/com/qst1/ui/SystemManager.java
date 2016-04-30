@@ -5,7 +5,7 @@ import com.recursos.InOut;
 
 public class SystemManager {	
 	
-	public boolean ProgramaJaRodou = false;
+	public static boolean ProgramaJaRodou = false;
 	
 	public String ProcurarDefinindoMatricula (Aluno paluno, String complemento) {
 		Integer matricula = InOut.InInt("Insira a matricula do Aluno que deseja "+complemento+":");
