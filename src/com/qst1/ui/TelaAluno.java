@@ -48,15 +48,16 @@ public class TelaAluno {
 				InOut.OutMessage("Opção Invalida!", "Erro!");
 				break;		
 		}
-		listaAluno.SaveData();
+		listaAluno.SaveDataFile();
 		}while(op != 0);
 		TelaPrincipal.Menu();
 	}
 	
 	private static void CadastrarAluno() {
-		//String nome = InOut.InString("Insira o Nome do Aluno:");
-		//String cpf = InOut.InString("Digite o CPF do Aluno:");
-		Aluno aluno = new Aluno("Breno","07049603546");
+		String nome = InOut.InString("Insira o Nome do Aluno:");
+		String cpf = InOut.InString("Digite o CPF do Aluno:");
+		//Aluno aluno = new Aluno("Breno","07049603546");
+		Aluno aluno = new Aluno(nome,cpf);
 		listaAluno.Create(aluno);
 	}
 	

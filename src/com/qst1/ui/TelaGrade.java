@@ -45,7 +45,7 @@ public class TelaGrade {
 					InOut.OutMessage("Opção Invalida!", "Erro!");
 					break;		
 			}
-			listaAluno.SaveData();
+			listaAluno.SaveDataFile();
 		}while(op != 0);
 		TelaPrincipal.Menu();
 	}

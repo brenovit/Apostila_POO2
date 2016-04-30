@@ -11,9 +11,10 @@ import java.util.ArrayList;
 import com.qst1.persistencia.Arquivo;
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
+import com.recursos.InOut;
 
 public class AlunoDAO implements DAO {
-	
+	private File arq = new File("DadosAluno.txt");
 	private ArrayList<Aluno> listaAluno;
 	private ArrayList<Disciplina> listaDisciplina;
 	private String msg = "";
@@ -156,12 +157,32 @@ public class AlunoDAO implements DAO {
 		listaAluno.clear();
 	}
 	
-	public void SaveData(){		
-		arquivo.SaveDataFile(listaAluno);
+	public void SaveDataFile(){	
+		ArrayList<Disciplina> listaDisciplina;
+		
+		try {
+			FileWriter fw = new FileWriter(arq, false);
+			PrintWriter pw = new PrintWriter(fw);
+			for(Aluno aluno : listaAluno){
+				listaDisciplina = aluno.getMaterias();
+				
+				pw.print(aluno.getMatricula()+";");
+				pw.print(aluno.getNome()+";");
+				pw.print(aluno.getCPF()+";");
+				for(Disciplina disc : listaDisciplina){ //contar -1 na leitura
+					pw.print(disc.getCodigo()+";");
+					pw.print(disc.getNota()+";");
+				}
+				pw.println("");
+			}
+			pw.flush();
+			pw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void LoadDataFile(GradeEscolar grade){
-		File arq = new File("DadosAluno.txt");
 		try {
 			FileReader fr = new FileReader(arq);
 			BufferedReader br = new BufferedReader(fr);
@@ -184,7 +205,37 @@ public class AlunoDAO implements DAO {
 				Aluno aluno = new Aluno(user[1],Integer.parseInt(user[0]),user[2]);
 				Create(aluno);
 				
-				if(user.length > 2){
+				for(int i = 3; i < user.length; i+=2){
+					Disciplina disc = new Disciplina();
+					disc.setCodigo(Integer.parseInt(user[i]));
+					if(grade.Find(disc,true) != -1){
+						grade.CadastrarGrade(aluno, disc);
+					}
+					AddNota(aluno, disc, Double.parseDouble(user[i+1]));
+				}
+				
+				/*Disciplina disc = new Disciplina();
+				disc.setCodigo(Integer.parseInt(user[3]));
+				if(grade.Find(disc,true) != -1){
+					grade.CadastrarGrade(aluno, disc);
+				}
+				AddNota(aluno, disc, Double.parseDouble(user[4]));
+				
+				disc = new Disciplina();
+				disc.setCodigo(Integer.parseInt(user[5]));
+				if(grade.Find(disc,true) != -1){
+					grade.CadastrarGrade(aluno, disc);
+				}
+				AddNota(aluno, disc, Double.parseDouble(user[6]));
+				
+				disc = new Disciplina();
+				disc.setCodigo(Integer.parseInt(user[7]));
+				if(grade.Find(disc,true) != -1){
+					grade.CadastrarGrade(aluno, disc);
+				}
+				AddNota(aluno, disc, Double.parseDouble(user[8]));*/
+				
+				/*if(user.length > 2){
 					for(int i = 3; i < user.length - 1; i+=2){
 						Disciplina disc = new Disciplina();
 						disc.setCodigo(Integer.parseInt(user[i]));
@@ -195,7 +246,7 @@ public class AlunoDAO implements DAO {
 							}
 						}
 					}
-				}
+				}*/
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
