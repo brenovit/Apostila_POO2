@@ -9,15 +9,25 @@ public class TesteQst3 {
 
 	public static void main(String[] args) {
 		
-		CadastroUsuario lista = new CadastroUsuario();
+		CadastroUsuario lista = new CadastroUsuario();  //Criando lista de usuario
 		
- 		Usuario user1 = new Usuario("Mauricio","mauricio@gmail.com","luymau","123456");
+ 		Usuario user1 = new Usuario("Mauricio","mauricio@gmail.com","luymau","123456");  //criando o usuario
 		Usuario user2 = new Usuario("Breno","breno@gmail.com","brenovit","987654");
+		Usuario user3 = new Usuario();
 		
-		lista.Inserir(user1);
+		user3.setNome("Mateus");
+		user3.setEmail("mateus@gamil.com");
+		user3.setLogin(user2.getLogin());
+		user3.setSenha("741852");
+		
+		lista.Inserir(user1);   //inserindo usuario
 		lista.Inserir(user2);
 		
-		InOut.OutMessage(lista.Show());
+		lista.Update(user3);
+		
+		InOut.OutMessage(lista.Show());  //mostrando a lista de usuario
+		
+		
 	}
 
 }
