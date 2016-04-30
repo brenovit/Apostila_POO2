@@ -6,99 +6,56 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+import com.qst1.dao.AlunoDAO;
+import com.qst1.dao.GradeEscolar;
+import com.qst1.vo.Aluno;
+import com.qst1.vo.Disciplina;
+
 public class Arquivo {
-	File dir = new File("DadosAluno.txt");				//objeto que vair tratar do diretorio	
-	/*private void parte1(){
-		File dir = new File("C:\\TutoArquivo");				//objeto que vair tratar do diretorio
-		File arq = new File(dir,"arq_01.txt");				//objeto que vair tratar do arquivo
+	//private File arq = new File("DadosAluno.txt");				//objeto que vair tratar do diretorio
+	private FileReader fr;
 	
-		boolean statusDir = dir.mkdirs();					//retornar true ou false se a criação do diretorio foi bem sucedida
-		System.out.print(statusDir+"\n");					//mostra o valor do retorno
-		
+	/*private static GradeEscolar grade;
+	private static AlunoDAO listaAluno;*/
+	private Disciplina disc;
+	private Aluno aluno;
+	
+	
+	public void SaveDataFile(ArrayList<Aluno> listaAluno){		
+		aluno = new Aluno();
+		disc = new Disciplina();
+		Charset utf8 = StandardCharsets.UTF_8;
+		ArrayList<Disciplina> grade;
+		File arq = new File("DadosAluno.txt");
 		try {
-			boolean statusArq = arq.createNewFile();		//retorna true ou false se a criação do arquivo foi bem sucedida
-			System.out.print(statusArq+"\n");				//mostra o valor do retorno
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-				
-		if(dir.exists()){									//checa se o diretorio existe
-			System.out.println("Diretorio Existe!");
-			if(arq.exists()){								//checa se o arquivo existe
-				System.out.println("Arquivo Existe!");
-			}
-		}
-	}*/
-	
-	/*private static void escrever(User user){
-		File dir = new File("C:\\UserTest");
-		File arq  = new File(dir, "User_arq.txt");
-		try{
-			dir.mkdirs();
+			FileWriter fw = new FileWriter(arq,false);
 			arq.createNewFile();
-			FileWriter fw = new FileWriter(arq, true);			//false = sobrescreve - true = não sobrescreve
-			PrintWriter pw = new PrintWriter(fw);				//objeto que vai escrever no arquivo fisicamente
-			pw.println(user.getId());
-			pw.println(user.getNome());
-			
-			pw.flush();											//libera a escrita do arquivo
-			pw.close();											//fecha o arquivo para poder ser utilizado em outro momento ou aplicativo
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-		
-	}
-	private static void ler(){
-		File dir = new File("C:\\UserTest");
-		File arq  = new File(dir, "User_arq.txt");
-		try{
-			FileReader fr = new FileReader(arq);				//indica o arquivo que sera lido
-			BufferedReader br = new BufferedReader(fr);			//este objeto vai permitir ler o arquivo
-			
-			String linha = "";									//vai receber cada linha do arquivo
-			
-			while((linha = br.readLine()) != null){				//este loop vai ler cada linha do arquivo até nao ter mais linhas para ler
-				System.out.println(linha);
-				if(linha.equals("1") || 
-						linha.equals("2") || 
-							linha.equals("3")){
-					System.out.println("Encontri o ID");
-				}
-			}
-			fr.close();
-			br.close();			
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-	}*/
-	
-	/*private static void layout (ArrayList<user> users){
-		
-		File dir = new File("C:\\UserTest");
-		File arq = new File(dir, "User_arq2.txt");
-		//GRAVAÇÃO
-		try{
-			dir.mkdir();
-			arq.createNewFile();
-			FileWriter fw = new FileWriter(arq, false);
 			PrintWriter pw = new PrintWriter(fw);
-			
-			for(User user: users){
-				pw.print(user.getId() + ";");
-				pw.println(user.getNome());
+			for(Aluno aluno: listaAluno){
+				grade = aluno.getMaterias();
+				pw.print(aluno.getMatricula()+";");
+				pw.print(aluno.getNome()+";");
+				pw.print(aluno.getCPF()+";");
+				for(Disciplina disc: grade){
+					pw.print(disc.getCodigo()+";");//contar -1 na leitura
+					pw.print(disc.getNota()+";");
+				}
+				pw.println("");
 			}
 			pw.flush();
 			pw.close();
-		}catch(IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		//LEITURA
-		try{
-			FileReader fr = new FileReader(arq);
+	}
+	
+	/*private void LoadDataFile(){
+		try {
+			fr = new FileReader(arq);
 			BufferedReader br = new BufferedReader(fr);
 			String linha = "";
 			
@@ -119,12 +76,12 @@ public class Arquivo {
 				User u = new User();
 				u.setId(Integer.valueOf(user[0]));
 				u.setNome(user[1]);
-				
+			
 				System.out.println(u.toString());
 			}
-			
-		}catch(IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
+	*/
 }

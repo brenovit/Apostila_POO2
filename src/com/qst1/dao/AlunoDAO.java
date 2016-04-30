@@ -2,6 +2,7 @@ package com.qst1.dao;
 
 import java.util.ArrayList;
 
+import com.qst1.persistencia.Arquivo;
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
 
@@ -10,6 +11,8 @@ public class AlunoDAO implements DAO {
 	private ArrayList<Aluno> listaAluno;
 	private ArrayList<Disciplina> listaDisciplina;
 	private String msg = "";
+	
+	private Arquivo arquivo = new Arquivo();
 	
 	public AlunoDAO(){
 		listaAluno = new ArrayList<Aluno>();
@@ -145,5 +148,9 @@ public class AlunoDAO implements DAO {
 	public void LimparLista(){
 		Aluno.zerarGerador();
 		listaAluno.clear();
+	}
+	
+	public void SaveData(){
+		arquivo.SaveDataFile(listaAluno);
 	}
 }

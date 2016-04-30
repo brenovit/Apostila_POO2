@@ -20,7 +20,7 @@ public class Principal {
 		Aluno al3 = new Aluno("Mateus", "1238569753");
 		
 		//cadastrar alunos
-		lista.Create(al1);
+		/*lista.Create(al1);
 		lista.Create(al2);
 		lista.Create(al3);
 		
@@ -48,7 +48,7 @@ public class Principal {
 			InOut.OutMessage("Aluno não cadastrado");
 		}else{
 			InOut.OutMessage("Aluno Cadastrado\nNome: " + al1.getNome());
-		}
+		}*/
 		
 		//criar grade escolar
 		GradeEscolar grade = new GradeEscolar();
@@ -69,13 +69,14 @@ public class Principal {
 		grade.CadastrarGrade(al1, disc);
 		lista.AddNota(al1,disc,7.0);
 		
-		disc = new Disciplina("PI");
+		lista.SaveData();
+		/*disc = new Disciplina("PI");
 		grade.CadastrarDisciplina(disc);
-		//grade.CadastrarGrade(al1, disc);
-		lista.AddNota(al1,disc,6.0);
+		grade.CadastrarGrade(al1, disc);
+		lista.AddNota(al1,disc,6.0);*/
 		
-		Aluno al = new Aluno();
-		al.setMatricula(al1.getMatricula());
+		/*Aluno al = new Aluno();
+		al.setMatricula(al1.getMatricula());*/
 		
 		
 		//cadastrar as materias na grade escolar
@@ -85,7 +86,7 @@ public class Principal {
 		grade.CadastrarDisciplina(disc4);*/
 		
 		//mostrar todas as disciplinas cadastradas
-		grade.Show();
+		//grade.Show();
 
 		//checar existencia do aluno na lista
 		/*if(grade.Find(disc,true) == -1){
@@ -122,14 +123,14 @@ public class Principal {
 		}else{
 			InOut.OutMessage("Aluno Reprovado");
 		}*/
-		if(lista.Find(al,true) != -1){
+		/*if(lista.Find(al,true) != -1){
 			String msg = sm.DadosAlunoEncontrado(al) +
 					"\nMaterias do Aluno:\n------------------------------------"+
 					lista.ShowDisciplinasMatriculadas(al);						 
 			InOut.OutMessage(msg);
 		}else{
 			sm.AlunoNaoEncontrado();
-		}
+		}*/
 		
 		//mostrar as disciplinas cadastrados do aluno, sua nota, nome da disciplina, estado da aprovação
 		//InOut.OutMessage(lista.ShowDisciplinasMatriculadas(al1));
