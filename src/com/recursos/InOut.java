@@ -38,4 +38,11 @@ public class InOut {
 	public static void  OutMessage(String msg) {
 		JOptionPane.showMessageDialog(null, msg);
 	}	
+	
+	public static boolean ConfirmDialog(String msg, String titulo){
+		if(JOptionPane.showConfirmDialog(null, msg, titulo, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+			return true;
+		}
+		return false;
+	}
 }

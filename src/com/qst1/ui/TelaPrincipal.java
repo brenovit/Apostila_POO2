@@ -5,7 +5,6 @@ import com.qst1.dao.GradeEscolar;
 import com.recursos.InOut;
 
 public class TelaPrincipal {
-	protected static boolean programaJaRodou = false;
 	private static AlunoDAO listaAluno = new AlunoDAO();
 	private static GradeEscolar grade = new GradeEscolar();
 	
@@ -42,10 +41,11 @@ public class TelaPrincipal {
 			}
 		}while(op != 0);
 	}
-	public static AlunoDAO RetornaListaAluno(){
+	
+	public static AlunoDAO getListaAluno(){
 		return listaAluno;
 	}
-	public static GradeEscolar RetornaGradeEscolar(){
+	public static GradeEscolar getGradeEscolar(){
 		return grade;
 	}
 }

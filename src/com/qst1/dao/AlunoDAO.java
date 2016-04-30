@@ -125,21 +125,25 @@ public class AlunoDAO implements DAO {
 		return pos;
 	}
 	
-	public void AddNota(Aluno aluno, Disciplina disc, Double nota){
+	public void RemoverGrade(Aluno aluno, Disciplina disc){
+		int pos = FindMateria(aluno, disc);
+		if(pos != -1){
+			aluno.removeDisciplina(pos);
+		}
+	}
+	
+	public boolean AddNota(Aluno aluno, Disciplina disc, Double nota){
 		int pos = FindMateria(aluno, disc);
 		if(pos != -1){
 			listaDisciplina = aluno.getMaterias();
 			listaDisciplina.get(pos).setNota(nota);
+			return true;
 		}
+		return false;
 	}
 	
-	public boolean Aprovado (Aluno aluno, Disciplina disc){
-		int pos = FindMateria(aluno, disc);
-		boolean aprovacao = false;
-		if(pos != -1){
-			listaDisciplina = aluno.getMaterias();
-			aprovacao = listaDisciplina.get(pos).getAprovado();
-		}
-		return aprovacao;		
+	public void LimparLista(){
+		Aluno.zerarGerador();
+		listaAluno.clear();
 	}
 }

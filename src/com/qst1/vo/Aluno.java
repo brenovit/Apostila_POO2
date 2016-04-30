@@ -13,7 +13,7 @@ public class Aluno {
 	
 	public Aluno(){
 		grade = new ArrayList<Disciplina>();
-		geradorMatricula++;
+		matricula = 0;
 	}
 	
 	public Aluno(String nome, String cpf){
@@ -65,5 +65,13 @@ public class Aluno {
 	
 	public void setMaterias(ArrayList<Disciplina> materias){
 		this.grade = materias;
+	}
+	
+	public static void zerarGerador(){
+		geradorMatricula = 0;
+	}
+	
+	public void removeDisciplina(int posicao){
+		grade.remove(posicao);
 	}
 }

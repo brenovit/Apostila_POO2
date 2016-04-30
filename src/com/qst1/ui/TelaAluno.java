@@ -5,9 +5,13 @@ import com.qst1.vo.Aluno;
 import com.recursos.InOut;
 
 public class TelaAluno {
-	private static AlunoDAO listaAluno = TelaPrincipal.RetornaListaAluno();
+	private static SystemManager sm = new SystemManager();
+	private static AlunoDAO listaAluno = TelaPrincipal.getListaAluno();
 	private static Aluno aluno;
+	
+	
 	protected static void MenuAluno(){
+		aluno = new Aluno();
 		int op;
 		do{
 		String opcoes = "Digite um dos Numeros abaixo:\n"+
@@ -18,35 +22,6 @@ public class TelaAluno {
 						"5 - Deletar Aluno\n"+						
 						"6 - Limpar Lista\n"+
 						"0 - Voltar";
-		/*"Digite um dos Numeros abaixo:\n"+
-		"1 - Cadastrar Aluno\n"+
-		nome:breno
-		cpf: 123
-		"2 - Lista Aluno\n"+
-		mostra uma lista com todas as informações dos alunos: 
-		matricula:123
-		nome: breno
-		cpf:123456789
-		"3 - Alterar Aluno\n"+
-		mostra lista com matricula e nome de todos os alunos:
-		matricula:123
-		nome:breno
-		digita a matricula do aluno que deseja.
-		altera todos os dados deste aluno.
-		"4 - Procurar por Aluno\n"+
-		digita a matricula do aluno:123
-		se exisistir, mostra as informações deste aluno;
-		"5 - Deletar Aluno\n"+
-		digita a matricula do aluno
-		deleta ele
-		"6 - Mostrar Materias Cadastradas\n"+
-		digita a matricula do aluno: 1
-		checa se aluno existe
-		se existir
-		mostrar uma lista com todas as materias que o aluno tiver.
-		se não, volta
-		deleta todos os alunos
-		"0 - Sair";*/
 		op = InOut.InInt(opcoes);
 		switch(op){
 			case 0:
@@ -58,16 +33,16 @@ public class TelaAluno {
 				ListarAluno();
 				break;
 			case 3:
-				AlterarAluno();
+				AlterarAluno(aluno, "Alterar");
 				break;
 			case 4:
-				ProcurarAluno();
+				ProcurarAluno(aluno,"Procurar");
 				break;
 			case 5:
-				DeletarAluno();
+				DeletarAluno(aluno, "Deletar");
 				break;
 			case 6:
-				ApagarAluno();
+				LimparLista();
 				break;
 			default:
 				InOut.OutMessage("Opção Invalida!", "Erro!");
@@ -89,62 +64,41 @@ public class TelaAluno {
 		InOut.OutMessage(msg);
 	}
 	
-	private static void AlterarAluno(){
-		aluno = new Aluno();
-		ProcurarDefinindoMatricula (aluno, "Alterar");
+	private static void AlterarAluno(Aluno aluno, String msg){
+		sm.ProcurarDefinindoMatricula (aluno, msg);
 		if(listaAluno.Find(aluno,false) != -1){					 
-			String nome = InOut.InString(DadosAlunoEncontrado(aluno) + "Digite o novo Nome:");
-			String cpf = InOut.InString(DadosAlunoEncontrado(aluno) + "Digite o novo CPF do Aluno:");
+			String nome = InOut.InString(sm.DadosAlunoEncontrado(aluno) + "Digite o novo Nome:");
+			String cpf = InOut.InString(sm.DadosAlunoEncontrado(aluno) + "Digite o novo CPF do Aluno:");
 			aluno.setNome(nome);
 			aluno.setCPF(cpf);
 			listaAluno.Uptade(aluno);
 		}else{
-			AlunoNaoEncontrado();
+			sm.AlunoNaoEncontrado();
 		}
 	}
 	
-	private static void ProcurarAluno(){
-		aluno = new Aluno();
-		ProcurarDefinindoMatricula (aluno, "Procurar");
+	protected static boolean ProcurarAluno(Aluno aluno, String msg){
+		sm.ProcurarDefinindoMatricula (aluno, msg);
 		if(listaAluno.Find(aluno,true) != -1){
-			InOut.OutMessage(DadosAlunoEncontrado(aluno));
-		}else{
-			AlunoNaoEncontrado();
-		}	
+			InOut.OutMessage(sm.DadosAlunoEncontrado(aluno));
+			return true;
+		}
+		sm.AlunoNaoEncontrado();
+		return false;
 	}
 	
-	private static void DeletarAluno(){
-		aluno = new Aluno();
-		ProcurarDefinindoMatricula (aluno, "Deletar");
+	private static void DeletarAluno(Aluno aluno, String msg){
+		sm.ProcurarDefinindoMatricula (aluno, msg);
 		if(listaAluno.Delete(aluno)){						 
-			InOut.OutMessage(DadosAlunoEncontrado(aluno) + "Clique Confirmar para Remover o aluno do registro.");			
+			InOut.OutMessage(sm.DadosAlunoEncontrado(aluno) + "Clique Confirmar para Remover o aluno do registro.");			
 		}else{
-			AlunoNaoEncontrado();
+			sm.AlunoNaoEncontrado();
 		}		
 	}
 	
-	private static void ApagarAluno() {
-		InOut.OutMessage("Esta Função ainda não foi Feita!");
-	}
-
-	public static String ProcurarDefinindoMatricula (Aluno paluno, String complemento) {
-		Integer matricula = InOut.InInt("Insira a matricula do Aluno que deseja "+complemento+":");
-		paluno.setMatricula(matricula);
-		return DadosAlunoEncontrado (paluno);
-	}
-	
-	public static String DadosAlunoEncontrado (Aluno aluno){
-		String msg = "Aluno Encontrado\n------------------------------------" +
-				 "\nMatricula: " + aluno.getMatricula() +
-			     "\nNome: "+aluno.getNome()+
-			     "\nCPF: "+aluno.getCPF()+
-			     "\n------------------------------------\n";
-		return msg;		
-	}
-	
-	public static void AlunoNaoEncontrado(){
-		InOut.OutMessage("No registro não consta nenhum aluno com esta matricula.\n"
-				+ "Por favor verifique se digitou corretamente\ne tente novamente.", 
-				"Aluno Não Encontrado");
+	private static void LimparLista() {
+		if(InOut.ConfirmDialog("Deseja Realmente Deletar toda a lista de Alunos:", "Limpar a Lista de Alunos")){
+			listaAluno.LimparLista();
+		}
 	}
 }

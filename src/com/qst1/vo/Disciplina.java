@@ -9,8 +9,10 @@ public class Disciplina {
 	private static int geradorCodigo = 0;
 	
 	public Disciplina(){
-		geradorCodigo++;
-		this.codigo = geradorCodigo;
+		/*
+		 * Não gera codigo
+		 */
+		this.codigo = 0;
 	}
 	
 	public Disciplina(String nome){

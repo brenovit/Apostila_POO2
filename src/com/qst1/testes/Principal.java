@@ -2,6 +2,7 @@ package com.qst1.testes;
 
 import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
+import com.qst1.ui.SystemManager;
 import com.qst1.ui.TelaAluno;
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
@@ -9,6 +10,7 @@ import com.recursos.InOut;
 
 public class Principal {
 	public static void main(String[] args){
+		SystemManager sm = new SystemManager();
 		//lista de alunos cadastrados
 		AlunoDAO lista = new AlunoDAO();
 		
@@ -121,12 +123,12 @@ public class Principal {
 			InOut.OutMessage("Aluno Reprovado");
 		}*/
 		if(lista.Find(al,true) != -1){
-			String msg = TelaAluno.DadosAlunoEncontrado(al) +
+			String msg = sm.DadosAlunoEncontrado(al) +
 					"\nMaterias do Aluno:\n------------------------------------"+
 					lista.ShowDisciplinasMatriculadas(al);						 
 			InOut.OutMessage(msg);
 		}else{
-			TelaAluno.AlunoNaoEncontrado();
+			sm.AlunoNaoEncontrado();
 		}
 		
 		//mostrar as disciplinas cadastrados do aluno, sua nota, nome da disciplina, estado da aprovação

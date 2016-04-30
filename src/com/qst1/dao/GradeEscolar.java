@@ -62,5 +62,5 @@ public class GradeEscolar{
 		if(pos != -1){
 			aluno.addMateria(disc);
 		}
-	}	
+	}
 }
