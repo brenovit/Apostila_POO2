@@ -7,11 +7,9 @@ public class Pilha {
 	private Stack<Integer> pilhaNumPar = new Stack<Integer>();
 	
 	//metodo de inserir numeros
-	public void Empilhar(int numero){
-		if(numero % 2 == 0){
-			this.pilhaNumPar.push(numero);
-			//System.out.println("\nNumero: "+numero);
-		}
+	public void Empilhar(int numero){		
+		this.pilhaNumPar.push(numero);
+		
 	}
 	
 	//metodo de remover numeros

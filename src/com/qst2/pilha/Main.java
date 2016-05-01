@@ -6,7 +6,8 @@ public class Main {
 		Pilha pilha = new Pilha();
 		
 		for(int i = 0; i < 101; i++){
-			pilha.Empilhar(i);
+			if(i % 2 == 0)
+				pilha.Empilhar(i);
 		}
 		
 		Pilha pilha2 = pilha;
