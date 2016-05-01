@@ -188,7 +188,6 @@ public class AlunoDAO implements DAO {
 			ArrayList <String> result = new ArrayList<String>();
 			
 			while((linha = br.readLine())!= null){
-				System.out.println(linha);
 				if(linha != null && !linha.isEmpty()){
 					result.add(linha);
 				}
@@ -198,7 +197,6 @@ public class AlunoDAO implements DAO {
 			
 			for(String s: result){
 				String[] user = s.split(";");
-				System.out.println("Estou no For de Strings\n");
 				Aluno aluno = new Aluno(user[1],Integer.parseInt(user[0]),user[2]);
 				Create(aluno);
 				

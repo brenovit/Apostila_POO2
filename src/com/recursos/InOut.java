@@ -9,9 +9,9 @@ public class InOut {
 			in = Integer.parseInt(JOptionPane.showInputDialog(titulo));
 			return in;
 		}catch(Exception e){
-			OutMessage("Erro de Execução:\n"+e,"ERRO");
+			OutMessage("Erro de Execução:\n"+e,"ERRO");		
 		}finally {
-			in = 9999999;
+			in = 0;
 		}
 		return in;
 	}
