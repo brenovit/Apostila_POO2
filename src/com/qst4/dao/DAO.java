@@ -1,4 +1,4 @@
-package com.qst1.dao;
+package com.qst4.dao;
 
 public interface DAO {
 	public void Create (Object o);
