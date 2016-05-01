@@ -3,9 +3,7 @@ package com.qst1.ui;
 import com.qst1.vo.Aluno;
 import com.recursos.InOut;
 
-public class SystemManager {	
-	
-	public static boolean ProgramaJaRodou = false;
+public class SystemManager {
 	
 	public String ProcurarDefinindoMatricula (Aluno paluno, String complemento) {
 		Integer matricula = InOut.InInt("Insira a matricula do Aluno que deseja "+complemento+":");

@@ -71,24 +71,26 @@ public class TesteQuestao1 {
 		grade.CadastrarGrade(al1, disc2);
 		grade.CadastrarGrade(al1, disc3);
 		
+		
+		
 		grade.CadastrarGrade(al2, disc1);
 		grade.CadastrarGrade(al2, disc2);
 		grade.CadastrarGrade(al2, disc4);
 		
-		lista.AddNota(al2,disc2,8.0);
-		lista.AddNota(al2,disc3,7.0);
+		lista.AddNota(al2,disc2,1.0);
+		lista.AddNota(al2,disc4,7.0);		
 		
 		lista.AddNota(al1,disc1,5.0);
-		lista.AddNota(al1,disc2,8.0);
-		lista.AddNota(al1,disc3,7.0);
+		/*lista.AddNota(al1,disc2,8.0);
+		lista.AddNota(al1,disc3,7.0);*/
 		
-		lista.SaveDataFile();
+		//lista.SaveDataFile();
 		
-		lista2.LoadDataFile(grade);
+		//lista2.LoadDataFile(grade);
 		
 		InOut.OutMessage("Lista 1: \n" + lista.Show() + "\nLista 2: \n" + lista2.Show());
 		
-		InOut.OutMessage("Lista 1: \n" + lista.ShowDisciplinasMatriculadas(al1) + "\nLista 2: \n" + lista2.ShowDisciplinasMatriculadas(al1));
+		InOut.OutMessage("Lista 1: \n" + lista.ShowDisciplinasMatriculadas(al2) + "\nLista 2: \n" + lista2.ShowDisciplinasMatriculadas(al2));
 		/*disc = new Disciplina("PI");
 		grade.CadastrarDisciplina(disc);
 		grade.CadastrarGrade(al1, disc);

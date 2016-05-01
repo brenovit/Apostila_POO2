@@ -6,7 +6,7 @@ import com.recursos.InOut;
 
 public class TelaPrincipal {
 	
-	CadastroUsuario lista = new CadastroUsuario();
+	private CadastroUsuario lista = new CadastroUsuario();
 	
 	public static void main(String[] args){
 		
@@ -58,12 +58,20 @@ public class TelaPrincipal {
 	}
 	
 		public void CadastroUsuario(){
-			 String nome = InOut.InString("Digite o Nome.: ") ;
-			 String email = InOut.InString("Digite o E-mail.: ");
-			 String login = InOut.InString("Digite o Login.: ");;
-			 String senha = InOut.InString("Digite a Senha.: ");;
-			 
-			 Usuario user = new Usuario(nome);
+			Usuario user = new Usuario();
+			
+			String nome = InOut.InString("Digite o Nome.: ") ;
+			String email = InOut.InString("Digite o E-mail.: ");
+			String login = InOut.InString("Digite o Login.: ");
+			String senha = InOut.InString("Digite a Senha.: ");
+			
+			user.setNome(nome);
+			user.setEmail(email);
+			user.setLogin(login);
+			user.setSenha(senha);
+			
+			//adicionar o usuario na lista
+
 		}
 	
 }

@@ -3,7 +3,7 @@ package com.qst1.vo;
 public class Disciplina {
 	private String nome;
 	private boolean aprovado;
-	private Double nota;
+	private Double nota = null;
 	private Integer codigo;
 	
 	private static int geradorCodigo = 0;

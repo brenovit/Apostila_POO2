@@ -1,7 +1,5 @@
 package com.qst1.ui;
 
-import javax.security.auth.login.CredentialException;
-
 import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
 import com.qst1.vo.Disciplina;
@@ -11,14 +9,17 @@ public class TelaPrincipal {
 	private static AlunoDAO listaAluno = new AlunoDAO();
 	private static GradeEscolar grade = new GradeEscolar();
 	private static Disciplina disc;
+	public static boolean ProgramaJaRodou = false;
 	
 	public static void main(String[] args){
 		Menu();
 	}
 	
 	public static void Menu(){
-		if(!SystemManager.ProgramaJaRodou){
+		if(!ProgramaJaRodou){
 			CriarDisciplinas();
+			listaAluno.LoadDataFile(grade);
+			ProgramaJaRodou = true;
 		}
 		int op;
 		do{
@@ -30,7 +31,7 @@ public class TelaPrincipal {
 			op = InOut.InInt(opcoes);
 			switch(op){
 				case 0:
-					InOut.OutMessage("O programa serÃ¡ Finalizado", "AtenÃ§Ã£o");
+					InOut.OutMessage("O programa será Finalizado", "Atenção");
 					System.exit(0);
 					break;
 				case 1:
@@ -43,7 +44,7 @@ public class TelaPrincipal {
 					TelaNota.MenuNota();
 					break;
 				default:
-					InOut.OutMessage("OpÃ§Ã£o Invalida!", "Erro!");
+					InOut.OutMessage("Opção Invalida!", "Erro!");
 					break;		
 			}
 		}while(op != 0);
@@ -68,7 +69,6 @@ public class TelaPrincipal {
 		grade.CadastrarDisciplina(disc);
 		disc = new Disciplina("Sistemas de Informações");
 		grade.CadastrarDisciplina(disc);*/
-		SystemManager.ProgramaJaRodou = true;
 	}
 	
 	public static AlunoDAO getListaAluno(){
