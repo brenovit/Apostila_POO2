@@ -1,7 +1,10 @@
 package com.qst3.dao;
 
 import java.util.ArrayList;
+
+import com.qst1.vo.Aluno;
 import com.qst3.vo.Usuario;
+import com.recursos.InOut;
 
 public class CadastroUsuario {
 
@@ -28,24 +31,21 @@ public class CadastroUsuario {
 		return texto;
 	}
 	
-	public int Find(Usuario user){
-		int posicaoAtual = -1;
-		int posicaoAux = 0;
-		
-		while((posicaoAux < listaUsuario.size()) &&
-				(!listaUsuario.get(posicaoAux).getLogin().equals(user.getLogin()))){  //Se o objeto contido na lista na posição Aux tiver o login diferente(por causa da !) ao login do obejto passado como parametro
-			posicaoAux++;   //PosicaoAux aumenta																			
-		}
-		
-		if((posicaoAux < listaUsuario.size()) &&
-				(listaUsuario.get(posicaoAux).getLogin().equals(user.getLogin()))){  //Se o objeto contido na lista na posição Aux tiver o login diferente(por causa da !) ao login do obejto passado como parametro
-			posicaoAtual = posicaoAux;
-		}
-		return posicaoAtual;
+	public String Show(Usuario user){    //Mostrar dados do usuario contidos na lista de usuarios 
+		String texto = "";  
+			for(Usuario usuario: listaUsuario){  //Para cada usuario (variavel user) contido em listaUsuario (variavel) faça alguma coisa.
+				texto += "\n Nome.: "+user.getNome() + 
+						 "\n Email.: "+user.getEmail() +
+						 "\n Login.: "+user.getLogin() + 
+						 "\n Senha.: "+user.getSenha() +
+						 "\n------------------------------";
+			}
+		return texto;
 	}
 	
+	
 	public void Update(Usuario user){  //Atualizar os dados do cliente
-		int posicao = Find(user);
+		int posicao = Find(user, false);
 		if(posicao != -1){
 			listaUsuario.get(posicao).setNome(user.getNome());
 			listaUsuario.get(posicao).setEmail(user.getEmail());
@@ -53,7 +53,33 @@ public class CadastroUsuario {
 			listaUsuario.get(posicao).setSenha(user.getSenha());
 		}
 	}
+
+	public int Find(Usuario user, boolean alterar) {
+		//Aluno aluno = (Aluno) o;
+        int posicao = -1;        
+        int posAux = 0;
+        
+        while((posAux < listaUsuario.size()) &&
+                (!listaUsuario.get(posAux).getLogin().equals(user.getLogin()))){
+            posAux++;
+        }
+        if((posAux < listaUsuario.size()) && 
+        		(listaUsuario.get(posAux).getLogin().equals(user.getLogin())) == true){
+        	if(alterar){
+	        	user.setNome(listaUsuario.get(posAux).getNome());
+	        	user.setEmail(listaUsuario.get(posAux).getEmail());
+	        	user.setLogin(listaUsuario.get(posAux).getLogin());
+	        	user.setSenha(listaUsuario.get(posAux).getSenha());
+        	}
+            posicao = posAux;
+        }
+        return posicao;
+	}
 	
-	
-	
+	public void UsuarioNaoEncontrado(){
+		InOut.OutMessage("Não foi encontrado nenhum usuario com este login.\n"
+				+ "Por favor verifique se digitou corretamente os dados e tente novamente.", 
+				"Usuario Não Encontrado");
+	}
+
 }

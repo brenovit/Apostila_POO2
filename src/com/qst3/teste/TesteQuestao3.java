@@ -2,7 +2,6 @@ package com.qst3.teste;
 
 import com.qst3.dao.CadastrarTeste;
 import com.qst3.vo.Teste;
-import com.qst4.dao.GastoDAO;
 
 public class TesteQuestao3 {
 

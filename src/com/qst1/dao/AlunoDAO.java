@@ -198,7 +198,6 @@ public class AlunoDAO implements DAO {
 			for(String s: result){
 				String[] user = s.split(";");
 				Aluno aluno = new Aluno(user[1],Integer.parseInt(user[0]),user[2]);
-				aluno.setGerador(aluno.getMatricula());
 				Create(aluno);
 				
 				for(int i = 3; i < user.length; i+=2){
