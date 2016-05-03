@@ -25,7 +25,7 @@ public class Aluno {
 	}
 	
 	public Aluno(String nome, int matricula, String cpf){
-		geradorMatricula++;
+		//geradorMatricula++;
 		grade = new ArrayList<Disciplina>();
 		this.nome = nome;
 		this.matricula = matricula;
@@ -74,5 +74,9 @@ public class Aluno {
 	
 	public void removeDisciplina(int posicao){
 		grade.remove(posicao);
+	}
+	
+	public void setGerador(int matricula){
+		geradorMatricula = matricula;
 	}
 }

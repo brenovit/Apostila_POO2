@@ -17,7 +17,8 @@ public class GastoDAO implements DAO{
 	
 	public String Show (){
 		String texto = "";
-		for(Gasto gasto : listaGasto){
+		//para  cada objeto do tipo gasto	contido    na minha lista de gastos -> faça
+		for    (        Gasto gasto           :       listaGasto){
 			texto += "\nID: "+gasto.getID()+
 					 "\nDescrição: "+gasto.getDescricao()+
 					 "\nValor: R$"+gasto.getValor()+
