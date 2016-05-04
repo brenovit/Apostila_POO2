@@ -81,5 +81,14 @@ public class CadastroUsuario {
 				+ "Por favor verifique se digitou corretamente os dados e tente novamente.", 
 				"Usuario Não Encontrado");
 	}
+	
+	public boolean Delete(Usuario user) {
+	    int posicao = Find(user, false);
+	    if(posicao != -1){
+	    	listaUsuario.remove(posicao);	
+	    	return true;
+	    }
+	    return false;
+	}
 
 }

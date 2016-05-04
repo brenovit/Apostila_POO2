@@ -35,7 +35,7 @@ public class TelaPrincipal {
 					CadastroUsuario();
 					break;
 				case 2:
-									
+					ProcuarUsuario();				
 					break;
 				case 3:
 					Alterar(usuario, "alterar");
@@ -44,13 +44,12 @@ public class TelaPrincipal {
 					Listar();
 					break;
 				case 5:
-					
+					Deletar(usuario);
 					break;
 				case 6:
 					
 					break;
 				case 0:
-					
 					break;
 				default:
 					InOut.OutMessage("Opção inexistente");
@@ -60,9 +59,9 @@ public class TelaPrincipal {
 	}
 	
 		public static void CadastroUsuario(){
-			Usuario user = new Usuario("Mauricio","mauricio@gmail.com","luymau","123456");
+			Usuario user = new Usuario();
 			
-			/*String nome = InOut.InString("Digite o Nome.: ") ;
+			String nome = InOut.InString("Digite o Nome.: ") ;
 			String email = InOut.InString("Digite o E-mail.: ");
 			String login = InOut.InString("Digite o Login.: ");
 			String senha = InOut.InString("Digite a Senha.: ");
@@ -70,14 +69,21 @@ public class TelaPrincipal {
 			user.setNome(nome);
 			user.setEmail(email);
 			user.setLogin(login);
-			user.setSenha(senha);*/
+			user.setSenha(senha);
 			
 			lista.Inserir(user);
 			//adicionar o usuario na lista
 		}
 		
 		public static void ProcuarUsuario(){
-			
+			String login = InOut.InString("Informe o Login do usuario.: ");
+			Usuario user = new Usuario();
+			user.setLogin(login);	
+				if(lista.Find(user, false) != -1){
+					InOut.OutMessage("Este usuario esta cadastrado");
+				}else{
+					InOut.OutMessage("Usuario não encontrado");
+				}
 		}
 		
 		public static void Alterar(Usuario usuario, String msg){
@@ -106,8 +112,15 @@ public class TelaPrincipal {
 			}
 		}
 		
-		public static void Deletar(){
-			
+		public static void Deletar(Usuario user){
+			String Login = InOut.InString("Insira o Login do Usuario que deseja ");
+			user.setLogin(Login);
+			lista.Find(user, false);
+			if(lista.Delete(user)){						 
+				InOut.OutMessage(lista.Show(user) + "Clique Confirmar para Remover o aluno do registro.");			
+			}else{
+				lista.UsuarioNaoEncontrado();
+			}		
 		}
 		
 		public static void Listar(){
