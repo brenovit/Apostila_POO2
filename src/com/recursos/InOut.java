@@ -22,12 +22,28 @@ public class InOut {
 	}
 	
 	public static double InDouble(String titulo){
-		double in = Double.parseDouble(JOptionPane.showInputDialog(titulo));		
+		double in;
+		try {
+			in = Double.parseDouble(JOptionPane.showInputDialog(titulo));	
+			return in;
+		}catch(Exception e){
+			OutMessage("Erro de Execução:\n"+e,"ERRO");		
+		}finally {
+			in = 0;
+		}
 		return in;
 	}
 	
 	public static String InString(String titulo){
-		String in = JOptionPane.showInputDialog(titulo);		
+		String in;
+		try {
+			in = JOptionPane.showInputDialog(titulo);
+			return in;
+		}catch(Exception e){
+			OutMessage("Erro de Execução:\n"+e,"ERRO");		
+		}finally {
+			in = "";
+		}
 		return in;
 	}
 	
