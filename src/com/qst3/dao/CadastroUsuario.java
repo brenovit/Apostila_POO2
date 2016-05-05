@@ -1,15 +1,22 @@
 package com.qst3.dao;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import com.qst1.vo.Aluno;
+
 import com.qst3.vo.Usuario;
 import com.recursos.InOut;
 
 public class CadastroUsuario {
 
 	private ArrayList<Usuario> listaUsuario;   //Criando a lista
-	
+	private File arq = new File("DadosUsuario.txt");   //Criando txt
+
 	
 	public CadastroUsuario(){				//Contrutor
 		listaUsuario = new ArrayList<Usuario>();    //Instanciando a lista no constrututor, para não ficar criando uma nova lista o tempo todo no teste
@@ -90,5 +97,51 @@ public class CadastroUsuario {
 	    }
 	    return false;
 	}
+	
+	public void SaveDataFile(){		
+		try {
+			FileWriter fw = new FileWriter(arq, false);    //Abir arquivo
+			PrintWriter pw = new PrintWriter(fw);		   //Escrever no arquivo
+			for(Usuario user : listaUsuario){
+				pw.print(user.getNome() + ";");
+				pw.print(user.getEmail() + ";");
+				pw.print(user.getLogin() + ";");
+				pw.print(user.getSenha() + ";");
+				pw.println("");
+			}
+			pw.flush();
+			pw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void LoadDataFile(){
+		try {
+			FileReader fr = new FileReader(arq);         //Abrir o arquivo na memoria para  leitura
+			BufferedReader br = new BufferedReader(fr);	 //Objeto responsavel por ler o arquivo	
+			String linha = "";
+			
+			ArrayList <String> result = new ArrayList<String>();
+			
+			while((linha = br.readLine())!= null){
+				if(linha != null && !linha.isEmpty()){
+					result.add(linha);
+				}
+			}
+			fr.close();
+			br.close();
+			
+			for(String s: result){
+				String[] user = s.split(";");
+				Usuario usuario = new Usuario(user[0],user[1],user[2],user[3]);
+				Inserir(usuario);
+				
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 }

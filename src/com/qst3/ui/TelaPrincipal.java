@@ -9,8 +9,10 @@ public class TelaPrincipal {
 	private static CadastroUsuario lista = new CadastroUsuario();
 	private static Usuario usuario;
 	
+	
 	public static void main(String[] args){
-		
+
+		lista.LoadDataFile();
 		Menu();
 	}
 
@@ -47,7 +49,7 @@ public class TelaPrincipal {
 					Deletar(usuario);
 					break;
 				case 6:
-					
+					testarAutenticacao();
 					break;
 				case 0:
 					break;
@@ -55,7 +57,9 @@ public class TelaPrincipal {
 					InOut.OutMessage("Opção inexistente");
 					break;
 			}
+			lista.SaveDataFile();
 		}while(op != 0);
+		
 	}
 	
 		public static void CadastroUsuario(){
@@ -70,7 +74,6 @@ public class TelaPrincipal {
 			user.setEmail(email);
 			user.setLogin(login);
 			user.setSenha(senha);
-			
 			lista.Inserir(user);
 			//adicionar o usuario na lista
 		}
@@ -128,7 +131,17 @@ public class TelaPrincipal {
 		}
 		
 		public static void testarAutenticacao(){
+			String login = InOut.InString("Informe o Login do usuario.: ");
+			String senha = InOut.InString("Informe a senha do usuario.: ");
+			Usuario user = new Usuario();
+			user.setLogin(login);	
+			user.setSenha(senha);
 			
+				if(lista.Find(user, false) != -1){
+					InOut.OutMessage("Este usuario esta cadastrado");
+				}else{
+					InOut.OutMessage("Usuario não encontrado");
+				}
 		}
 	
 }
