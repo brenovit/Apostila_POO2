@@ -9,9 +9,14 @@ public class TelaPrincipal {
 	private static GastoDAO gastoC = new GastoDAO();
 	private static GastoDAO gastoL = new GastoDAO();
 	private static GastoDAO gastoA = new GastoDAO();
-	private static GastoDAO gasto = new GastoDAO();
+	private static boolean programaJaRodou = false;
 	
 	public static void main(String[] args) {
+		if(!programaJaRodou){
+			gastoC.LoadDataFile("GastoC.txt");
+			gastoA.LoadDataFile("GastoA.txt");
+			gastoL.LoadDataFile("GastoL.txt");
+		}
 		MenuPrincipal();
 	}
 	
@@ -23,7 +28,8 @@ public class TelaPrincipal {
 							"1 - Contabilizar Gasto\n"+
 							"2 - Listar os Gastos\n"+
 							"3 - Atualizar Gasto\n"+
-							"4 - Remover Gasto\n"+
+							"4 - Total de Todos os Gastos\n"+
+							"5 - Remover Gasto\n"+
 							"0 - Sair";
 			op = InOut.InInt(opcoes);
 			switch(op){
@@ -39,29 +45,38 @@ public class TelaPrincipal {
 					AtualizarGasto(gas) ;
 					break;
 				case 4:
+					TotalDeGastos();
+					break;
+				case 5:
 					 RemoverGasto(gas);
 					break;
 				default:
 					InOut.OutMessage("Opção Invalida!", "Erro!");
 					break;
 			}
+			gastoC.SaveDataFile("GastoC.txt");
+			gastoA.SaveDataFile("GastoA.txt");
+			gastoL.SaveDataFile("GastoL.txt");			
 		}while(op != 0);
 	}
 
 	private static void ContabilizarGasto() {
 		String descricao = InOut.InString("Insira uma Descrição para o Gasto:");
 		Double valor = InOut.InDouble("Insira o Valor do Gasto:");
-		Gasto gas = new Gasto(descricao, valor);
+		Gasto gasc, gasa, gasl;
 		int op = GerirSistema("Contabilizar");
 		switch(op){
 			case 1:
-				gastoC.Create(gas);
+				gasc = new Gasto(descricao, valor);
+				gastoC.Create(gasc);
 				break;
 			case 2:
-				gastoL.Create(gas);
+				gasl = new Gasto(descricao, valor);
+				gastoL.Create(gasl);
 				break;
 			case 3:
-				gastoA.Create(gas);
+				gasa = new Gasto(descricao, valor);
+				gastoA.Create(gasa);
 				break;
 		}
 				
@@ -84,19 +99,36 @@ public class TelaPrincipal {
 	}
 
 	private static void AtualizarGasto(Gasto gas) {
+		int op = GerirSistema("Atualizar");
 		int	id = InOut.InInt("Insira o ID do Gasto que deseja Alterar:");
 		gas.setID(id);
-		int op = GerirSistema("Atualizar");
+		
 		switch(op){
 			case 1:
-				gastoC.Create(gas);
+				if(gastoC.Find(gas) != -1){
+					ProcurarGasto(gas);
+					gastoC.Update(gas);
+				}
 			case 2:
-				gastoL.Create(gas);
+				if(gastoL.Find(gas) != -1){
+					ProcurarGasto(gas);
+					gastoL.Update(gas);
+				}
 			case 3:
-				gastoA.Create(gas);
+				if(gastoA.Find(gas) != -1){
+					ProcurarGasto(gas);
+					gastoA.Update(gas);
+				}
 		}
 	}
-
+	
+	private static void ProcurarGasto(Gasto gasto){
+		String descricao = InOut.InString("Insira uma Descrição para o Gasto:");
+		Double valor = InOut.InDouble("Insira o Valor do Gasto:");
+		gasto.setDescricao(descricao);
+		gasto.setValor(valor);
+	}
+	
 	private static void RemoverGasto(Gasto gas) {
 		int	id = InOut.InInt("Insira o ID do Gasto que deseja Remover:");
 		gas.setID(id);
@@ -132,5 +164,16 @@ public class TelaPrincipal {
 			}
 		}while(tipoGasto != 1 || tipoGasto != 2 || tipoGasto !=3);
 		return tipoGasto;
+	}
+	
+	public static void TotalDeGastos(){
+		double totalGasto = gastoC.TotalGasto() + gastoL.TotalGasto() + gastoA.TotalGasto();
+		String texto = 	"\nTotal Gasto Casa: R$"+gastoC.TotalGasto()+
+						"\nTotal Gasto Lazer: R$"+gastoL.TotalGasto()+
+						"\nTotal Gasto Alimentos: R$"+gastoA.TotalGasto()+
+						"\nTotal de Gastos: R$"+totalGasto;
+		InOut.OutMessage(texto);
+		//cncertar
+				
 	}
 }

@@ -18,12 +18,19 @@ public class Gasto {
 		
 	}
 	
+	public Gasto(Integer id, String description, Double value){
+		this.descricao = description;
+		this.valor = value;
+		this.id = id;		
+	}
+	
 	public String getDescricao() {
 		return descricao;
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	
 	public Double getValor() {
 		return valor;
 	}
@@ -36,5 +43,9 @@ public class Gasto {
 	}
 	public void setID(Integer id) {
 		this.id = id;
+	}
+	
+	public void setGerador(Integer valor){
+		geradorId = valor;
 	}
 }

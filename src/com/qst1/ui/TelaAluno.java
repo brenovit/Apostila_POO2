@@ -73,7 +73,7 @@ public class TelaAluno {
 			String cpf = InOut.InString(sm.DadosAlunoEncontrado(aluno) + "Digite o novo CPF do Aluno:");
 			aluno.setNome(nome);
 			aluno.setCPF(cpf);
-			listaAluno.Uptade(aluno);
+			listaAluno.Update(aluno);
 		}else{
 			sm.AlunoNaoEncontrado();
 		}
