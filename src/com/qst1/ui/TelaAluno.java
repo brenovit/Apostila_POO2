@@ -6,7 +6,7 @@ import com.recursos.InOut;
 
 public class TelaAluno {
 	private static SystemManager sm = new SystemManager();
-	private static AlunoDAO listaAluno = TelaPrincipal.getListaAluno();
+	private static AlunoDAO listaAluno = MainQuestao1.getListaAluno();
 	private static Aluno aluno;
 	
 	
@@ -50,7 +50,7 @@ public class TelaAluno {
 		}
 		listaAluno.SaveDataFile();
 		}while(op != 0);
-		TelaPrincipal.Menu();
+		MainQuestao1.Menu();
 	}
 	
 	private static void CadastrarAluno() {

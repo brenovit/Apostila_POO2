@@ -9,8 +9,8 @@ import com.recursos.InOut;
 public class TelaGrade {
 	private static SystemManager sm = new SystemManager();
 	
-	private static GradeEscolar grade = TelaPrincipal.getGradeEscolar();
-	private static AlunoDAO listaAluno = TelaPrincipal.getListaAluno();
+	private static GradeEscolar grade = MainQuestao1.getGradeEscolar();
+	private static AlunoDAO listaAluno = MainQuestao1.getListaAluno();
 	private static Disciplina disc;
 	private static Aluno aluno;	
 	
@@ -47,7 +47,7 @@ public class TelaGrade {
 			}
 			listaAluno.SaveDataFile();
 		}while(op != 0);
-		TelaPrincipal.Menu();
+		MainQuestao1.Menu();
 	}
 	
 	private static void CadastrarGradeAluno(){

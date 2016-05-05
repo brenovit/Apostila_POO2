@@ -5,7 +5,7 @@ import com.qst1.dao.GradeEscolar;
 import com.qst1.vo.Disciplina;
 import com.recursos.InOut;
 
-public class TelaPrincipal {
+public class MainQuestao1 {
 	private static AlunoDAO listaAluno = new AlunoDAO();
 	private static GradeEscolar grade = new GradeEscolar();
 	private static Disciplina disc;

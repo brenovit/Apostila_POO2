@@ -4,7 +4,7 @@ import com.qst3.dao.CadastroUsuario;
 import com.qst3.vo.Usuario;
 import com.recursos.InOut;
 
-public class TelaPrincipal {
+public class MainQuestao3 {
 	
 	private static CadastroUsuario lista = new CadastroUsuario();
 	private static Usuario usuario;

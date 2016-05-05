@@ -4,7 +4,7 @@ import com.qst4.dao.GastoDAO;
 import com.qst4.vo.Gasto;
 import com.recursos.InOut;
 
-public class TelaPrincipal {
+public class MainQuestao4 {
 	
 	private static GastoDAO gastoC = new GastoDAO();
 	private static GastoDAO gastoL = new GastoDAO();
@@ -109,16 +109,19 @@ public class TelaPrincipal {
 					ProcurarGasto(gas);
 					gastoC.Update(gas);
 				}
+				break;
 			case 2:
 				if(gastoL.Find(gas) != -1){
 					ProcurarGasto(gas);
 					gastoL.Update(gas);
 				}
+				break;
 			case 3:
 				if(gastoA.Find(gas) != -1){
 					ProcurarGasto(gas);
 					gastoA.Update(gas);
 				}
+				break;
 		}
 	}
 	
@@ -136,10 +139,13 @@ public class TelaPrincipal {
 		switch(op){
 			case 1:
 				gastoC.Delete(gas);
+				break;
 			case 2:
 				gastoL.Delete(gas);
+				break;
 			case 3:
 				gastoA.Delete(gas);
+				break;
 		}
 	}
 	
@@ -151,16 +157,10 @@ public class TelaPrincipal {
 		int tipoGasto = 0;
 		do{
 			tipoGasto = InOut.InInt(texto);
-			switch(tipoGasto){
-				case 1:
-					return tipoGasto;
-				case 2:
-					return tipoGasto;
-				case 3:
-					return tipoGasto;
-				default:
-					InOut.OutMessage("Opção Invalida!", "Erro!");
-					break;
+			if(tipoGasto != 1 || tipoGasto != 2 || tipoGasto !=3){
+				InOut.OutMessage("Opção Invalida!", "Erro!");
+			}else{
+				return tipoGasto;
 			}
 		}while(tipoGasto != 1 || tipoGasto != 2 || tipoGasto !=3);
 		return tipoGasto;
@@ -168,10 +168,10 @@ public class TelaPrincipal {
 	
 	public static void TotalDeGastos(){
 		double totalGasto = gastoC.TotalGasto() + gastoL.TotalGasto() + gastoA.TotalGasto();
-		String texto = 	"\nTotal Gasto Casa: R$"+gastoC.TotalGasto()+
-						"\nTotal Gasto Lazer: R$"+gastoL.TotalGasto()+
-						"\nTotal Gasto Alimentos: R$"+gastoA.TotalGasto()+
-						"\nTotal de Gastos: R$"+totalGasto;
+		String texto = 	"\nTotal Gasto Casa...........: R$"+gastoC.TotalGasto()+
+						"\nTotal Gasto Lazer..........: R$"+gastoL.TotalGasto()+
+						"\nTotal Gasto Alimentos..: R$"+gastoA.TotalGasto()+
+						"\nTotal de Gastos..............: R$"+totalGasto;
 		InOut.OutMessage(texto);
 		//cncertar
 				

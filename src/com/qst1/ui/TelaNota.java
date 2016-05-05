@@ -8,7 +8,7 @@ import com.recursos.InOut;
 public class TelaNota {
 	private static SystemManager sm = new SystemManager();
 	
-	private static AlunoDAO listaAluno = TelaPrincipal.getListaAluno();
+	private static AlunoDAO listaAluno = MainQuestao1.getListaAluno();
 	private static Disciplina disc;
 	private static Aluno aluno;
 	
@@ -37,7 +37,7 @@ public class TelaNota {
 			}
 			listaAluno.SaveDataFile();
 		}while(op != 0);
-		TelaPrincipal.Menu();
+		MainQuestao1.Menu();
 	}
 	
 	private static void InserirNotaAluno(Aluno aluno, Disciplina disc){		
