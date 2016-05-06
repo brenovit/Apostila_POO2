@@ -18,7 +18,7 @@ public class MainQuestao1 {
 	public static void Menu(){
 		if(!ProgramaJaRodou){
 			CriarDisciplinas();
-			listaAluno.LoadDataFile(grade);
+			listaAluno.LoadData(grade);
 			ProgramaJaRodou = true;
 		}
 		int op;

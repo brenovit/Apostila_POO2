@@ -7,7 +7,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
+import org.json.simple.JSONObject;
+
+import com.google.gson.Gson;
 import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
 import com.qst1.vo.Aluno;
@@ -15,30 +19,16 @@ import com.qst1.vo.Disciplina;
 
 public class Arquivo {
 	private File arq = new File("DadosAluno.txt");				//objeto que vair tratar do diretorio
-	
-	private AlunoDAO lista;
-	
-	private Disciplina disc;
-	private Aluno aluno;
-	
-	
-	public void SaveDataFile(ArrayList<Aluno> listaAluno){	
-		ArrayList<Disciplina> listaDisciplina;
-		
+	private Gson gson = new Gson();
+	public void SaveFile(List<Aluno> listaAluno){		
 		try {
 			FileWriter fw = new FileWriter(arq, false);
 			PrintWriter pw = new PrintWriter(fw);
-			for(Aluno aluno : listaAluno){
-				listaDisciplina = aluno.getMaterias();
-				
-				pw.print(aluno.getMatricula()+";");
-				pw.print(aluno.getNome()+";");
-				pw.print(aluno.getCPF()+";");
-				for(Disciplina disc : listaDisciplina){ //contar -1 na leitura
-					pw.print(disc.getCodigo()+";");
-					pw.print(disc.getNota()+";");
-				}
-				pw.println("");
+			
+			
+			for(Aluno aluno : listaAluno){				
+				String aux = gson.toJson(aluno);
+				pw.println(aux);
 			}
 			pw.flush();
 			pw.close();
@@ -47,7 +37,9 @@ public class Arquivo {
 		}
 	}
 	
-	public void LoadDataFile(GradeEscolar grade){
+	public void LoadFile(GradeEscolar grade){
+		Gson gson = new Gson();
+		
 		try {
 			FileReader fr = new FileReader(arq);
 			BufferedReader br = new BufferedReader(fr);
@@ -56,7 +48,6 @@ public class Arquivo {
 			ArrayList <String> result = new ArrayList<String>();
 			
 			while((linha = br.readLine())!= null){
-				System.out.println(linha);
 				if(linha != null && !linha.isEmpty()){
 					result.add(linha);
 				}
@@ -65,23 +56,9 @@ public class Arquivo {
 			br.close();
 			
 			for(String s: result){
-				String[] user = s.split(";");
-				
-				aluno = new Aluno(user[1],Integer.parseInt(user[0]),user[2]);
-				if(user.length > 2){
-					for(int i = 3; i < user.length - 1; i+=2){
-						disc = new Disciplina();
-						disc.setCodigo(Integer.parseInt(user[i]));
-						if(grade.Find(disc, true) != 1){
-							grade.CadastrarGrade(aluno, disc);
-							if(!user[i+1].equals(null)){
-								lista.AddNota(aluno, disc, Double.parseDouble(user[i+1]));
-							}
-						}
-					}
-				}
-				
-				//System.out.println(u.toString());
+				Aluno aluno = gson.fromJson(s, Aluno.class);
+				aluno.setGerador(aluno.getMatricula());
+				//Create(aluno);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

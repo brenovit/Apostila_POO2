@@ -7,16 +7,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
+import com.google.gson.Gson;
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
 
 public class AlunoDAO implements DAO {
-	private File arq = new File("DadosAluno.txt");
-	private ArrayList<Aluno> listaAluno;
-	private ArrayList<Disciplina> listaDisciplina;
+	private File arq = new File("DadosAluno.json");
+	private List<Aluno> listaAluno;
+	private List<Disciplina> listaDisciplina;
 	private String msg = "";
-
 	
 	public AlunoDAO(){
 		listaAluno = new ArrayList<Aluno>();
@@ -41,36 +42,26 @@ public class AlunoDAO implements DAO {
 	
 	@Override
 	public int Find(Object o) {
-		Aluno aluno = (Aluno) o;
-        int posicao = -1;        
-        int posAux = 0;
-        
-        while((posAux < listaAluno.size()) &&
-                (!listaAluno.get(posAux).getMatricula().equals(aluno.getMatricula()))){
-            posAux++;
-        }
-        if((posAux < listaAluno.size()) && 
-        		(listaAluno.get(posAux).getMatricula().equals(aluno.getMatricula())) == true){
-            posicao = posAux;
-        }
-        return posicao; 
+		return Find(o, false);
 	}
 	
-	public int Find(Aluno aluno, boolean alterar) {
+	@Override
+	public int Find(Object o, boolean alterar) {
 		//Aluno aluno = (Aluno) o;
         int posicao = -1;        
         int posAux = 0;
         
         while((posAux < listaAluno.size()) &&
-                (!listaAluno.get(posAux).getMatricula().equals(aluno.getMatricula()))){
+                (!listaAluno.get(posAux).getMatricula().equals(((Aluno)o).getMatricula()))){
             posAux++;
         }
         if((posAux < listaAluno.size()) && 
-        		(listaAluno.get(posAux).getMatricula().equals(aluno.getMatricula())) == true){
+        		(listaAluno.get(posAux).getMatricula().equals(((Aluno)o).getMatricula())) == true){
         	if(alterar){
-	        	aluno.setCPF(listaAluno.get(posAux).getCPF());
-	        	aluno.setNome(listaAluno.get(posAux).getNome());
-	        	aluno.setMaterias(listaAluno.get(posAux).getMaterias());
+        		((Aluno)o).setCPF(listaAluno.get(posAux).getCPF());
+        		((Aluno)o).setNome(listaAluno.get(posAux).getNome());
+        		((Aluno)o).setMaterias(listaAluno.get(posAux).getMaterias());
+        		((Aluno)o).setMatricula(listaAluno.get(posAux).getMatricula());
         	}
             posicao = posAux;
         }
@@ -154,23 +145,15 @@ public class AlunoDAO implements DAO {
 		listaAluno.clear();
 	}
 	
-	public void SaveDataFile(){	
-		ArrayList<Disciplina> listaDisciplina;		
+	public void SaveData(){
 		try {
 			FileWriter fw = new FileWriter(arq, false);
 			PrintWriter pw = new PrintWriter(fw);
-			for(Aluno aluno : listaAluno){
-				listaDisciplina = aluno.getMaterias();
-				
-				pw.print(aluno.getMatricula()+";");
-				pw.print(aluno.getNome()+";");
-				pw.print(aluno.getCPF()+";");
-				for(Disciplina disc : listaDisciplina){ //contar -1 na leitura
-					pw.print(disc.getCodigo()+";");
-					pw.print(disc.getNota()+";");
-				}
-				pw.println("");
-				listaDisciplina = null;
+			Gson gson = new Gson();
+			
+			for(Aluno aluno : listaAluno){				
+				String aux = gson.toJson(aluno);
+				pw.println(aux);
 			}
 			pw.flush();
 			pw.close();
@@ -179,7 +162,8 @@ public class AlunoDAO implements DAO {
 		}
 	}
 	
-	public void LoadDataFile(GradeEscolar grade){
+	public void LoadData(GradeEscolar grade){
+		Gson gson = new Gson();
 		try {
 			FileReader fr = new FileReader(arq);
 			BufferedReader br = new BufferedReader(fr);
@@ -191,30 +175,15 @@ public class AlunoDAO implements DAO {
 				if(linha != null && !linha.isEmpty()){
 					result.add(linha);
 				}
-			}
-			fr.close();
-			br.close();
-			
-			for(String s: result){
-				String[] user = s.split(";");
-				Aluno aluno = new Aluno(user[1],Integer.parseInt(user[0]),user[2]);
+				Aluno aluno = gson.fromJson(linha, Aluno.class);
 				aluno.setGerador(aluno.getMatricula());
 				Create(aluno);
-				
-				for(int i = 3; i < user.length; i+=2){
-					Disciplina disc = new Disciplina();
-					disc.setCodigo(Integer.parseInt(user[i]));
-					if(grade.Find(disc,true) != -1){
-						grade.CadastrarGrade(aluno, disc);
-					}
-					if(!user[i+1].equals("null")){
-						AddNota(aluno, disc, Double.parseDouble(user[i+1]));
-					}
-				}
 			}
+			fr.close();
+			br.close();			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
 }

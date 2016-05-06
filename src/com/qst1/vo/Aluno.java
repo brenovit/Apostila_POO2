@@ -1,6 +1,7 @@
 package com.qst1.vo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Aluno {
 	private String nome;	
@@ -9,7 +10,7 @@ public class Aluno {
 	
 	private static int geradorMatricula = 0;
 	
-	private ArrayList<Disciplina> grade;
+	private List<Disciplina> grade;
 	
 	public Aluno(){
 		grade = new ArrayList<Disciplina>();
@@ -59,11 +60,11 @@ public class Aluno {
 		this.grade.add(materia);
 	}
 	
-	public ArrayList<Disciplina> getMaterias(){		
+	public List<Disciplina> getMaterias(){		
 		return this.grade;
 	}
 	
-	public void setMaterias(ArrayList<Disciplina> materias){
+	public void setMaterias(List<Disciplina> materias){
 		this.grade = materias;
 	}
 	

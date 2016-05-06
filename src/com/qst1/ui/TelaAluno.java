@@ -48,7 +48,7 @@ public class TelaAluno {
 				InOut.OutMessage("Opção Invalida!", "Erro!");
 				break;		
 		}
-		listaAluno.SaveDataFile();
+		listaAluno.SaveData();
 		}while(op != 0);
 		MainQuestao1.Menu();
 	}
@@ -68,7 +68,7 @@ public class TelaAluno {
 	
 	private static void AlterarAluno(Aluno aluno, String msg){
 		sm.ProcurarDefinindoMatricula (aluno, msg);
-		if(listaAluno.Find(aluno,false) != -1){					 
+		if(listaAluno.Find(aluno,true) != -1){					 
 			String nome = InOut.InString(sm.DadosAlunoEncontrado(aluno) + "Digite o novo Nome:");
 			String cpf = InOut.InString(sm.DadosAlunoEncontrado(aluno) + "Digite o novo CPF do Aluno:");
 			aluno.setNome(nome);

@@ -1,0 +1,3 @@
+{"nome":"Breno","email":"Breno@Gmail.com","idade":18,"carros":[{"id":10,"modelo":"Celta","placa":"AAA1234"},{"id":11,"modelo":"Palio","placa":"BBB1234"},{"id":12,"modelo":"Fox","placa":"CCC1234"}]}
+{"nome":"João","email":"Joao@Hotmail.com","idade":20,"carros":[{"id":12,"modelo":"Fox","placa":"CCC1234"},{"id":13,"modelo":"Punto","placa":"DDD1234"},{"id":14,"modelo":"HB20","placa":"EEE1234"}]}
+{"nome":"José","email":"Jose@Yahoo.com","idade":30,"carros":[{"id":14,"modelo":"Ferrari","placa":"FFF1234"}]}

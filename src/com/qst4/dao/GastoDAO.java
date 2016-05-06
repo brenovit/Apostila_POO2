@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
 import com.qst4.vo.Gasto;
 
 public class GastoDAO implements DAO{
@@ -73,14 +74,20 @@ public class GastoDAO implements DAO{
 	
 	public void SaveDataFile(String arquivo){
 		arq = new File(arquivo);
+		String comando = "C:\\WINDOWS\\System32\\ATTRIB.EXE +H "+arquivo;
+		try {
+			Runtime.getRuntime().exec(comando);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		try {
 			FileWriter fw = new FileWriter(arq, false);
 			PrintWriter pw = new PrintWriter(fw);
+			Gson gson = new Gson();
+			
 			for(Gasto gasto : listaGasto){				
-				pw.print(gasto.getID()+";");
-				pw.print(gasto.getDescricao()+";");
-				pw.print(gasto.getValor()+";");
-				pw.println("");
+				String aux = gson.toJson(gasto);
+				pw.println(aux);
 			}
 			pw.flush();
 			pw.close();
@@ -98,6 +105,8 @@ public class GastoDAO implements DAO{
 				e.printStackTrace();
 			}
 		}
+		
+		Gson gson = new Gson();
 		try {
 			FileReader fr = new FileReader(arq);
 			BufferedReader br = new BufferedReader(fr);
@@ -109,16 +118,13 @@ public class GastoDAO implements DAO{
 				if(linha != null && !linha.isEmpty()){
 					result.add(linha);
 				}
-			}
-			fr.close();
-			br.close();
-			
-			for(String s: result){
-				String[] user = s.split(";");
-				Gasto gasto = new Gasto(Integer.parseInt(user[0]),user[1], Double.parseDouble(user[2]));
-				gasto.setGerador(Integer.parseInt(user[0]));
+				Gasto gasto = gson.fromJson(linha, Gasto.class);
+				gasto.setGerador(gasto.getID());
 				Create(gasto);
 			}
+			fr.close();
+			br.close();			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

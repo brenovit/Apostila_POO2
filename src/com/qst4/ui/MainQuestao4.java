@@ -13,9 +13,9 @@ public class MainQuestao4 {
 	
 	public static void main(String[] args) {
 		if(!programaJaRodou){
-			gastoC.LoadDataFile("GastoC.txt");
-			gastoA.LoadDataFile("GastoA.txt");
-			gastoL.LoadDataFile("GastoL.txt");
+			gastoC.LoadDataFile("GastoC.json");
+			gastoA.LoadDataFile("GastoA.json");
+			gastoL.LoadDataFile("GastoL.json");
 		}
 		MenuPrincipal();
 	}
@@ -54,9 +54,9 @@ public class MainQuestao4 {
 					InOut.OutMessage("Opção Invalida!", "Erro!");
 					break;
 			}
-			gastoC.SaveDataFile("GastoC.txt");
-			gastoA.SaveDataFile("GastoA.txt");
-			gastoL.SaveDataFile("GastoL.txt");			
+			gastoC.SaveDataFile("GastoC.json");
+			gastoA.SaveDataFile("GastoA.json");
+			gastoL.SaveDataFile("GastoL.json");			
 		}while(op != 0);
 	}
 
@@ -157,12 +157,8 @@ public class MainQuestao4 {
 		int tipoGasto = 0;
 		do{
 			tipoGasto = InOut.InInt(texto);
-			if(tipoGasto != 1 || tipoGasto != 2 || tipoGasto !=3){
-				InOut.OutMessage("Opção Invalida!", "Erro!");
-			}else{
-				return tipoGasto;
-			}
-		}while(tipoGasto != 1 || tipoGasto != 2 || tipoGasto !=3);
+			System.out.println(tipoGasto + "");
+		}while(tipoGasto != 1 && tipoGasto != 2 && tipoGasto !=3);
 		return tipoGasto;
 	}
 	
