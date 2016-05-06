@@ -169,12 +169,8 @@ public class AlunoDAO implements DAO {
 			BufferedReader br = new BufferedReader(fr);
 			String linha = "";
 			
-			ArrayList <String> result = new ArrayList<String>();
 			
 			while((linha = br.readLine())!= null){
-				if(linha != null && !linha.isEmpty()){
-					result.add(linha);
-				}
 				Aluno aluno = gson.fromJson(linha, Aluno.class);
 				aluno.setGerador(aluno.getMatricula());
 				Create(aluno);

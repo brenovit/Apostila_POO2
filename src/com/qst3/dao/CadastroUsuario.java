@@ -9,13 +9,15 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 
+
+import com.google.gson.Gson;
 import com.qst3.vo.Usuario;
 import com.recursos.InOut;
 
 public class CadastroUsuario {
 
 	private ArrayList<Usuario> listaUsuario;   //Criando a lista
-	private File arq = new File("DadosUsuario.txt");   //Criando txt
+	private File arq = new File("DadosUsuario.json");   //Criando txt
 
 	
 	public CadastroUsuario(){				//Contrutor
@@ -102,13 +104,13 @@ public class CadastroUsuario {
 		try {
 			FileWriter fw = new FileWriter(arq, false);    //Abir arquivo
 			PrintWriter pw = new PrintWriter(fw);		   //Escrever no arquivo
+			Gson gson = new Gson();
+			
 			for(Usuario user : listaUsuario){
-				pw.print(user.getNome() + ";");
-				pw.print(user.getEmail() + ";");
-				pw.print(user.getLogin() + ";");
-				pw.print(user.getSenha() + ";");
-				pw.println("");
+				String objeto = gson.toJson(user);
+				pw.println(objeto);
 			}
+			
 			pw.flush();
 			pw.close();
 		} catch (IOException e) {
@@ -121,23 +123,17 @@ public class CadastroUsuario {
 			FileReader fr = new FileReader(arq);         //Abrir o arquivo na memoria para  leitura
 			BufferedReader br = new BufferedReader(fr);	 //Objeto responsavel por ler o arquivo	
 			String linha = "";
+			Gson gson = new Gson();
 			
 			ArrayList <String> result = new ArrayList<String>();
 			
 			while((linha = br.readLine())!= null){
-				if(linha != null && !linha.isEmpty()){
-					result.add(linha);
-				}
+				Usuario user = gson.fromJson(linha, Usuario.class);
+				Inserir(user);
 			}
 			fr.close();
 			br.close();
 			
-			for(String s: result){
-				String[] user = s.split(";");
-				Usuario usuario = new Usuario(user[0],user[1],user[2],user[3]);
-				Inserir(usuario);
-				
-			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
