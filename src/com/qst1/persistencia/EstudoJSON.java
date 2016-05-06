@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import org.json.JSONException;
 import org.json.simple.JSONObject;
 
 import com.google.gson.Gson;
@@ -19,13 +18,13 @@ public class EstudoJSON {
 	private ArrayList<Carro> lista = new ArrayList<Carro>();
 	static File arq = new File("jsonFile.json");
 	
-	public static void main(String[] args) throws JSONException, IOException {
+	public static void main(String[] args) throws IOException {
 		SaveJson();
 		LoadJson();
        //adicaoDeUmObjeto();        
     }
 	
-	private static void SaveJson() throws JSONException, IOException {
+	private static void SaveJson() throws IOException {
 	    //Criação do objeto carro e atribuição dos valores
 		
 		ArrayList<Carro> lista1 = new ArrayList<Carro>();
@@ -84,7 +83,7 @@ public class EstudoJSON {
 		
 	}
 	
-	private static void adicaoDeUmObjeto() throws JSONException {
+	private static void adicaoDeUmObjeto() {
 	    Carro carro = new Carro();
 	    carro.setId(1);
 	    carro.setModelo("Celta");
