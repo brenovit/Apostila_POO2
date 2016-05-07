@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import org.json.simple.JSONObject;
-
 import com.google.gson.Gson;
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
@@ -81,19 +79,6 @@ public class EstudoJSON {
 		pw.flush();
 		pw.close();
 		
-	}
-	
-	private static void adicaoDeUmObjeto() {
-	    Carro carro = new Carro();
-	    carro.setId(1);
-	    carro.setModelo("Celta");
-	    carro.setPlaca("AAA1234");
-	 
-	    JSONObject carroJson = new JSONObject();
-	    //Adição do objeto carro
-	    carroJson.put("Carro", carro);
-	    
-	    System.out.println(carroJson);
 	}
 	
 	private static void LoadJson(){

@@ -9,8 +9,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.simple.JSONObject;
-
 import com.google.gson.Gson;
 import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
