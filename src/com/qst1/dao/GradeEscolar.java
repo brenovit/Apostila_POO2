@@ -19,6 +19,10 @@ public class GradeEscolar{
 		listaDisc.add(disc);		
 	}
 	
+	public ArrayList<Disciplina> getListaDisc(){
+		return listaDisc;
+	}
+	
 	public String Show() {
 		msg = "";
 		for(Disciplina disciplina : listaDisc){

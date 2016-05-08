@@ -23,6 +23,13 @@ public class AlunoDAO implements DAO {
 		listaAluno = new ArrayList<Aluno>();
 	}
 	
+	public int size(){
+		return listaAluno.size();
+	}
+	
+	public List<Aluno> getLista(){
+		return listaAluno;
+	}
 	@Override
 	public void Create(Object o) {
 		listaAluno.add((Aluno) o);

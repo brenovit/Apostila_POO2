@@ -1,1 +1,0 @@
-{"descricao":"roupas","valor":200.0,"id":1}

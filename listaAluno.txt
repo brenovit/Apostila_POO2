@@ -1,2 +1,0 @@
----------Lista de Aluno---------
- - |MATRICULA| 1 |NOME| breno |CPF| 123456789

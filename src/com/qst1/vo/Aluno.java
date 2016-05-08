@@ -79,4 +79,8 @@ public class Aluno {
 	public void removeDisciplina(int posicao){
 		grade.remove(posicao);
 	}
+	
+	public static int getGerador(){
+		return geradorMatricula;
+	}
 }
