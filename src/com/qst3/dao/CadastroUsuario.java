@@ -85,6 +85,17 @@ public class CadastroUsuario {
         return posicao;
 	}
 	
+	public boolean TestarAutenticacao(Usuario user, String senha) {
+		int posicao = Find(user, false);
+		if(posicao != -1){
+			//se a senha deste obj igual ao parametro senha{
+        	if(listaUsuario.get(posicao).getSenha().equals(senha)){
+        		return true;
+        	}			
+		}
+        return false;
+	}
+	
 	public void UsuarioNaoEncontrado(){
 		InOut.OutMessage("Não foi encontrado nenhum usuario com este login.\n"
 				+ "Por favor verifique se digitou corretamente os dados e tente novamente.", 

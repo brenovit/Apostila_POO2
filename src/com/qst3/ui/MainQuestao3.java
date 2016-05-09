@@ -131,17 +131,17 @@ public class MainQuestao3 {
 		}
 		
 		public static void testarAutenticacao(){
-			String login = InOut.InString("Informe o Login do usuario.: ");
+			String login = InOut.InString("Informe o Login do usuario.: ");			
 			String senha = InOut.InString("Informe a senha do usuario.: ");
+			String testeLogin, testeSenha;
 			Usuario user = new Usuario();
-			user.setLogin(login);	
-			user.setSenha(senha);
+			user.setLogin(login);
 			
-				if(lista.Find(user, false) != -1){
-					InOut.OutMessage("Este usuario esta cadastrado");
-				}else{
-					InOut.OutMessage("Usuario não encontrado");
-				}
+			if(lista.TestarAutenticacao(user, senha)){				
+				InOut.OutMessage("Usuario Autenticado!");
+			}else{
+				InOut.OutMessage("Usuaio ou Senha Incorreta!");
+			}
 		}
 	
 }
