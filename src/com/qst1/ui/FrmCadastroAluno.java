@@ -176,6 +176,7 @@ public class FrmCadastroAluno extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Salvar os dados em JSon
+				Salvar();
 			}
 		});
 		btnSalvar.setBounds(454, 343, 50, 50);

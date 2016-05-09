@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
+import com.qst1.persistencia.Abrir;
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
 import com.recursos.InOut;
@@ -36,10 +37,12 @@ import java.awt.FlowLayout;
 import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 
 public class FrmPrincipal extends JFrame {
 
@@ -54,6 +57,7 @@ public class FrmPrincipal extends JFrame {
 	private static boolean ProgramaJaRodou = false;
 		
 	private 	JDesktopPane desktopPane;
+	
 	private 	JInternalFrame frameCadastroAluno;
 	
 	protected 	JTextField 	txtPesquisa;
@@ -75,8 +79,6 @@ public class FrmPrincipal extends JFrame {
 	protected 	JPanel 		panelAzul;	
 	protected 	JPanel 		panelPesquisa;
 	protected 	JPanel 		panelStatus;
-	
-	protected 	JScrollPane	scrollPane;
 	private		JLabel 		lblStatus;
 	private 	JLabel		lblPesquisar;
 	
@@ -86,6 +88,8 @@ public class FrmPrincipal extends JFrame {
 	private String nome;
 	private String CPF;
 	
+	private dialogCadastroAluno	dialogAluno;
+	private FrameCadastroAluno 	frmCadAluno;
 	/**
 	 * Launch the application.
 	 */
@@ -125,7 +129,7 @@ public class FrmPrincipal extends JFrame {
 	public FrmPrincipal() {
 		setTitle("Gerenciador de Faculdade");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 767, 563);		
+		setBounds(100, 100, 865, 596);		
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -134,13 +138,32 @@ public class FrmPrincipal extends JFrame {
 		menuBar.add(mnArquivo);
 		
 		JMenuItem mntmNovo = new JMenuItem("Novo");
+		mntmNovo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/novo16.png")));
 		mntmNovo.setEnabled(false);
 		mnArquivo.add(mntmNovo);
 		
 		JMenuItem mntmAbrir = new JMenuItem("Abrir");
+		mntmAbrir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO Menu > Abrir Arquivo
+				try {
+					Abrir.AbrirArquivo("DadosAluno.json");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		mntmAbrir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/open16.png")));
 		mnArquivo.add(mntmAbrir);
 		
 		JMenuItem mntmSalvar = new JMenuItem("Salvar");
+		mntmSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Menu > Salvar
+			}
+		});
+		mntmSalvar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/save16.png")));
 		mnArquivo.add(mntmSalvar);
 		
 		JSeparator separator = new JSeparator();
@@ -161,25 +184,30 @@ public class FrmPrincipal extends JFrame {
 		menuBar.add(mnCadastro);
 		
 		JMenu mnAluno = new JMenu("Aluno");
+		mnAluno.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/student.png")));
 		mnCadastro.add(mnAluno);
 		
-		JMenuItem mntmCadastrarAluno = new JMenuItem("Cadastrar Aluno");
-		mntmCadastrarAluno.addActionListener(new ActionListener() {
+		JMenuItem mntmGerirAlunos = new JMenuItem("Gerenciar Alunos");
+		mntmGerirAlunos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO Menu > Cadastrar Aluno
-				frameCadastroAluno.setVisible(true);
-				
+				//frameCadastroAluno.setVisible(true);
+				frmCadAluno = new FrameCadastroAluno();
+				frmCadAluno.setBounds(380, 9, 400, 480);
+				desktopPane.add(frmCadAluno);
+				frmCadAluno.setVisible(true);				
 			}
 		});
-		mnAluno.add(mntmCadastrarAluno);
+		mnAluno.add(mntmGerirAlunos);
 	
-		JMenuItem mntmCadastrarGrade = new JMenuItem("Cadastrar Grade");
-		mnAluno.add(mntmCadastrarGrade);
+		JMenuItem mntmGerirGrade = new JMenuItem("Gerenciar Grade dos Alunos");
+		mnAluno.add(mntmGerirGrade);
 		
-		JMenuItem mntmGerenciarNota = new JMenuItem("Gerenciar Nota");
-		mnAluno.add(mntmGerenciarNota);
+		JMenuItem mntmGerirNota = new JMenuItem("Gerenciar Notas do Aluno");
+		mnAluno.add(mntmGerirNota);
 		
 		JMenu mnDisciplina = new JMenu("Disciplina");
+		mnDisciplina.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/grade.png")));
 		mnCadastro.add(mnDisciplina);
 		
 		JMenuItem mntmCadastrarDisciplina = new JMenuItem("Cadastrar disciplina");
@@ -189,7 +217,7 @@ public class FrmPrincipal extends JFrame {
 		menuBar.add(mnAjuda);
 		
 		JMenuItem menuItem = new JMenuItem("Ajuda");
-		menuItem.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/help.png")));
+		menuItem.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/help16.png")));
 		mnAjuda.add(menuItem);
 		
 		JMenuItem menuItem_1 = new JMenuItem("Sobre");
@@ -205,9 +233,11 @@ public class FrmPrincipal extends JFrame {
 		mainPane.add(desktopPane);
 		
 		frameCadastroAluno = new JInternalFrame("Cadastrar Aluno");
+		frameCadastroAluno.setFrameIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/student.png")));
+		frameCadastroAluno.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frameCadastroAluno.setIconifiable(true);
 		frameCadastroAluno.setClosable(true);
-		frameCadastroAluno.setBounds(0, 0, 400, 480);
+		frameCadastroAluno.setBounds(380, 9, 400, 480);
 		desktopPane.add(frameCadastroAluno);
 		frameCadastroAluno.getContentPane().setLayout(null);
 		
@@ -247,11 +277,6 @@ public class FrmPrincipal extends JFrame {
 		txtCPF.setEnabled(false);
 		txtCPF.setColumns(10);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setEnabled(false);
-		scrollPane.setBounds(10, 182, 364, 237);
-		frameCadastroAluno.getContentPane().add(scrollPane);
-		
 		panelAzul = new JPanel();
 		panelAzul.setLayout(null);
 		panelAzul.setBackground(new Color(153, 204, 255));
@@ -259,9 +284,17 @@ public class FrmPrincipal extends JFrame {
 		frameCadastroAluno.getContentPane().add(panelAzul);
 		
 		btnCadastrar = new JButton("");
+		btnCadastrar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/new.png")));
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO botão Cadastrar
+				//TODO Cadastro aluno > Botão Cadastrar
+				mode = 0;
+				AtivarCampos(true);
+				AtivarBotoes(true);
+				LimparCampos();
+				txtNome.requestFocus();
+				//Interacao.InserirCliente(txtNome.getText(), txtIdade.getText());
+				lblStatus.setText("Cadastrando Aluno");
 			}
 		});
 		btnCadastrar.setToolTipText("Cadastrar");
@@ -271,9 +304,15 @@ public class FrmPrincipal extends JFrame {
 		panelAzul.add(btnCadastrar);
 		
 		btnAtualizar = new JButton("");
+		btnAtualizar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/update.png")));
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO botão Atualizar
+				//TODO Cadastro aluno > Botão Atualizar
+				mode = 1;
+				//Interacao.DeletarCliente(Integer.parseInt(txtId.getText()));
+				AtivarCampos(true);
+				AtivarBotoes(true);
+				LimparCampos();
 			}
 		});
 		btnAtualizar.setToolTipText("Atualizar");
@@ -282,9 +321,26 @@ public class FrmPrincipal extends JFrame {
 		panelAzul.add(btnAtualizar);
 		
 		btnExcluir = new JButton("");
+		btnExcluir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/delete.png")));
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO botão Excluir
+				//TODO Cadastro aluno > Botão Excluir
+				mode = 2;				
+				int row = table.getSelectedRow();
+				if(row == -1){
+					return;
+				}
+				matricula = (Integer)table.getValueAt(row, 0);
+				nome = (String)table.getValueAt(row, 1);
+				AtivarBotoes(true);
+				LimparCampos();
+				table.setEnabled(false);
+				
+				aluno = new Aluno();
+				aluno.setMatricula(matricula);
+				
+				InOut.OutMessage("Para excluir o Aluno: " + nome + "\nClique no Botão confirmar");
+				lblStatus.setText("Excluindo Aluno");	
 			}
 		});
 		btnExcluir.setToolTipText("Excluir");
@@ -293,9 +349,26 @@ public class FrmPrincipal extends JFrame {
 		panelAzul.add(btnExcluir);
 		
 		btnConfirmar = new JButton("");
+		btnConfirmar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/confirm.png")));
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO botão Confirmar
+				//TODO Cadastro aluno > Botão Confirmar
+				switch(mode){
+				case 0:					///modo de criação
+					Interacao.CadastrarAluno(listaAluno, txtNome.getText(),txtCPF.getText());
+					txtMatricula.setText(Aluno.getGerador()+"");
+					break;
+				case 1:					///modo de alteração
+					
+					break;
+				case 2:					///modo de exclusão
+					listaAluno.Delete(aluno);
+					break;
+			}
+			PreencherTabela();
+			AtivarBotoes(false);
+			AtivarCampos(false);
+			lblStatus.setText("Pronto");
 			}
 		});
 		btnConfirmar.setToolTipText("Confirmar");
@@ -305,9 +378,14 @@ public class FrmPrincipal extends JFrame {
 		panelAzul.add(btnConfirmar);
 		
 		btnCancelar = new JButton("");
+		btnCancelar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO botão Cancelar
+				//TODO Cadastro aluno > Botão Cancelar
+				AtivarBotoes(false);
+				AtivarCampos(false);
+				table.setEnabled(true);
+				lblStatus.setText("Pronto");
 			}
 		});
 		btnCancelar.setToolTipText("Cancelar");
@@ -334,9 +412,10 @@ public class FrmPrincipal extends JFrame {
 		panelPesquisa.add(txtPesquisa);
 		
 		btnPesquisar = new JButton("");
+		btnPesquisar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/search.png")));
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO botão Pesquisar
+				//TODO Cadastro aluno > Botão Pesquisar
 			}
 		});
 		btnPesquisar.setToolTipText("Pesquisar");
@@ -354,14 +433,48 @@ public class FrmPrincipal extends JFrame {
 		lblStatus = new JLabel("Status");
 		panelStatus.add(lblStatus);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 183, 364, 236);
+		frameCadastroAluno.getContentPane().add(scrollPane);
+		
 		table = new JTable();
-		table.setBounds(10, 183, 364, 236);
-		frameCadastroAluno.getContentPane().add(table);		
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Matricula", "Nome", "CPF"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Object.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(55);
 		
 		JLabel lblPorBrenoNunes = new JLabel("Por Breno Nunes");
 		lblPorBrenoNunes.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblPorBrenoNunes.setBounds(649, 478, 92, 15);
+		lblPorBrenoNunes.setBounds(637, 500, 92, 15);
 		desktopPane.add(lblPorBrenoNunes);
+		
+		JInternalFrame internalFrame = new JInternalFrame("New JInternalFrame");
+		internalFrame.setBounds(0, 9, 269, 211);
+		desktopPane.add(internalFrame);
+		internalFrame.getContentPane().setLayout(null);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 11, 152, 428);
+		internalFrame.getContentPane().add(scrollPane_1);
+		
+		JList list = new JList();
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setVisibleRowCount(20);
+		scrollPane_1.setViewportView(list);
+		internalFrame.setVisible(true);
 	}
 	
 	protected void AtivarCampos(boolean estado){

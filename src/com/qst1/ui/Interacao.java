@@ -1,17 +1,11 @@
 package com.qst1.ui;
 
-import javax.swing.table.DefaultTableModel;
-
 import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
 
 public class Interacao{
-	
-	protected static void SalvarDados(AlunoDAO lista){
-		lista.SaveData();
-	}
 	
 	protected static void CadastrarAluno(AlunoDAO lista, String nome, String cpf){
 		Aluno aluno = new Aluno(nome,cpf);
