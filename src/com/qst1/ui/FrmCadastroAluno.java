@@ -38,7 +38,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-public class Form extends JFrame {
+public class FrmCadastroAluno extends JFrame {
 	private Interacao interacao = new Interacao();
 	
 	private static AlunoDAO listaAluno = new AlunoDAO();
@@ -88,19 +88,19 @@ public class Form extends JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Form.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmCadastroAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Form.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmCadastroAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Form.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmCadastroAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Form.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmCadastroAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Form frame = new Form();
+					FrmCadastroAluno frame = new FrmCadastroAluno();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -113,10 +113,10 @@ public class Form extends JFrame {
 	 * Create the frame.
 	 */
 	
-	public Form() {
+	public FrmCadastroAluno() {
 		setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Form.class.getResource("/com/qst1/images/icon.png")));
-		setTitle("Gest\u00E3o de Alunos");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmCadastroAluno.class.getResource("/com/qst1/images/icon.png")));
+		setTitle("Cadastro Aluno");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 580, 487);
 		
@@ -127,11 +127,11 @@ public class Form extends JFrame {
 		menuBar.add(mnAjuda);
 		
 		JMenuItem mntmAjuda = new JMenuItem("Ajuda");
-		mntmAjuda.setIcon(new ImageIcon(Form.class.getResource("/com/qst1/images/help.png")));
+		mntmAjuda.setIcon(new ImageIcon(FrmCadastroAluno.class.getResource("/com/qst1/images/help.png")));
 		mnAjuda.add(mntmAjuda);
 		
 		JMenuItem mntmSobre = new JMenuItem("Sobre");
-		mntmSobre.setIcon(new ImageIcon(Form.class.getResource("/com/qst1/images/info.png")));
+		mntmSobre.setIcon(new ImageIcon(FrmCadastroAluno.class.getResource("/com/qst1/images/info.png")));
 		mnAjuda.add(mntmSobre);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.control);
@@ -172,7 +172,7 @@ public class Form extends JFrame {
 		JButton btnSalvar = new JButton("");
 		btnSalvar.setToolTipText("Salvar Dados");
 		btnSalvar.setBackground(new Color(0, 0, 0));
-		btnSalvar.setIcon(new ImageIcon(Form.class.getResource("/com/qst1/images/save.png")));
+		btnSalvar.setIcon(new ImageIcon(FrmCadastroAluno.class.getResource("/com/qst1/images/save.png")));
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Salvar os dados em JSon
@@ -184,7 +184,7 @@ public class Form extends JFrame {
 		btnAbrir = new JButton("");
 		btnAbrir.setToolTipText("Visualizar Dados");
 		btnAbrir.setBackground(new Color(0, 0, 0));
-		btnAbrir.setIcon(new ImageIcon(Form.class.getResource("/com/qst1/images/open.png")));
+		btnAbrir.setIcon(new ImageIcon(FrmCadastroAluno.class.getResource("/com/qst1/images/open.png")));
 		btnAbrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -242,7 +242,7 @@ public class Form extends JFrame {
 		btnDeletar = new JButton("");
 		btnDeletar.setToolTipText("Excluir");
 		btnDeletar.setBackground(new Color(0, 0, 0));
-		btnDeletar.setIcon(new ImageIcon(Form.class.getResource("/com/qst1/images/delete.png")));
+		btnDeletar.setIcon(new ImageIcon(FrmCadastroAluno.class.getResource("/com/qst1/images/delete.png")));
 		btnDeletar.setBounds(110, 5, 40, 40);
 		panelAzul.add(btnDeletar);
 		btnDeletar.addActionListener(new ActionListener() {
@@ -270,7 +270,7 @@ public class Form extends JFrame {
 		btnAtualizar = new JButton("");
 		btnAtualizar.setToolTipText("Atualizar");
 		btnAtualizar.setBackground(new Color(0, 0, 0));
-		btnAtualizar.setIcon(new ImageIcon(Form.class.getResource("/com/qst1/images/update.png")));
+		btnAtualizar.setIcon(new ImageIcon(FrmCadastroAluno.class.getResource("/com/qst1/images/update.png")));
 		btnAtualizar.setBounds(60, 5, 40, 40);
 		panelAzul.add(btnAtualizar);
 		btnAtualizar.addActionListener(new ActionListener() {
@@ -290,7 +290,7 @@ public class Form extends JFrame {
 		btnConfirmar.setBackground(new Color(0, 0, 0));
 		btnConfirmar.setBounds(464, 5, 40, 40);
 		panelAzul.add(btnConfirmar);
-		btnConfirmar.setIcon(new ImageIcon(Form.class.getResource("/com/qst1/images/confirm.png")));
+		btnConfirmar.setIcon(new ImageIcon(FrmCadastroAluno.class.getResource("/com/qst1/images/confirm.png")));
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Confirmar a ação
@@ -319,7 +319,7 @@ public class Form extends JFrame {
 		panelAzul.add(btnCadastrar);
 		btnCadastrar.setForeground(Color.BLACK);
 		btnCadastrar.setBackground(new Color(0, 0, 0));
-		btnCadastrar.setIcon(new ImageIcon(Form.class.getResource("/com/qst1/images/new.png")));
+		btnCadastrar.setIcon(new ImageIcon(FrmCadastroAluno.class.getResource("/com/qst1/images/new.png")));
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Cadastrar um aluno
@@ -348,7 +348,7 @@ public class Form extends JFrame {
 		btnCancelar.setBackground(new Color(0, 0, 0));
 		btnCancelar.setBounds(514, 5, 40, 40);
 		panelAzul.add(btnCancelar);
-		btnCancelar.setIcon(new ImageIcon(Form.class.getResource("/com/qst1/images/cancel.png")));
+		btnCancelar.setIcon(new ImageIcon(FrmCadastroAluno.class.getResource("/com/qst1/images/cancel.png")));
 		
 		panelPesquisa = new JPanel();
 		panelPesquisa.setBackground(new Color(153, 255, 153));
@@ -371,7 +371,7 @@ public class Form extends JFrame {
 		btnPesquisar.setToolTipText("Pesquisar");
 		btnPesquisar.setBackground(new Color(0, 0, 0));
 		btnPesquisar.setBounds(250, 3, 40, 40);
-		btnPesquisar.setIcon(new ImageIcon(Form.class.getResource("/com/qst1/images/search.png")));
+		btnPesquisar.setIcon(new ImageIcon(FrmCadastroAluno.class.getResource("/com/qst1/images/search.png")));
 		panelPesquisa.add(btnPesquisar);
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
