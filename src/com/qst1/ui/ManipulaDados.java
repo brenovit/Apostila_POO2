@@ -12,6 +12,8 @@ public class ManipulaDados{
 	
 	private static AlunoDAO listaAluno = new AlunoDAO();
 	private static GradeEscolar grade = new GradeEscolar();
+	private static Dados dados = new Dados();
+	private static InternalFrameCadastroAluno ifCadAluno;
 	
 	protected static void CadastrarAluno(String nome, String cpf){
 		Aluno aluno = new Aluno(nome,cpf);
@@ -42,5 +44,10 @@ public class ManipulaDados{
 	
 	protected static AlunoDAO getLista(){
 		return listaAluno;
+	}
+	
+	protected static void setDados(Dados pdados){
+		dados = pdados;
+		ifCadAluno.MudarCampos(dados);
 	}
 }

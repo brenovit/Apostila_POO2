@@ -31,13 +31,14 @@ import com.recursos.InOut;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class FrameCadastroAluno extends JInternalFrame {
+public class InternalFrameCadastroAluno extends JInternalFrame {
 	private 	Aluno 		aluno;
 	private 	AlunoDAO	listaAluno = ManipulaDados.getLista();
-	protected 	JTextField 	txtPesquisa;
-	protected 	JTextField 	txtMatricula;
-	protected 	JTextField 	txtNome;
-	protected 	JTextField 	txtCPF;	
+	
+	protected	static	JTextField 	txtPesquisa;
+	protected	static	JTextField 	txtMatricula;
+	protected	static	JTextField 	txtNome;
+	protected	static	JTextField 	txtCPF;	
 	
 	protected 	JButton 	btnConfirmar;
 	protected 	JButton 	btnCancelar;
@@ -54,6 +55,7 @@ public class FrameCadastroAluno extends JInternalFrame {
 	protected 	JPanel 		panelPesquisa;
 	protected 	JPanel 		statusBar;
 	protected	JPanel		panelCampos;
+	
 	private		JLabel 		lblStatus;
 	private 	JLabel		lblPesquisar;
 	
@@ -70,7 +72,7 @@ public class FrameCadastroAluno extends JInternalFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameCadastroAluno frame = new FrameCadastroAluno();
+					InternalFrameCadastroAluno frame = new InternalFrameCadastroAluno();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -82,8 +84,8 @@ public class FrameCadastroAluno extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrameCadastroAluno() {
-		setFrameIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/com/qst1/images/student.png")));
+	public InternalFrameCadastroAluno() {
+		setFrameIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/student.png")));
 		setTitle("Gerir Aluno");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setClosable(true);
@@ -114,7 +116,7 @@ public class FrameCadastroAluno extends JInternalFrame {
 				lblStatus.setText("Cadastrando Aluno");
 			}
 		});
-		btnCadastrar.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/com/qst1/images/new.png")));
+		btnCadastrar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/new.png")));
 		btnCadastrar.setToolTipText("Cadastrar");
 		btnCadastrar.setForeground(Color.BLACK);
 		btnCadastrar.setBackground(Color.BLACK);
@@ -132,7 +134,7 @@ public class FrameCadastroAluno extends JInternalFrame {
 				LimparCampos();
 			}
 		});
-		btnAtualizar.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/com/qst1/images/update.png")));
+		btnAtualizar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/update.png")));
 		btnAtualizar.setToolTipText("Atualizar");
 		btnAtualizar.setBackground(Color.BLACK);
 		btnAtualizar.setBounds(60, 5, 40, 40);
@@ -160,7 +162,7 @@ public class FrameCadastroAluno extends JInternalFrame {
 				lblStatus.setText("Excluindo Aluno");	
 			}
 		});
-		btnExcluir.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/com/qst1/images/delete.png")));
+		btnExcluir.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/delete.png")));
 		btnExcluir.setToolTipText("Excluir");
 		btnExcluir.setBackground(Color.BLACK);
 		btnExcluir.setBounds(110, 5, 40, 40);
@@ -191,7 +193,7 @@ public class FrameCadastroAluno extends JInternalFrame {
 			}
 		});
 
-		btnConfirmar.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/com/qst1/images/confirm.png")));
+		btnConfirmar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/confirm.png")));
 		btnConfirmar.setToolTipText("Confirmar");
 		btnConfirmar.setEnabled(false);
 		btnConfirmar.setBackground(Color.BLACK);
@@ -208,7 +210,7 @@ public class FrameCadastroAluno extends JInternalFrame {
 				lblStatus.setText("Pronto");
 			}
 		});
-		btnCancelar.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/com/qst1/images/cancel.png")));
+		btnCancelar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/cancel.png")));
 		btnCancelar.setToolTipText("Cancelar");
 		btnCancelar.setEnabled(false);
 		btnCancelar.setBackground(Color.BLACK);
@@ -233,7 +235,7 @@ public class FrameCadastroAluno extends JInternalFrame {
 		panelPesquisa.add(txtPesquisa);
 		
 		btnPesquisar = new JButton("");
-		btnPesquisar.setIcon(new ImageIcon(FrameCadastroAluno.class.getResource("/com/qst1/images/search.png")));
+		btnPesquisar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/search.png")));
 		btnPesquisar.setToolTipText("Pesquisar");
 		btnPesquisar.setBackground(Color.BLACK);
 		btnPesquisar.setBounds(280, 5, 40, 40);
@@ -288,7 +290,6 @@ public class FrameCadastroAluno extends JInternalFrame {
 		
 		lblStatus = new JLabel("Status");
 		statusBar.add(lblStatus);
-
 	}
 	
 	protected void AtivarCampos(boolean estado){
@@ -298,7 +299,7 @@ public class FrameCadastroAluno extends JInternalFrame {
 	
 	protected void AtivarBotoes(boolean estado){
 		btnConfirmar.setEnabled(estado);
-		btnCancelar.setEnabled(estado);	
+		btnCancelar.setEnabled(estado);
 		
 		btnPesquisar.setEnabled(!estado);
 		btnCadastrar.setEnabled(!estado);
@@ -314,5 +315,11 @@ public class FrameCadastroAluno extends JInternalFrame {
 	protected void Salvar(){
 		LimparCampos();
 		listaAluno.SaveData();
+	}
+	
+	protected static void MudarCampos(Dados dados){
+		txtMatricula.setText(dados.getMatricula());
+		txtCPF.setText(dados.getCpf());
+		txtNome.setText(dados.getNome());
 	}
 }

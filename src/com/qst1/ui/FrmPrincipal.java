@@ -65,13 +65,15 @@ public class FrmPrincipal extends JFrame {
 	protected 	JPanel 		contentPane;
 	private 	JLabel		lblPesquisar;
 	
+	private static DefaultTableModel modelo;
+	
 	private static int mode; 
 
 	private Integer matricula;
 	private String nome;
 	private String CPF;
 	
-	private FrameCadastroAluno 	frmCadAluno;
+	private InternalFrameCadastroAluno 	frmCadAluno;
 	/**
 	 * Launch the application.
 	 */
@@ -131,7 +133,6 @@ public class FrmPrincipal extends JFrame {
 				try {
 					Abrir.AbrirArquivo("DadosAluno.json");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -143,6 +144,7 @@ public class FrmPrincipal extends JFrame {
 		mntmSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO Menu > Salvar
+				Salvar();
 			}
 		});
 		mntmSalvar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/save16.png")));
@@ -154,10 +156,10 @@ public class FrmPrincipal extends JFrame {
 		JMenuItem mntmSair = new JMenuItem("Sair");
 		mntmSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//TODO Menu > Sair
 				if(InOut.ConfirmDialog("Deseja realmente Sair?", "Atenção")){
 					System.exit(0);
-				}
-					
+				}					
 			}
 		});
 		mnArquivo.add(mntmSair);
@@ -173,16 +175,21 @@ public class FrmPrincipal extends JFrame {
 		mntmGerirAlunos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO Menu > Cadastrar Aluno
-				//frameCadastroAluno.setVisible(true);
-				frmCadAluno = new FrameCadastroAluno();
+				frmCadAluno = new InternalFrameCadastroAluno();
+				desktopPane.setLayer(frmCadAluno, 1);
 				frmCadAluno.setBounds(430, 10, 400, 260);
 				desktopPane.add(frmCadAluno);
-				frmCadAluno.setVisible(true);	
+				frmCadAluno.setVisible(true);
 			}
 		});
 		mnAluno.add(mntmGerirAlunos);
 	
 		JMenuItem mntmGerirGrade = new JMenuItem("Gerenciar Grade dos Alunos");
+		mntmGerirGrade.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO Menu > Gerenciar Grade				
+			}
+		});
 		mnAluno.add(mntmGerirGrade);
 		
 		JMenuItem mntmGerirNota = new JMenuItem("Gerenciar Notas do Aluno");
@@ -216,10 +223,19 @@ public class FrmPrincipal extends JFrame {
 		desktopPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(22, 25, 452, 427);
+		scrollPane.setBounds(0, 0, 420, 490);
 		desktopPane.add(scrollPane);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int linha = table.getSelectedRow();
+				Dados dados = new Dados(modelo.getValueAt(linha, 0).toString(), modelo.getValueAt(linha, 1).toString(),modelo.getValueAt(linha, 2).toString());
+				ManipulaDados.setDados(dados);
+			}
+		});
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -227,7 +243,7 @@ public class FrmPrincipal extends JFrame {
 			new String[] {
 				"Matricula", "Nome", "CPF"
 			}
-		) {
+		){
 			Class[] columnTypes = new Class[] {
 				Object.class, String.class, String.class
 			};
@@ -236,10 +252,17 @@ public class FrmPrincipal extends JFrame {
 			}
 		});
 		
+		JPanel panel = new JPanel();
+		desktopPane.setLayer(panel, 0);
+		panel.setBackground(Color.LIGHT_GRAY);
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+		panel.setBounds(0, 501, 839, 25);
+		desktopPane.add(panel);
+		
 		JLabel lblPorBrenoNunes = new JLabel("Por Breno Nunes");
-		lblPorBrenoNunes.setBounds(747, 512, 92, 15);
-		desktopPane.add(lblPorBrenoNunes);
-		lblPorBrenoNunes.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		panel.add(lblPorBrenoNunes);
+		lblPorBrenoNunes.setFont(new Font("Tahoma", Font.BOLD, 13));
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(55);
 	}
@@ -250,11 +273,10 @@ public class FrmPrincipal extends JFrame {
 	
 	protected static void PreencherTabela(){
 		try{
-			DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+			modelo = (DefaultTableModel) table.getModel();
 			if(modelo.getRowCount() > 0){
 				modelo.setRowCount(0);
 			}
-		
 			for(Aluno aluno : listaAluno.getLista()){
 				Object [] obj = {
 					aluno.getMatricula(),
@@ -263,13 +285,12 @@ public class FrmPrincipal extends JFrame {
 				};
 				modelo.addRow(obj);
 			}
-			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	
-	public static void AttLista(){
+	protected static void AttLista(){
 		listaAluno = ManipulaDados.getLista();
 		PreencherTabela();
 	}

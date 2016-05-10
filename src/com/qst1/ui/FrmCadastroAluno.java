@@ -297,11 +297,10 @@ public class FrmCadastroAluno extends JFrame {
 				//TODO Confirmar a ação
 				switch(mode){
 					case 0:					///modo de criação
-						ManipulaDados.CadastrarAluno(listaAluno, txtNome.getText(),txtCPF.getText());
+						ManipulaDados.CadastrarAluno(txtNome.getText(),txtCPF.getText());
 						txtMatricula.setText(Aluno.getGerador()+"");
 						break;
-					case 1:					///modo de alteração
-						
+					case 1:					///modo de alteração						
 						break;
 					case 2:					///modo de exclusão
 						listaAluno.Delete(aluno);
@@ -446,7 +445,7 @@ public class FrmCadastroAluno extends JFrame {
 			if(modelo.getRowCount() > 0){
 				modelo.setRowCount(0);
 			}
-		
+			
 			for(Aluno aluno : listaAluno.getLista()){
 				Object [] obj = {
 					aluno.getMatricula(),
