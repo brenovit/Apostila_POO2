@@ -1,15 +1,21 @@
 package com.qst1.ui;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
 
-public class Interacao{
+public class ManipulaDados{
 	
-	protected static void CadastrarAluno(AlunoDAO lista, String nome, String cpf){
+	private static AlunoDAO listaAluno = new AlunoDAO();
+	private static GradeEscolar grade = new GradeEscolar();
+	
+	protected static void CadastrarAluno(String nome, String cpf){
 		Aluno aluno = new Aluno(nome,cpf);
-		lista.Create(aluno);
+		listaAluno.Create(aluno);
 	}
 	
 	public static void CadastrarDisciplinas(GradeEscolar grade){
@@ -32,5 +38,9 @@ public class Interacao{
 		grade.CadastrarDisciplina(disc);
 		disc = new Disciplina("Sistemas de Informações");
 		grade.CadastrarDisciplina(disc);
+	}
+	
+	protected static AlunoDAO getLista(){
+		return listaAluno;
 	}
 }

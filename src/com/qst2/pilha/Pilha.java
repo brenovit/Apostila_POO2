@@ -8,8 +8,7 @@ public class Pilha {
 	
 	//metodo de inserir numeros
 	public void Empilhar(int numero){		
-		this.pilhaNumPar.push(numero);
-		
+		this.pilhaNumPar.push(numero);		
 	}
 	
 	//metodo de remover numeros

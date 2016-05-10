@@ -43,43 +43,26 @@ import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.BevelBorder;
 
 public class FrmPrincipal extends JFrame {
 
 	private JPanel mainPane;
 	
-	private Interacao interacao = new Interacao();
+	private ManipulaDados interacao = new ManipulaDados();
 	
-	private static AlunoDAO listaAluno = new AlunoDAO();
+	private static AlunoDAO listaAluno;
 	private static GradeEscolar grade = new GradeEscolar();
 	private static Disciplina disc;
 	private static Aluno aluno;
 	private static boolean ProgramaJaRodou = false;
 		
-	private 	JDesktopPane desktopPane;
-	
-	private 	JInternalFrame frameCadastroAluno;
-	
-	protected 	JTextField 	txtPesquisa;
-	protected 	JTextField 	txtMatricula;
-	protected 	JTextField 	txtNome;
-	protected 	JTextField 	txtCPF;	
-	
-	protected 	JButton 	btnConfirmar;
-	protected 	JButton 	btnCancelar;
+	private 	JDesktopPane 	desktopPane;
 	protected 	JButton 	btnAbrir;
-	protected 	JButton 	btnCadastrar;
-	protected 	JButton 	btnExcluir;
-	protected 	JButton 	btnAtualizar;
-	protected 	JButton 	btnPesquisar;
 	
-	protected 	JTable 		table;
+	protected static 	JTable 		table;
 	
 	protected 	JPanel 		contentPane;
-	protected 	JPanel 		panelAzul;	
-	protected 	JPanel 		panelPesquisa;
-	protected 	JPanel 		panelStatus;
-	private		JLabel 		lblStatus;
 	private 	JLabel		lblPesquisar;
 	
 	private static int mode; 
@@ -88,7 +71,6 @@ public class FrmPrincipal extends JFrame {
 	private String nome;
 	private String CPF;
 	
-	private dialogCadastroAluno	dialogAluno;
 	private FrameCadastroAluno 	frmCadAluno;
 	/**
 	 * Launch the application.
@@ -193,9 +175,9 @@ public class FrmPrincipal extends JFrame {
 				//TODO Menu > Cadastrar Aluno
 				//frameCadastroAluno.setVisible(true);
 				frmCadAluno = new FrameCadastroAluno();
-				frmCadAluno.setBounds(380, 9, 400, 480);
+				frmCadAluno.setBounds(430, 10, 400, 260);
 				desktopPane.add(frmCadAluno);
-				frmCadAluno.setVisible(true);				
+				frmCadAluno.setVisible(true);	
 			}
 		});
 		mnAluno.add(mntmGerirAlunos);
@@ -231,211 +213,11 @@ public class FrmPrincipal extends JFrame {
 		desktopPane = new JDesktopPane();
 		desktopPane.setBackground(UIManager.getColor("control"));
 		mainPane.add(desktopPane);
-		
-		frameCadastroAluno = new JInternalFrame("Cadastrar Aluno");
-		frameCadastroAluno.setFrameIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/student.png")));
-		frameCadastroAluno.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		frameCadastroAluno.setIconifiable(true);
-		frameCadastroAluno.setClosable(true);
-		frameCadastroAluno.setBounds(380, 9, 400, 480);
-		desktopPane.add(frameCadastroAluno);
-		frameCadastroAluno.getContentPane().setLayout(null);
-		
-		JLabel lblMatricula = new JLabel("Matricula:");
-		lblMatricula.setBounds(10, 108, 58, 14);
-		frameCadastroAluno.getContentPane().add(lblMatricula);
-		lblMatricula.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNome.setBounds(10, 132, 46, 14);
-		frameCadastroAluno.getContentPane().add(lblNome);
-		
-		JLabel lblCPF = new JLabel("CPF:");
-		lblCPF.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblCPF.setBounds(10, 157, 46, 14);
-		frameCadastroAluno.getContentPane().add(lblCPF);
-		
-		txtMatricula = new JTextField();
-		txtMatricula.setBounds(78, 107, 86, 20);
-		frameCadastroAluno.getContentPane().add(txtMatricula);
-		txtMatricula.setText("1");
-		txtMatricula.setEditable(false);
-		txtMatricula.setColumns(10);
-		
-		txtNome = new JTextField();
-		txtNome.setBounds(78, 130, 200, 20);
-		frameCadastroAluno.getContentPane().add(txtNome);
-		txtNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtNome.setEnabled(false);
-		txtNome.setColumns(10);
-		
-		txtCPF = new JTextField();
-		txtCPF.setBounds(78, 155, 200, 20);
-		frameCadastroAluno.getContentPane().add(txtCPF);
-		txtCPF.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtCPF.setEnabled(false);
-		txtCPF.setColumns(10);
-		
-		panelAzul = new JPanel();
-		panelAzul.setLayout(null);
-		panelAzul.setBackground(new Color(153, 204, 255));
-		panelAzul.setBounds(0, 0, 384, 50);
-		frameCadastroAluno.getContentPane().add(panelAzul);
-		
-		btnCadastrar = new JButton("");
-		btnCadastrar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/new.png")));
-		btnCadastrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO Cadastro aluno > Botão Cadastrar
-				mode = 0;
-				AtivarCampos(true);
-				AtivarBotoes(true);
-				LimparCampos();
-				txtNome.requestFocus();
-				//Interacao.InserirCliente(txtNome.getText(), txtIdade.getText());
-				lblStatus.setText("Cadastrando Aluno");
-			}
-		});
-		btnCadastrar.setToolTipText("Cadastrar");
-		btnCadastrar.setForeground(Color.BLACK);
-		btnCadastrar.setBackground(Color.BLACK);
-		btnCadastrar.setBounds(10, 5, 40, 40);
-		panelAzul.add(btnCadastrar);
-		
-		btnAtualizar = new JButton("");
-		btnAtualizar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/update.png")));
-		btnAtualizar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO Cadastro aluno > Botão Atualizar
-				mode = 1;
-				//Interacao.DeletarCliente(Integer.parseInt(txtId.getText()));
-				AtivarCampos(true);
-				AtivarBotoes(true);
-				LimparCampos();
-			}
-		});
-		btnAtualizar.setToolTipText("Atualizar");
-		btnAtualizar.setBackground(Color.BLACK);
-		btnAtualizar.setBounds(60, 5, 40, 40);
-		panelAzul.add(btnAtualizar);
-		
-		btnExcluir = new JButton("");
-		btnExcluir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/delete.png")));
-		btnExcluir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO Cadastro aluno > Botão Excluir
-				mode = 2;				
-				int row = table.getSelectedRow();
-				if(row == -1){
-					return;
-				}
-				matricula = (Integer)table.getValueAt(row, 0);
-				nome = (String)table.getValueAt(row, 1);
-				AtivarBotoes(true);
-				LimparCampos();
-				table.setEnabled(false);
-				
-				aluno = new Aluno();
-				aluno.setMatricula(matricula);
-				
-				InOut.OutMessage("Para excluir o Aluno: " + nome + "\nClique no Botão confirmar");
-				lblStatus.setText("Excluindo Aluno");	
-			}
-		});
-		btnExcluir.setToolTipText("Excluir");
-		btnExcluir.setBackground(Color.BLACK);
-		btnExcluir.setBounds(110, 5, 40, 40);
-		panelAzul.add(btnExcluir);
-		
-		btnConfirmar = new JButton("");
-		btnConfirmar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/confirm.png")));
-		btnConfirmar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO Cadastro aluno > Botão Confirmar
-				switch(mode){
-				case 0:					///modo de criação
-					Interacao.CadastrarAluno(listaAluno, txtNome.getText(),txtCPF.getText());
-					txtMatricula.setText(Aluno.getGerador()+"");
-					break;
-				case 1:					///modo de alteração
-					
-					break;
-				case 2:					///modo de exclusão
-					listaAluno.Delete(aluno);
-					break;
-			}
-			PreencherTabela();
-			AtivarBotoes(false);
-			AtivarCampos(false);
-			lblStatus.setText("Pronto");
-			}
-		});
-		btnConfirmar.setToolTipText("Confirmar");
-		btnConfirmar.setEnabled(false);
-		btnConfirmar.setBackground(Color.BLACK);
-		btnConfirmar.setBounds(280, 5, 40, 40);
-		panelAzul.add(btnConfirmar);
-		
-		btnCancelar = new JButton("");
-		btnCancelar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/cancel.png")));
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO Cadastro aluno > Botão Cancelar
-				AtivarBotoes(false);
-				AtivarCampos(false);
-				table.setEnabled(true);
-				lblStatus.setText("Pronto");
-			}
-		});
-		btnCancelar.setToolTipText("Cancelar");
-		btnCancelar.setEnabled(false);
-		btnCancelar.setBackground(Color.BLACK);
-		btnCancelar.setBounds(330, 5, 40, 40);
-		panelAzul.add(btnCancelar);
-		
-		panelPesquisa = new JPanel();
-		panelPesquisa.setLayout(null);
-		panelPesquisa.setBackground(new Color(153, 255, 153));
-		panelPesquisa.setBounds(0, 50, 384, 50);
-		frameCadastroAluno.getContentPane().add(panelPesquisa);
-		
-		JLabel lblPesquisar = new JLabel("Pesquisar:");
-		lblPesquisar.setFont(new Font("Cambria", Font.BOLD, 14));
-		lblPesquisar.setBounds(10, 13, 70, 20);
-		panelPesquisa.add(lblPesquisar);
-		
-		txtPesquisa = new JTextField();
-		txtPesquisa.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtPesquisa.setColumns(10);
-		txtPesquisa.setBounds(90, 13, 181, 20);
-		panelPesquisa.add(txtPesquisa);
-		
-		btnPesquisar = new JButton("");
-		btnPesquisar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/search.png")));
-		btnPesquisar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO Cadastro aluno > Botão Pesquisar
-			}
-		});
-		btnPesquisar.setToolTipText("Pesquisar");
-		btnPesquisar.setBackground(Color.BLACK);
-		btnPesquisar.setBounds(280, 5, 40, 40);
-		panelPesquisa.add(btnPesquisar);
-		
-		panelStatus = new JPanel();
-		FlowLayout fl_panelStatus = (FlowLayout) panelStatus.getLayout();
-		fl_panelStatus.setAlignment(FlowLayout.LEFT);
-		panelStatus.setBackground(SystemColor.controlHighlight);
-		panelStatus.setBounds(0, 430, 384, 20);
-		frameCadastroAluno.getContentPane().add(panelStatus);
-		
-		lblStatus = new JLabel("Status");
-		panelStatus.add(lblStatus);
+		desktopPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 183, 364, 236);
-		frameCadastroAluno.getContentPane().add(scrollPane);
+		scrollPane.setBounds(22, 25, 452, 427);
+		desktopPane.add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
@@ -453,56 +235,20 @@ public class FrmPrincipal extends JFrame {
 				return columnTypes[columnIndex];
 			}
 		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(55);
 		
 		JLabel lblPorBrenoNunes = new JLabel("Por Breno Nunes");
-		lblPorBrenoNunes.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblPorBrenoNunes.setBounds(637, 500, 92, 15);
+		lblPorBrenoNunes.setBounds(747, 512, 92, 15);
 		desktopPane.add(lblPorBrenoNunes);
-		
-		JInternalFrame internalFrame = new JInternalFrame("New JInternalFrame");
-		internalFrame.setBounds(0, 9, 269, 211);
-		desktopPane.add(internalFrame);
-		internalFrame.getContentPane().setLayout(null);
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 11, 152, 428);
-		internalFrame.getContentPane().add(scrollPane_1);
-		
-		JList list = new JList();
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.setVisibleRowCount(20);
-		scrollPane_1.setViewportView(list);
-		internalFrame.setVisible(true);
-	}
-	
-	protected void AtivarCampos(boolean estado){
-		txtNome.setEnabled(estado);
-		txtCPF.setEnabled(estado);		
-	}
-	
-	protected void AtivarBotoes(boolean estado){
-		btnConfirmar.setEnabled(estado);
-		btnCancelar.setEnabled(estado);	
-		
-		btnPesquisar.setEnabled(!estado);
-		btnCadastrar.setEnabled(!estado);
-		btnAtualizar.setEnabled(!estado);
-		btnExcluir.setEnabled(!estado);
-	}
-	
-	protected void LimparCampos(){
-		txtNome.setText("");
-		txtCPF.setText("");
+		lblPorBrenoNunes.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(55);
 	}
 	
 	protected void Salvar(){
-		LimparCampos();
 		listaAluno.SaveData();
 	}
 	
-	protected void PreencherTabela(){
+	protected static void PreencherTabela(){
 		try{
 			DefaultTableModel modelo = (DefaultTableModel) table.getModel();
 			if(modelo.getRowCount() > 0){
@@ -521,5 +267,10 @@ public class FrmPrincipal extends JFrame {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	public static void AttLista(){
+		listaAluno = ManipulaDados.getLista();
+		PreencherTabela();
 	}
 }

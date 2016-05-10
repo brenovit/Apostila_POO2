@@ -39,7 +39,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 public class FrmCadastroAluno extends JFrame {
-	private Interacao interacao = new Interacao();
+	private ManipulaDados interacao = new ManipulaDados();
 	
 	private static AlunoDAO listaAluno = new AlunoDAO();
 	private static GradeEscolar grade = new GradeEscolar();
@@ -297,7 +297,7 @@ public class FrmCadastroAluno extends JFrame {
 				//TODO Confirmar a ação
 				switch(mode){
 					case 0:					///modo de criação
-						Interacao.CadastrarAluno(listaAluno, txtNome.getText(),txtCPF.getText());
+						ManipulaDados.CadastrarAluno(listaAluno, txtNome.getText(),txtCPF.getText());
 						txtMatricula.setText(Aluno.getGerador()+"");
 						break;
 					case 1:					///modo de alteração
@@ -406,7 +406,7 @@ public class FrmCadastroAluno extends JFrame {
 		DefaultListModel<String> lista = new DefaultListModel<String>();
 		JList listaMaterias = new JList(lista);		
 		listaMaterias.setBounds(360, 133, 204, 203);
-		Interacao.CadastrarDisciplinas(grade);
+		ManipulaDados.CadastrarDisciplinas(grade);
 		
 		for(Disciplina disc : grade.getListaDisc()){
 			lista.addElement(disc.getNome());
