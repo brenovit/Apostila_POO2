@@ -1,8 +1,5 @@
 package com.qst1.ui;
 
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
 import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
 import com.qst1.vo.Aluno;
@@ -12,12 +9,38 @@ public class ManipulaDados{
 	
 	private static AlunoDAO listaAluno = new AlunoDAO();
 	private static GradeEscolar grade = new GradeEscolar();
-	private static Dados dados = new Dados();
-	private static InternalFrameCadastroAluno ifCadAluno;
+	private static Dado dados = new Dado();
+	private static InternalFrameCadastroAluno iFCadAluno;
 	
-	protected static void CadastrarAluno(String nome, String cpf){
-		Aluno aluno = new Aluno(nome,cpf);
+	protected static void CadastrarAluno(Dado dadoAluno){
+		Aluno aluno = new Aluno(dadoAluno.getNome(),dadoAluno.getCpf());
 		listaAluno.Create(aluno);
+	}
+	
+	protected static void AtualizarAluno(Dado dadoAluno){
+		Aluno aluno = new Aluno();
+		aluno.setCPF(dadoAluno.getCpf());
+		aluno.setNome(dadoAluno.getNome());
+		aluno.setMatricula(dadoAluno.getMatricula());
+		listaAluno.Update(aluno);
+	}
+	
+	protected static void RemoverAluno(Dado dadoAluno){
+		Aluno aluno = new Aluno();
+		aluno.setMatricula(dadoAluno.getMatricula());
+		listaAluno.Delete(aluno);
+	}
+	
+	protected static boolean PesquisarAluno(Dado dadoAluno){
+		Aluno aluno = new Aluno();
+		aluno.setMatricula(dadoAluno.getMatricula());
+		if(listaAluno.Find(aluno,true) != -1){
+			dadoAluno.setNome(aluno.getNome());
+			dadoAluno.setCpf(aluno.getCPF());
+			dadoAluno.setMatricula(aluno.getMatricula());
+			return true;
+		}
+		return false;
 	}
 	
 	public static void CadastrarDisciplinas(GradeEscolar grade){
@@ -46,8 +69,16 @@ public class ManipulaDados{
 		return listaAluno;
 	}
 	
-	protected static void setDados(Dados pdados){
+	protected static void setDados(Dado pdados){
 		dados = pdados;
-		ifCadAluno.MudarCampos(dados);
+		iFCadAluno.MudarCampos(dados);
+	}
+	
+	protected static void Salvar(){
+		listaAluno.SaveData();
+	}
+	
+	protected static void Carregar(){
+		listaAluno.LoadData(grade);
 	}
 }

@@ -1,24 +1,29 @@
 package com.qst1.ui;
 
-public class Dados {
-	private String matricula;
+public class Dado {
+	private Integer matricula;
 	private String nome;
 	private String cpf;
 	
-	public Dados(){		
+	public Dado(){		
 	}
 	
-	public Dados(String matricula, String nome, String cpf){
+	public Dado(String nome, String cpf){
+		this.nome = nome;
+		this.cpf = cpf;
+	}
+	
+	public Dado(Integer matricula, String nome, String cpf){
 		this.matricula = matricula;
 		this.nome = nome;
 		this.cpf = cpf;
 	}
 
-	public String getMatricula() {
+	public Integer getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(String matricula) {
+	public void setMatricula(Integer matricula) {
 		this.matricula = matricula;
 	}
 

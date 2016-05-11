@@ -297,7 +297,7 @@ public class FrmCadastroAluno extends JFrame {
 				//TODO Confirmar a ação
 				switch(mode){
 					case 0:					///modo de criação
-						ManipulaDados.CadastrarAluno(txtNome.getText(),txtCPF.getText());
+						//ManipulaDados.CadastrarAluno(txtNome.getText(),txtCPF.getText());
 						txtMatricula.setText(Aluno.getGerador()+"");
 						break;
 					case 1:					///modo de alteração						

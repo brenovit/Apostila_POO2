@@ -30,10 +30,12 @@ import com.recursos.InOut;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class InternalFrameCadastroAluno extends JInternalFrame {
-	private 	Aluno 		aluno;
 	private 	AlunoDAO	listaAluno = ManipulaDados.getLista();
+	private		Dado		dadoAluno;
 	
 	protected	static	JTextField 	txtPesquisa;
 	protected	static	JTextField 	txtMatricula;
@@ -62,6 +64,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 	private static int mode; 
 
 	private Integer matricula;
+	private		String	pesquisa;
 	private String nome;
 	private String CPF;
 	
@@ -112,7 +115,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 				AtivarBotoes(true);
 				LimparCampos();
 				txtNome.requestFocus();
-				//Interacao.InserirCliente(txtNome.getText(), txtIdade.getText());
+				txtMatricula.setText(""+(Aluno.getGerador()+1));
 				lblStatus.setText("Cadastrando Aluno");
 			}
 		});
@@ -128,10 +131,10 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				//TODO Cadastro aluno > Botão Atualizar
 				mode = 1;
-				//Interacao.DeletarCliente(Integer.parseInt(txtId.getText()));
+				if(CamposVazios("Alterar"))
+					return;
 				AtivarCampos(true);
 				AtivarBotoes(true);
-				LimparCampos();
 			}
 		});
 		btnAtualizar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/update.png")));
@@ -144,21 +147,13 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO Cadastro aluno > Botão Excluir
-				mode = 2;				
-				int row = table.getSelectedRow();
-				if(row == -1){
+				mode = 2;
+				if(CamposVazios("Excluir"))
 					return;
-				}
-				matricula = (Integer)table.getValueAt(row, 0);
-				nome = (String)table.getValueAt(row, 1);
+				matricula = Integer.parseInt(txtMatricula.getText());
 				AtivarBotoes(true);
-				LimparCampos();
-				table.setEnabled(false);
-				
-				//aluno = new Aluno();
-				//aluno.setMatricula(matricula);
-				
-				InOut.OutMessage("Para excluir o Aluno: " + nome + "\nClique no Botão confirmar");
+				FrmPrincipal.setTableEnable(false);				
+				InOut.OutMessage("Para excluir o Aluno: " + txtNome.getText() + "\n,clique no Botão Confirmar");
 				lblStatus.setText("Excluindo Aluno");	
 			}
 		});
@@ -174,22 +169,27 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 				//TODO Cadastro aluno > Botão Confirmar
 				switch(mode){
 				case 0:					///modo de criação
-					ManipulaDados.CadastrarAluno(txtNome.getText(),txtCPF.getText());					
+					dadoAluno = new Dado(txtNome.getText(),txtCPF.getText());
+					ManipulaDados.CadastrarAluno(dadoAluno);					
 					break;
 				case 1:					///modo de alteração
-					
+					dadoAluno = new Dado(Integer.parseInt(txtMatricula.getText()),txtNome.getText(),txtCPF.getText());
+					ManipulaDados.AtualizarAluno(dadoAluno);
 					break;
 				case 2:					///modo de exclusão
-					listaAluno.Delete(aluno);
+					dadoAluno = new Dado();
+					dadoAluno.setMatricula(matricula);
+					ManipulaDados.RemoverAluno(dadoAluno);
 					break;
 			}
-			txtMatricula.setText(Aluno.getGerador()+1+"");
+				
+			txtMatricula.setText((Aluno.getGerador()+1)+"");
+			FrmPrincipal.setTableEnable(true);
 			FrmPrincipal.AttLista();
 			AtivarBotoes(false);
 			AtivarCampos(false);
 			LimparCampos();
-			lblStatus.setText("Pronto");
-			
+			lblStatus.setText("Pronto");			
 			}
 		});
 
@@ -206,7 +206,8 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 				//TODO Cadastro aluno > Botão Cancelar
 				AtivarBotoes(false);
 				AtivarCampos(false);
-				table.setEnabled(true);
+				LimparCampos();
+				FrmPrincipal.setTableEnable(true);
 				lblStatus.setText("Pronto");
 			}
 		});
@@ -235,6 +236,20 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		panelPesquisa.add(txtPesquisa);
 		
 		btnPesquisar = new JButton("");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Pesquisar > Pesquisar
+				pesquisa = txtPesquisa.getText();
+				dadoAluno = new Dado();
+				dadoAluno.setMatricula(Integer.parseInt(pesquisa));
+				if(ManipulaDados.PesquisarAluno(dadoAluno)){
+					InOut.OutMessage("Aluno Encontrado");
+					MudarCampos(dadoAluno);
+				}else{
+					InOut.OutMessage("Aluno Não Encontrado");
+				}
+			}
+		});
 		btnPesquisar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/search.png")));
 		btnPesquisar.setToolTipText("Pesquisar");
 		btnPesquisar.setBackground(Color.BLACK);
@@ -262,7 +277,6 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		label_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		txtMatricula = new JTextField();
-		txtMatricula.setText(Aluno.getGerador()+1+"");
 		txtMatricula.setBounds(78, 11, 86, 20);
 		panelCampos.add(txtMatricula);
 		txtMatricula.setEditable(false);
@@ -276,11 +290,24 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		txtNome.setColumns(10);
 		
 		txtCPF = new JTextField();
+		txtCPF.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				String caracter = "0987654321";
+				int limiteChar = 11;
+				if(!caracter.contains(e.getKeyChar()+"")){
+					e.consume();
+				}
+				if(!(txtCPF.getText().length() < limiteChar)){
+					e.consume();
+				}
+			}
+		});
 		txtCPF.setBounds(78, 59, 200, 20);
 		panelCampos.add(txtCPF);
 		txtCPF.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtCPF.setEnabled(false);
-		txtCPF.setColumns(10);
+		txtCPF.setColumns(11);
 		
 		statusBar = new JPanel();
 		FlowLayout fl_statusBar = (FlowLayout) statusBar.getLayout();
@@ -288,7 +315,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		statusBar.setBackground(SystemColor.controlHighlight);
 		getContentPane().add(statusBar, BorderLayout.SOUTH);
 		
-		lblStatus = new JLabel("Status");
+		lblStatus = new JLabel("Pronto");
 		statusBar.add(lblStatus);
 	}
 	
@@ -317,9 +344,17 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		listaAluno.SaveData();
 	}
 	
-	protected static void MudarCampos(Dados dados){
-		txtMatricula.setText(dados.getMatricula());
+	protected static void MudarCampos(Dado dados){
+		txtMatricula.setText(dados.getMatricula().toString());
 		txtCPF.setText(dados.getCpf());
 		txtNome.setText(dados.getNome());
+	}
+	
+	private boolean CamposVazios(String msg){
+		if(txtMatricula.getText().equals("") || txtCPF.getText().equals("")){
+			InOut.OutMessage("Para "+msg+" um Aluno, primeiro selecione-o na Tabela de Alunos\n");
+			return true;
+		}
+		return false;
 	}
 }
