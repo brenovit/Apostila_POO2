@@ -405,9 +405,9 @@ public class FrmCadastroAluno extends JFrame {
 		DefaultListModel<String> lista = new DefaultListModel<String>();
 		JList listaMaterias = new JList(lista);		
 		listaMaterias.setBounds(360, 133, 204, 203);
-		ManipulaDados.CadastrarDisciplinas(grade);
+		//ManipulaDados.CadastrarDisciplinas();
 		
-		for(Disciplina disc : grade.getListaDisc()){
+		for(Disciplina disc : grade.getLista()){
 			lista.addElement(disc.getNome());
 		}
 		contentPane.add(listaMaterias);		

@@ -1,6 +1,7 @@
 package com.qst1.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
@@ -8,7 +9,7 @@ import com.recursos.InOut;
 
 public class GradeEscolar{
 	
-	private ArrayList<Disciplina> listaDisc;
+	private List<Disciplina> listaDisc;
 	private String msg = "";
 	
 	public GradeEscolar(){
@@ -19,7 +20,7 @@ public class GradeEscolar{
 		listaDisc.add(disc);		
 	}
 	
-	public ArrayList<Disciplina> getListaDisc(){
+	public List<Disciplina> getLista(){
 		return listaDisc;
 	}
 	
@@ -62,7 +63,7 @@ public class GradeEscolar{
 	}
 	
 	public void CadastrarGrade(Aluno aluno, Disciplina disc){
-		int pos = Find(disc,false);
+		int pos = Find(disc,true);
 		if(pos != -1){
 			aluno.addMateria(disc);
 		}

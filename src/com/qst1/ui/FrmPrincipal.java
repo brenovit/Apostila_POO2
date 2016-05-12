@@ -53,7 +53,7 @@ public class FrmPrincipal extends JFrame {
 	private ManipulaDados interacao = new ManipulaDados();
 	
 	private static AlunoDAO listaAluno;
-	private static GradeEscolar grade = new GradeEscolar();
+	private static GradeEscolar grade;
 	private static Disciplina disc;
 	private static Aluno aluno;
 	private static boolean ProgramaJaRodou = false;
@@ -80,6 +80,7 @@ public class FrmPrincipal extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		ManipulaDados.CadastrarDisciplinas();
 		try {
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {			//Windows, Nimbus, Metal, CDE
@@ -115,7 +116,7 @@ public class FrmPrincipal extends JFrame {
 	public FrmPrincipal() {
 		setTitle("Gerenciador de Faculdade");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 865, 596);		
+		setBounds(100, 100, 900, 600);		
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -196,7 +197,7 @@ public class FrmPrincipal extends JFrame {
 					}
 				}
 				desktopPane.setLayer(frmCadAluno, 1);
-				frmCadAluno.setBounds(430, 10, 400, 260);
+				frmCadAluno.setBounds(389,20, 400, 260);
 				desktopPane.add(frmCadAluno);
 				frmCadAluno.setVisible(true);
 			}
@@ -215,7 +216,7 @@ public class FrmPrincipal extends JFrame {
 					}
 				}
 				desktopPane.setLayer(frmCadGradAluno, 1);
-				frmCadGradAluno.setBounds(430, 10, 400, 260);
+				frmCadGradAluno.setBounds(389, 20, 475, 430);
 				desktopPane.add(frmCadGradAluno);
 				frmCadGradAluno.setVisible(true);
 			}
@@ -267,7 +268,7 @@ public class FrmPrincipal extends JFrame {
 		JLabel lblTabelaAluno = new JLabel("Tabela de Alunos Cadastrados");
 		lblTabelaAluno.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTabelaAluno.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblTabelaAluno.setBounds(0, 0, 420, 20);
+		lblTabelaAluno.setBounds(0, 0, 379, 20);
 		desktopPane.add(lblTabelaAluno);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -275,6 +276,8 @@ public class FrmPrincipal extends JFrame {
 		desktopPane.add(scrollPane);
 		
 		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -286,7 +289,7 @@ public class FrmPrincipal extends JFrame {
 		
 				Dado dados = new Dado(matricula,nome,CPF);
 				
-				ManipulaDados.setDados(dados);
+				ManipulaDados.MudaCampos(dados);
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -341,7 +344,7 @@ public class FrmPrincipal extends JFrame {
 	}
 	
 	protected static void AttLista(){
-		listaAluno = ManipulaDados.getLista();
+		listaAluno = ManipulaDados.getListaAluno();
 		PreencherTabela();
 	}
 	

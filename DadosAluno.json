@@ -1,5 +1,1 @@
-{"nome":"Breno","matricula":1,"cpf":"47879","grade":[]}
-{"nome":"Tes","matricula":2,"cpf":"4564","grade":[]}
-{"nome":"Aluno","matricula":4,"cpf":"16489","grade":[]}
-{"nome":"Breno","matricula":5,"cpf":"123456","grade":[]}
-{"nome":"Breno","matricula":6,"cpf":"547897","grade":[]}
+{"nome":"Breno","matricula":1,"cpf":"123","grade":[{"nome":"Programação Orientada a Objetos","aprovado":false,"codigo":1}]}

@@ -4,13 +4,13 @@ import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
+import com.recursos.InOut;
 
 public class ManipulaDados{
 	
 	private static AlunoDAO listaAluno = new AlunoDAO();
 	private static GradeEscolar grade = new GradeEscolar();
 	private static Dado dados = new Dado();
-	private static InternalFrameCadastroAluno iFCadAluno;
 	
 	protected static void CadastrarAluno(Dado dadoAluno){
 		Aluno aluno = new Aluno(dadoAluno.getNome(),dadoAluno.getCpf());
@@ -43,7 +43,22 @@ public class ManipulaDados{
 		return false;
 	}
 	
-	public static void CadastrarDisciplinas(GradeEscolar grade){
+	protected static void AdicionarMateria(Aluno aluno, Disciplina disc){
+		/*Aluno aluno = new Aluno();
+		Disciplina disc = new Disciplina();
+		
+		aluno.setMatricula(dado.getMatricula());
+		disc.setCodigo(dado.getCodigo());*/
+		
+		if(listaAluno.FindMateria(aluno, disc) == -1){
+			grade.CadastrarGrade(aluno, disc);
+			System.out.println("Cadastrando Grade");
+		}else{
+			return;
+		}
+	}
+	
+	public static void CadastrarDisciplinas(){
 		Disciplina disc;
 		disc = new Disciplina("Programação Orientada a Objetos");
 		grade.CadastrarDisciplina(disc);
@@ -65,13 +80,18 @@ public class ManipulaDados{
 		grade.CadastrarDisciplina(disc);
 	}
 	
-	protected static AlunoDAO getLista(){
+	protected static AlunoDAO getListaAluno(){
 		return listaAluno;
 	}
 	
-	protected static void setDados(Dado pdados){
+	protected static GradeEscolar getGradeEscolar(){
+		return grade;
+	}
+	
+	protected static void MudaCampos(Dado pdados){
 		dados = pdados;
-		iFCadAluno.MudarCampos(dados);
+		InternalFrameCadastroAluno.MudarCampos(dados);
+		InternalFrameCadastrarGradeAluno.MudarCampos(pdados);
 	}
 	
 	protected static void Salvar(){

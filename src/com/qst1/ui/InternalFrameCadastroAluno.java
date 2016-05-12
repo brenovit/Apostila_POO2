@@ -34,7 +34,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class InternalFrameCadastroAluno extends JInternalFrame {
-	private 	AlunoDAO	listaAluno = ManipulaDados.getLista();
+	private 	AlunoDAO	listaAluno = ManipulaDados.getListaAluno();
 	private		Dado		dadoAluno;
 	
 	protected	static	JTextField 	txtPesquisa;
@@ -251,7 +251,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 			}
 		});
 		btnPesquisar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/search.png")));
-		btnPesquisar.setToolTipText("Pesquisar");
+		btnPesquisar.setToolTipText("Pesquisar pela Matr\u00EDcula do Aluno");
 		btnPesquisar.setBackground(Color.BLACK);
 		btnPesquisar.setBounds(280, 5, 40, 40);
 		panelPesquisa.add(btnPesquisar);

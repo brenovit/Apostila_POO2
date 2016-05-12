@@ -1,9 +1,11 @@
 package com.qst1.ui;
 
 public class Dado {
-	private Integer matricula;
-	private String nome;
-	private String cpf;
+	private Integer 	matricula;
+	private String 		nome;
+	private String 		cpf;
+	private	Integer		codigo;
+	private	String		materia;
 	
 	public Dado(){		
 	}
@@ -41,5 +43,21 @@ public class Dado {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public Integer getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
+	}
+
+	public String getMateria() {
+		return materia;
+	}
+
+	public void setMateria(String materia) {
+		this.materia = materia;
 	}
 }
