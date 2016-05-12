@@ -56,8 +56,14 @@ public class ManipulaDados{
 				System.out.println("Achei o aluno");
 				if(listaAluno.FindMateria(aluno, disc) == -1){
 					System.out.println("O aluno não tem materia a materia");
+				} else {
+					System.out.println("O aluno já esta cadastrado nesta materia");
 				}
+			} else {
+				System.out.println("Não achei o aluno");
 			}
+		} else {
+			System.out.println("Não achei a materia");
 		}
 		System.out.println("Codigo: "+disc.getCodigo()+" - Matricula: "+aluno.getMatricula());					
 
