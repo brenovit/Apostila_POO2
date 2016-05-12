@@ -43,19 +43,25 @@ public class ManipulaDados{
 		return false;
 	}
 	
-	protected static void AdicionarMateria(Aluno aluno, Disciplina disc){
-		/*Aluno aluno = new Aluno();
+	protected static void AdicionarMateria(Dado dado){
+		System.out.println("Cadastrando Grade");
+		Aluno aluno = new Aluno();
 		Disciplina disc = new Disciplina();
 		
 		aluno.setMatricula(dado.getMatricula());
-		disc.setCodigo(dado.getCodigo());*/
-		
-		if(listaAluno.FindMateria(aluno, disc) == -1){
-			grade.CadastrarGrade(aluno, disc);
-			System.out.println("Cadastrando Grade");
-		}else{
-			return;
+		disc.setCodigo(dado.getCodigo());
+		if(grade.Find(disc, false) != -1){
+			System.out.println("Achei a materia");
+			if(listaAluno.Find(aluno) != -1){
+				System.out.println("Achei o aluno");
+				if(listaAluno.FindMateria(aluno, disc) == -1){
+					System.out.println("O aluno não tem materia a materia");
+				}
+			}
 		}
+		System.out.println("Codigo: "+disc.getCodigo()+" - Matricula: "+aluno.getMatricula());					
+
+		grade.CadastrarGrade(aluno, disc);		
 	}
 	
 	public static void CadastrarDisciplinas(){

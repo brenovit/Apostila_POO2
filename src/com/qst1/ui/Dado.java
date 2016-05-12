@@ -4,6 +4,7 @@ public class Dado {
 	private Integer 	matricula;
 	private String 		nome;
 	private String 		cpf;
+	
 	private	Integer		codigo;
 	private	String		materia;
 	

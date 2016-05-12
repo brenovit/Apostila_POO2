@@ -251,9 +251,9 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 					codigo = Integer.parseInt(modelo.getValueAt(linha, 0).toString());
 					matricula = Integer.parseInt(txtMatricula.getText());					
 					
-					/*dado = new Dado();					
+					dado = new Dado();					
 					dado.setCodigo(codigo);
-					dado.setMatricula(matricula);*/
+					dado.setMatricula(matricula);
 					
 					aluno = new Aluno();
 					aluno.setMatricula(matricula);
@@ -263,7 +263,7 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 					
 					System.out.println("Codigo: "+disc.getCodigo()+" - Matricula: "+aluno.getMatricula());					
 
-					ManipulaDados.AdicionarMateria(aluno,disc);
+					ManipulaDados.AdicionarMateria(dado);
 					System.out.println("\nMaterias do aluno: \n"+(ManipulaDados.getListaAluno().ShowDisciplinasMatriculadas(aluno)));
 						
 					//AttLista(aluno);
@@ -271,7 +271,7 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 					}else{
 						InOut.OutMessage("Não foi possivel adicionar ["+materia+"] em: "+ txtNome.getText()+
 								"\nPor favor verifique se a disciplina já está Cadastrada no Aluno\n","Erro");
-					}	*/				
+					}*/				
 				}				
 			}
 		});
