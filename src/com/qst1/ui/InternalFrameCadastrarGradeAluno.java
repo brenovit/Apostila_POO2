@@ -31,6 +31,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 	private static GradeEscolar grade;
@@ -42,10 +43,11 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 	private static JTable table;
 	private static JList list;
 	
-	private static DefaultTableModel modelo;
-	private static DefaultListModel modeloLista = new DefaultListModel();
+	private static DefaultTableModel modeloT;
+	private static DefaultListModel modeloL = new DefaultListModel();
 	
 	private		Integer	codigo;
+	private		int		pos = -1;
 	private		String	materia;
 	private		Integer	matricula;
 	private		String	pesquisa;
@@ -93,17 +95,6 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 		getContentPane().add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(null);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Dado dado = new Dado();
-				dado.setMatricula(Integer.parseInt(txtMatricula.getText()));
-				AttLista(dado);
-			}
-		});
-		btnNewButton.setBounds(332, 342, 89, 23);
-		panel_1.add(btnNewButton);
-		
 		JLabel lblDisciplinasCadastradas = new JLabel("Disciplinas Cadastradas");
 		lblDisciplinasCadastradas.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDisciplinasCadastradas.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -111,9 +102,16 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 		panel_1.add(lblDisciplinasCadastradas);
 		
 		list = new JList();
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				pos = list.getSelectedIndex();				
+			}
+		});
 		list.setVisibleRowCount(20);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setBounds(300, 70, 150, 295);
+		list.setModel(modeloL);
 		panel_1.add(list);
 		
 		JPanel panel_2 = new JPanel();
@@ -204,7 +202,7 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int linha = table.getSelectedRow();
-				materia = modelo.getValueAt(linha, 1).toString();
+				materia = modeloT.getValueAt(linha, 1).toString();
 				txtMateria.setText(materia);
 			}
 		});
@@ -258,13 +256,13 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 					if(linha == -1)
 						return;
 					
-					codigo = Integer.parseInt(modelo.getValueAt(linha, 0).toString());
-					matricula = Integer.parseInt(txtMatricula.getText());					
+					matricula = Integer.parseInt(txtMatricula.getText());
+					codigo = Integer.parseInt(modeloT.getValueAt(linha, 0).toString());									
 					
 					dado = new Dado();					
 					dado.setCodigo(codigo);
-					dado.setMatricula(matricula);								
-
+					dado.setMatricula(matricula);
+					
 					if(ManipulaDados.AdicionarMateria(dado)){
 						AttLista(dado);
 					}else{
@@ -287,6 +285,21 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 				//TODO Adcionar materia > Aluno
 				if(CamposVazios("Remover uma máteria de"))
 					return;
+				
+				if(pos == -1){
+					InOut.OutMessage("Para remover uma Materia, primeiro selecione-a na lista de Disciplinas Cadastradas");
+					return;
+				}
+				matricula = Integer.parseInt(txtMatricula.getText());
+				codigo = ((Disciplina) ((DefaultListModel)list.getModel()).getElementAt(pos)).getCodigo();
+				pos = -1;
+				
+				dado = new Dado();					
+				dado.setCodigo(codigo);
+				dado.setMatricula(matricula);
+				
+				ManipulaDados.RemoverMateria(dado);
+				AttLista(dado);				
 			}
 		});
 		btnRemover.setIcon(new ImageIcon(InternalFrameCadastrarGradeAluno.class.getResource("/com/qst1/images/removeGrade.png")));
@@ -299,27 +312,19 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 	}
 	
 	protected static void AttLista(Dado dado){
-		DefaultListModel modelo = new DefaultListModel();
+		//TODO	AttLista
 		
-		Aluno aluno = new Aluno();
-		aluno.setMatricula(dado.getMatricula());
+		List<Disciplina> listaDisciplina = ManipulaDados.DisciplinasCadastradas(dado);
+				
+		if(modeloL.getSize() > 0)
+			modeloL.clear();
+
+		if(listaDisciplina.size() == 0)
+			return;
 		
-		System.out.println("Atualizando Lista");
-		//modelo = (DefaultListModel) list.getModel();
-		
-		/*if(modelo.getSize() > 0)
-			modelo.clear();*/
-		
-		/*System.out.println("Tamanho da lista: "+modeloLista.getSize());
-		if(aluno.getMaterias().size() == 0)
-			return;*/
-		for(Disciplina disc : aluno.getMaterias()){
-			System.out.println("Disciplina: "+disc.getNome());
-			modelo.addElement(disc.getNome());
-		}
-		
-		list.setModel(modelo);
-		
+		for(Disciplina disc : listaDisciplina){
+			((DefaultListModel)list.getModel()).addElement(disc);
+		}		
 	}
 	
 	protected static void AttTabela(){
@@ -329,9 +334,9 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 	
 	protected static void PreencherTabela(){
 		try{
-			modelo = (DefaultTableModel) table.getModel();
-			if(modelo.getRowCount() > 0){
-				modelo.setRowCount(0);
+			modeloT = (DefaultTableModel) table.getModel();
+			if(modeloT.getRowCount() > 0){
+				modeloT.setRowCount(0);
 			}
 			if(grade.getLista().size() <= 0){
 				return;
@@ -341,7 +346,7 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 					disc.getCodigo(),
 					disc.getNome()
 				};
-				modelo.addRow(obj);
+				modeloT.addRow(obj);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

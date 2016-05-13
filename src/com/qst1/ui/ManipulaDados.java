@@ -1,5 +1,7 @@
 package com.qst1.ui;
 
+import java.util.List;
+
 import com.qst1.dao.AlunoDAO;
 import com.qst1.dao.GradeEscolar;
 import com.qst1.vo.Aluno;
@@ -55,6 +57,28 @@ public class ManipulaDados{
 			return true;
 		}
 		return false;		
+	}
+	
+	protected static void RemoverMateria(Dado dado){
+		Aluno aluno = new Aluno();
+		Disciplina disc = new Disciplina();
+		
+		aluno.setMatricula(dado.getMatricula());
+		disc.setCodigo(dado.getCodigo());
+		
+		listaAluno.RemoverGrade(aluno, disc);
+	}
+	
+	protected static List<Disciplina> DisciplinasCadastradas(Dado dado){		
+		Aluno aluno = new Aluno();
+		aluno.setMatricula(dado.getMatricula());		
+		List<Disciplina> listaDisciplina = null;
+		
+		if(listaAluno.Find(aluno, true) != -1){
+			listaDisciplina = aluno.getMaterias();
+		}	
+		
+		return listaDisciplina;
 	}
 	
 	public static void CadastrarDisciplinas(){

@@ -50,4 +50,9 @@ public class Disciplina {
 	public void setCodigo(Integer codigo){
 		this.codigo = codigo;
 	}
+	
+	@Override
+	public String toString(){
+		return this.nome;
+	}
 }

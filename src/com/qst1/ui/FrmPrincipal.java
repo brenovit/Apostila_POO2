@@ -241,6 +241,12 @@ public class FrmPrincipal extends JFrame {
 		mnAjuda.add(menuItem);
 		
 		JMenuItem menuItem_1 = new JMenuItem("Sobre");
+		menuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO	Menu > Sobre
+				
+			}
+		});
 		menuItem_1.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/info.png")));
 		mnAjuda.add(menuItem_1);
 		mainPane = new JPanel();
@@ -258,7 +264,7 @@ public class FrmPrincipal extends JFrame {
 		panel.setBackground(Color.LIGHT_GRAY);
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		flowLayout.setAlignment(FlowLayout.RIGHT);
-		panel.setBounds(0, 501, 839, 25);
+		panel.setBounds(0, 501, 874, 25);
 		desktopPane.add(panel);
 		
 		JLabel lblPorBrenoNunes = new JLabel("Por Breno Nunes");
