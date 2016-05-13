@@ -83,14 +83,6 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 		setBounds(100, 100, 475, 430);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(SystemColor.controlHighlight);
-		getContentPane().add(panel, BorderLayout.SOUTH);
-		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		
-		JLabel lblPronto = new JLabel("Pronto");
-		panel.add(lblPronto);
-		
 		JPanel panel_1 = new JPanel();
 		getContentPane().add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(null);
@@ -307,6 +299,14 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 		btnRemover.setBackground(Color.BLACK);
 		btnRemover.setBounds(60, 5, 40, 40);
 		panelAzul.add(btnRemover);
+		
+		JPanel statusBar = new JPanel();
+		statusBar.setBackground(SystemColor.controlHighlight);
+		getContentPane().add(statusBar, BorderLayout.SOUTH);
+		statusBar.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		
+		JLabel lblPronto = new JLabel("Pronto");
+		statusBar.add(lblPronto);
 		
 		AttTabela();//loucura
 	}
