@@ -43,31 +43,18 @@ public class ManipulaDados{
 		return false;
 	}
 	
-	protected static void AdicionarMateria(Dado dado){
-		System.out.println("Cadastrando Grade");
+	protected static boolean AdicionarMateria(Dado dado){
 		Aluno aluno = new Aluno();
 		Disciplina disc = new Disciplina();
 		
 		aluno.setMatricula(dado.getMatricula());
 		disc.setCodigo(dado.getCodigo());
-		if(grade.Find(disc, false) != -1){
-			System.out.println("Achei a materia");
-			if(listaAluno.Find(aluno) != -1){
-				System.out.println("Achei o aluno");
-				if(listaAluno.FindMateria(aluno, disc) == -1){
-					System.out.println("O aluno não tem materia a materia");
-				} else {
-					System.out.println("O aluno já esta cadastrado nesta materia");
-				}
-			} else {
-				System.out.println("Não achei o aluno");
-			}
-		} else {
-			System.out.println("Não achei a materia");
+		
+		if(listaAluno.FindMateria(aluno, disc) == -1){
+			grade.CadastrarGrade(aluno, disc);	
+			return true;
 		}
-		System.out.println("Codigo: "+disc.getCodigo()+" - Matricula: "+aluno.getMatricula());					
-
-		grade.CadastrarGrade(aluno, disc);		
+		return false;		
 	}
 	
 	public static void CadastrarDisciplinas(){
@@ -103,7 +90,8 @@ public class ManipulaDados{
 	protected static void MudaCampos(Dado pdados){
 		dados = pdados;
 		InternalFrameCadastroAluno.MudarCampos(dados);
-		InternalFrameCadastrarGradeAluno.MudarCampos(pdados);
+		InternalFrameCadastrarGradeAluno.MudarCampos(dados);
+		InternalFrameCadastrarGradeAluno.AttLista(dados);
 	}
 	
 	protected static void Salvar(){

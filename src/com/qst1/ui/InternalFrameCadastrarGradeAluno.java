@@ -40,7 +40,7 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 	private static JTextField txtNome;
 	private JTextField txtPesquisa;
 	private static JTable table;
-	private JList list;
+	private static JList list;
 	
 	private static DefaultTableModel modelo;
 	private static DefaultListModel modeloLista = new DefaultListModel();
@@ -93,6 +93,17 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 		getContentPane().add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(null);
 		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Dado dado = new Dado();
+				dado.setMatricula(Integer.parseInt(txtMatricula.getText()));
+				AttLista(dado);
+			}
+		});
+		btnNewButton.setBounds(332, 342, 89, 23);
+		panel_1.add(btnNewButton);
+		
 		JLabel lblDisciplinasCadastradas = new JLabel("Disciplinas Cadastradas");
 		lblDisciplinasCadastradas.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDisciplinasCadastradas.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -103,7 +114,6 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 		list.setVisibleRowCount(20);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setBounds(300, 70, 150, 295);
-		list.setModel(modeloLista);
 		panel_1.add(list);
 		
 		JPanel panel_2 = new JPanel();
@@ -253,26 +263,15 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 					
 					dado = new Dado();					
 					dado.setCodigo(codigo);
-					dado.setMatricula(matricula);
-					
-					aluno = new Aluno();
-					aluno.setMatricula(matricula);
-					
-					disc = new Disciplina();
-					disc.setCodigo(codigo);
-					
-					System.out.println("Codigo: "+disc.getCodigo()+" - Matricula: "+aluno.getMatricula());					
+					dado.setMatricula(matricula);								
 
-					ManipulaDados.AdicionarMateria(dado);
-					System.out.println("\nMaterias do aluno: \n"+(ManipulaDados.getListaAluno().ShowDisciplinasMatriculadas(aluno)));
-						
-					//AttLista(aluno);
-					/*if(){
+					if(ManipulaDados.AdicionarMateria(dado)){
+						AttLista(dado);
 					}else{
 						InOut.OutMessage("Não foi possivel adicionar ["+materia+"] em: "+ txtNome.getText()+
 								"\nPor favor verifique se a disciplina já está Cadastrada no Aluno\n","Erro");
-					}*/				
-				}				
+					}
+				}
 			}
 		});
 		btnAdicionar.setIcon(new ImageIcon(InternalFrameCadastrarGradeAluno.class.getResource("/com/qst1/images/addGrade.png")));
@@ -298,26 +297,29 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 		
 		AttTabela();//loucura
 	}
-	protected void AttLista(Aluno aluno){
-		/*Aluno aluno = new Aluno();
-		aluno.setMatricula(dado.getMatricula());*/
-		try{
-			modeloLista = (DefaultListModel) list.getModel();
-			
-			if(modeloLista.getSize() > 0)
-				modeloLista.clear();
-			
-			if(aluno.getMaterias().size() == 0)
-				return;
-			
-			for(Disciplina disc : aluno.getMaterias()){
-				System.out.println("\n"+disc.getNome());
-				modeloLista.addElement(disc.getNome());
-			}
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}		
+	
+	protected static void AttLista(Dado dado){
+		DefaultListModel modelo = new DefaultListModel();
+		
+		Aluno aluno = new Aluno();
+		aluno.setMatricula(dado.getMatricula());
+		
+		System.out.println("Atualizando Lista");
+		//modelo = (DefaultListModel) list.getModel();
+		
+		/*if(modelo.getSize() > 0)
+			modelo.clear();*/
+		
+		/*System.out.println("Tamanho da lista: "+modeloLista.getSize());
+		if(aluno.getMaterias().size() == 0)
+			return;*/
+		for(Disciplina disc : aluno.getMaterias()){
+			System.out.println("Disciplina: "+disc.getNome());
+			modelo.addElement(disc.getNome());
+		}
+		
+		list.setModel(modelo);
+		
 	}
 	
 	protected static void AttTabela(){

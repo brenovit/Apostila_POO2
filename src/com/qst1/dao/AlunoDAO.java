@@ -54,7 +54,6 @@ public class AlunoDAO implements DAO {
 	
 	@Override
 	public int Find(Object o, boolean alterar) {
-		//Aluno aluno = (Aluno) o;
         int posicao = -1;        
         int posAux = 0;
         
@@ -78,7 +77,7 @@ public class AlunoDAO implements DAO {
 	@Override
 	public void Update(Object o) {
 		Aluno aluno = (Aluno) o;
-        int posicao = Find(aluno);
+        int posicao = Find(aluno,false);
         if(posicao != -1){
         	listaAluno.get(posicao).setNome(aluno.getNome());
         	listaAluno.get(posicao).setCPF(aluno.getCPF());
@@ -88,7 +87,7 @@ public class AlunoDAO implements DAO {
 	@Override
 	public boolean Delete(Object o) {
 		Aluno aluno = (Aluno) o;
-	    int posicao = Find(aluno);
+	    int posicao = Find(aluno,false);
 	    if(posicao != -1){
 	    	listaAluno.remove(posicao);	
 	    	return true;
@@ -98,7 +97,7 @@ public class AlunoDAO implements DAO {
 	
 	public String ShowDisciplinasMatriculadas(Aluno aluno) {
 		msg = "";
-		int pos = Find(aluno,true);
+		int pos = Find(aluno,false);
 		if(pos != -1){
 			listaDisciplina = aluno.getMaterias();
 			for(Disciplina disciplina : listaDisciplina){
@@ -113,7 +112,7 @@ public class AlunoDAO implements DAO {
 	}
 	
 	public int FindMateria(Aluno aluno, Disciplina disc){
-		int pos = Find(aluno);
+		int pos = Find(aluno,true);
 		if(pos != -1){
 			int posAux = 0;
 			pos = -1;
