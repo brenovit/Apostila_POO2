@@ -88,7 +88,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public InternalFrameCadastroAluno() {
-		setFrameIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/student.png")));
+		setFrameIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/user32.png")));
 		setTitle("Gerir Aluno");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setClosable(true);
@@ -119,7 +119,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 				lblStatus.setText("Cadastrando Aluno");
 			}
 		});
-		btnCadastrar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/new.png")));
+		btnCadastrar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/useradd32.png")));
 		btnCadastrar.setToolTipText("Cadastrar");
 		btnCadastrar.setForeground(Color.BLACK);
 		btnCadastrar.setBackground(Color.BLACK);
@@ -137,7 +137,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 				AtivarBotoes(true);
 			}
 		});
-		btnAtualizar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/update.png")));
+		btnAtualizar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/useredit32.png")));
 		btnAtualizar.setToolTipText("Atualizar");
 		btnAtualizar.setBackground(Color.BLACK);
 		btnAtualizar.setBounds(60, 5, 40, 40);
@@ -157,7 +157,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 				lblStatus.setText("Excluindo Aluno");	
 			}
 		});
-		btnExcluir.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/delete.png")));
+		btnExcluir.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/userremove32.png")));
 		btnExcluir.setToolTipText("Excluir");
 		btnExcluir.setBackground(Color.BLACK);
 		btnExcluir.setBounds(110, 5, 40, 40);
@@ -193,7 +193,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 			}
 		});
 
-		btnConfirmar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/confirm.png")));
+		btnConfirmar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/userconfirm32.png")));
 		btnConfirmar.setToolTipText("Confirmar");
 		btnConfirmar.setEnabled(false);
 		btnConfirmar.setBackground(Color.BLACK);
@@ -211,7 +211,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 				lblStatus.setText("Pronto");
 			}
 		});
-		btnCancelar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/cancel.png")));
+		btnCancelar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/usercancel32.png")));
 		btnCancelar.setToolTipText("Cancelar");
 		btnCancelar.setEnabled(false);
 		btnCancelar.setBackground(Color.BLACK);
@@ -250,7 +250,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 				}
 			}
 		});
-		btnPesquisar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/search.png")));
+		btnPesquisar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/usersearch32.png")));
 		btnPesquisar.setToolTipText("Pesquisar pela Matr\u00EDcula do Aluno");
 		btnPesquisar.setBackground(Color.BLACK);
 		btnPesquisar.setBounds(280, 5, 40, 40);

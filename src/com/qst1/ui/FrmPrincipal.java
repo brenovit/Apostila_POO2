@@ -28,6 +28,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JLabel;
 import java.awt.SystemColor;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.Color;
@@ -40,11 +42,14 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
+import java.awt.Toolkit;
 
 public class FrmPrincipal extends JFrame {
 
@@ -114,6 +119,7 @@ public class FrmPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmPrincipal() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmPrincipal.class.getResource("/com/qst1/images/appicon2.png")));
 		setTitle("Gerenciador de Faculdade");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 600);		
@@ -125,7 +131,7 @@ public class FrmPrincipal extends JFrame {
 		menuBar.add(mnArquivo);
 		
 		JMenuItem mntmNovo = new JMenuItem("Novo");
-		mntmNovo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/novo16.png")));
+		mntmNovo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/databasenex16.png")));
 		mntmNovo.setEnabled(false);
 		mnArquivo.add(mntmNovo);
 		
@@ -141,6 +147,7 @@ public class FrmPrincipal extends JFrame {
 			}
 		});
 		mntmAbrir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/open16.png")));
+		mntmAbrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		mnArquivo.add(mntmAbrir);
 		
 		JMenuItem mntmSalvar = new JMenuItem("Salvar");
@@ -151,7 +158,11 @@ public class FrmPrincipal extends JFrame {
 			}
 		});
 		mntmSalvar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/save16.png")));
+		mntmSalvar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		mnArquivo.add(mntmSalvar);
+		
+		JSeparator separator_1 = new JSeparator();
+		mnArquivo.add(separator_1);
 		
 		JMenuItem mntmImportar = new JMenuItem("Importar");
 		mntmImportar.addActionListener(new ActionListener() {
@@ -161,8 +172,14 @@ public class FrmPrincipal extends JFrame {
 				AttLista();
 			}
 		});
-		mntmImportar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/upload16.png")));
+		mntmImportar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/databaseimport16.png")));
+		mntmImportar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, (InputEvent.CTRL_MASK + InputEvent.SHIFT_MASK)));
 		mnArquivo.add(mntmImportar);
+		
+		JMenuItem mntmExportar = new JMenuItem("Exportar");
+		mntmExportar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/databaseexport16.png")));
+		mntmExportar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, (InputEvent.CTRL_MASK + InputEvent.SHIFT_MASK)));
+		mnArquivo.add(mntmExportar);
 		
 		JSeparator separator = new JSeparator();
 		mnArquivo.add(separator);
@@ -186,6 +203,7 @@ public class FrmPrincipal extends JFrame {
 		mnCadastro.add(mnAluno);
 		
 		JMenuItem mntmGerirAlunos = new JMenuItem("Gerenciar Alunos");
+		mntmGerirAlunos.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/user16.png")));
 		mntmGerirAlunos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO Menu > Cadastrar Aluno
@@ -205,6 +223,7 @@ public class FrmPrincipal extends JFrame {
 		mnAluno.add(mntmGerirAlunos);
 	
 		JMenuItem mntmGerirGrade = new JMenuItem("Gerenciar Grade dos Alunos");
+		mntmGerirGrade.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/grade16.png")));
 		mntmGerirGrade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Menu > Gerenciar Grade
@@ -224,6 +243,7 @@ public class FrmPrincipal extends JFrame {
 		mnAluno.add(mntmGerirGrade);
 		
 		JMenuItem mntmGerirNota = new JMenuItem("Gerenciar Notas do Aluno");
+		mntmGerirNota.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/nota16.png")));
 		mnAluno.add(mntmGerirNota);
 		
 		JMenu mnDisciplina = new JMenu("Disciplina");
@@ -231,6 +251,7 @@ public class FrmPrincipal extends JFrame {
 		mnCadastro.add(mnDisciplina);
 		
 		JMenuItem mntmCadastrarDisciplina = new JMenuItem("Cadastrar disciplina");
+		mntmCadastrarDisciplina.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/disc16.png")));
 		mnDisciplina.add(mntmCadastrarDisciplina);
 		
 		JMenu mnAjuda = new JMenu("Ajuda");

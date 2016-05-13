@@ -76,7 +76,7 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 	 */
 	public InternalFrameCadastrarGradeAluno() {
 		setIconifiable(true);
-		setFrameIcon(new ImageIcon(InternalFrameCadastrarGradeAluno.class.getResource("/com/qst1/images/student.png")));
+		setFrameIcon(new ImageIcon(InternalFrameCadastrarGradeAluno.class.getResource("/com/qst1/images/disc32.png")));
 		setTitle("Gerir Grade Aluno");
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setClosable(true);
@@ -186,7 +186,7 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 				}
 			}
 		});
-		button.setIcon(new ImageIcon(InternalFrameCadastrarGradeAluno.class.getResource("/com/qst1/images/search.png")));
+		button.setIcon(new ImageIcon(InternalFrameCadastrarGradeAluno.class.getResource("/com/qst1/images/usersearch32.png")));
 		button.setToolTipText("Pesquisar pela Matr\u00EDcula do Aluno");
 		button.setBackground(Color.BLACK);
 		button.setBounds(280, 5, 40, 40);
@@ -272,7 +272,7 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 				}
 			}
 		});
-		btnAdicionar.setIcon(new ImageIcon(InternalFrameCadastrarGradeAluno.class.getResource("/com/qst1/images/addGrade.png")));
+		btnAdicionar.setIcon(new ImageIcon(InternalFrameCadastrarGradeAluno.class.getResource("/com/qst1/images/discadd32.png")));
 		btnAdicionar.setToolTipText("Adicionar Disciplina");
 		btnAdicionar.setForeground(Color.BLACK);
 		btnAdicionar.setBackground(Color.BLACK);
@@ -302,7 +302,7 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 				AttLista(dado);				
 			}
 		});
-		btnRemover.setIcon(new ImageIcon(InternalFrameCadastrarGradeAluno.class.getResource("/com/qst1/images/removeGrade.png")));
+		btnRemover.setIcon(new ImageIcon(InternalFrameCadastrarGradeAluno.class.getResource("/com/qst1/images/discdel32.png")));
 		btnRemover.setToolTipText("Remover Disciplina");
 		btnRemover.setBackground(Color.BLACK);
 		btnRemover.setBounds(60, 5, 40, 40);
