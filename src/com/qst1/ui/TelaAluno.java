@@ -48,7 +48,7 @@ public class TelaAluno {
 				InOut.OutMessage("Opção Invalida!", "Erro!");
 				break;		
 		}
-		listaAluno.SaveData();
+		listaAluno.SaveData("DadosAluno.json");
 		}while(op != 0);
 		MainQuestao1.Menu();
 	}
@@ -99,7 +99,7 @@ public class TelaAluno {
 	}
 	
 	private static void LimparLista() {
-		if(InOut.ConfirmDialog("Deseja Realmente Deletar toda a lista de Alunos:", "Limpar a Lista de Alunos")){
+		if(InOut.ConfirmDialog("Deseja Realmente Deletar toda a lista de Alunos:", "Limpar a Lista de Alunos") == 0){
 			listaAluno.LimparLista();
 		}
 	}

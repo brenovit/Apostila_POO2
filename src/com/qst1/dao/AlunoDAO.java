@@ -12,9 +12,10 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
+import com.recursos.InOut;
 
 public class AlunoDAO implements DAO {
-	private File arq = new File("DadosAluno.json");
+	//private File arq = new File("DadosAluno.json");
 	private List<Aluno> listaAluno;
 	private List<Disciplina> listaDisciplina;
 	private String msg = "";
@@ -151,7 +152,8 @@ public class AlunoDAO implements DAO {
 		listaAluno.clear();
 	}
 	
-	public void SaveData(){
+	public void SaveData(String file){
+		File arq = new File(file);
 		try {
 			FileWriter fw = new FileWriter(arq, false);
 			PrintWriter pw = new PrintWriter(fw);
@@ -164,11 +166,12 @@ public class AlunoDAO implements DAO {
 			pw.flush();
 			pw.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			InOut.OutMessage(e.getMessage(), "ERRO",0);
 		}
 	}
 	
-	public void LoadData(GradeEscolar grade){
+	public boolean LoadData(GradeEscolar grade, String file){
+		File arq = new File(file);
 		Gson gson = new Gson();
 		try {
 			FileReader fr = new FileReader(arq);
@@ -182,10 +185,12 @@ public class AlunoDAO implements DAO {
 				Create(aluno);
 			}
 			fr.close();
-			br.close();			
+			br.close();		
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			InOut.OutMessage(e.getMessage(), "ERRO", 0);
+			return false;
 		}
+		return true;
 	}
 }

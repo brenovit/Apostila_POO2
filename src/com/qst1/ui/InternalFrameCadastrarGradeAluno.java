@@ -167,6 +167,8 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Pesquisar > Pesquisar
+				if(ManipulaDados.ValidaPesquisa(txtPesquisa.getText()))
+					return;
 				pesquisa = txtPesquisa.getText();
 				dado = new Dado();
 				dado.setMatricula(Integer.parseInt(pesquisa));

@@ -7,6 +7,7 @@ public class Dado {
 	
 	private	Integer		codigo;
 	private	String		materia;
+	private	Double		nota;
 	
 	public Dado(){		
 	}
@@ -60,5 +61,13 @@ public class Dado {
 
 	public void setMateria(String materia) {
 		this.materia = materia;
+	}
+
+	public Double getNota() {
+		return nota;
+	}
+
+	public void setNota(Double nota) {
+		this.nota = nota;
 	}
 }

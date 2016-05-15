@@ -12,7 +12,6 @@ public class ManipulaDados{
 	
 	private static AlunoDAO listaAluno = new AlunoDAO();
 	private static GradeEscolar grade = new GradeEscolar();
-	private static Dado dados = new Dado();
 	
 	protected static void CadastrarAluno(Dado dadoAluno){
 		Aluno aluno = new Aluno(dadoAluno.getNome(),dadoAluno.getCpf());
@@ -31,6 +30,14 @@ public class ManipulaDados{
 		Aluno aluno = new Aluno();
 		aluno.setMatricula(dadoAluno.getMatricula());
 		listaAluno.Delete(aluno);
+	}
+	
+	protected static boolean ValidaPesquisa(String dadoPesquisa){
+		if(dadoPesquisa.equals("")){
+			InOut.OutMessage("Por Favor digite a matricula do aluno que deseja pesquisar no campo ao lado.", "Atenção", 1);
+			return true;
+		}
+		return false;
 	}
 	
 	protected static boolean PesquisarAluno(Dado dadoAluno){
@@ -80,6 +87,21 @@ public class ManipulaDados{
 		
 		return listaDisciplina;
 	}
+		
+	protected static boolean EditarNota(Dado dado){
+		Aluno aluno = new Aluno();
+		Disciplina disc = new Disciplina();
+		
+		aluno.setMatricula(dado.getMatricula());
+		disc.setCodigo(dado.getCodigo());
+		
+		Double nota = dado.getNota();
+		
+		if(listaAluno.AddNota(aluno, disc, nota)){
+			return true;
+		}
+		return false;
+	}
 	
 	public static void CadastrarDisciplinas(){
 		Disciplina disc;
@@ -112,17 +134,26 @@ public class ManipulaDados{
 	}
 	
 	protected static void MudaCampos(Dado pdados){
-		dados = pdados;
-		InternalFrameCadastroAluno.MudarCampos(dados);
-		InternalFrameCadastrarGradeAluno.MudarCampos(dados);
-		InternalFrameCadastrarGradeAluno.AttLista(dados);
+		InternalFrameCadastroAluno.MudarCampos(pdados);
+		InternalFrameCadastrarGradeAluno.MudarCampos(pdados);
+		InternalFrameCadastrarGradeAluno.AttLista(pdados);
+		InternalFrameInserirNota.MudarCampos(pdados);	
 	}
 	
-	protected static void Salvar(){
-		listaAluno.SaveData();
+	protected static void Salvar(String arquivo){
+		listaAluno.SaveData(arquivo);
 	}
 	
-	protected static void Carregar(){
-		listaAluno.LoadData(grade);
+	protected static boolean Carregar(String arquivo){
+		if(!listaAluno.LoadData(grade,arquivo)){
+			InOut.OutMessage("Não foi possivel Importar os dados,\n"
+					+ "Por favor verifique se o arquivo se encontra no sistema", "ERRO", 2);
+			return false;
+		}
+		return true;
+	}
+	
+	protected static void LimparLista(){
+		listaAluno.LimparLista();
 	}
 }

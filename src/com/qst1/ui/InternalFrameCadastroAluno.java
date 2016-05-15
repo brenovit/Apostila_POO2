@@ -64,9 +64,6 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 	private static int mode; 
 
 	private Integer matricula;
-	private		String	pesquisa;
-	private String nome;
-	private String CPF;
 	
 	/**
 	 * Launch the application.
@@ -167,30 +164,8 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO Cadastro aluno > Botão Confirmar
-				switch(mode){
-				case 0:					///modo de criação
-					dadoAluno = new Dado(txtNome.getText(),txtCPF.getText());
-					ManipulaDados.CadastrarAluno(dadoAluno);					
-					break;
-				case 1:					///modo de alteração
-					dadoAluno = new Dado(Integer.parseInt(txtMatricula.getText()),txtNome.getText(),txtCPF.getText());
-					ManipulaDados.AtualizarAluno(dadoAluno);
-					break;
-				case 2:					///modo de exclusão
-					dadoAluno = new Dado();
-					dadoAluno.setMatricula(matricula);
-					ManipulaDados.RemoverAluno(dadoAluno);
-					break;
-			}
-				
-			txtMatricula.setText((Aluno.getGerador()+1)+"");
-			FrmPrincipal.setTableEnable(true);
-			FrmPrincipal.AttLista();
-			AtivarBotoes(false);
-			AtivarCampos(false);
-			LimparCampos();
-			lblStatus.setText("Pronto");			
-			}
+				Confirmar();
+			}			
 		});
 
 		btnConfirmar.setIcon(new ImageIcon(InternalFrameCadastroAluno.class.getResource("/com/qst1/images/userconfirm32.png")));
@@ -239,7 +214,9 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO Pesquisar > Pesquisar
-				pesquisa = txtPesquisa.getText();
+				if(ManipulaDados.ValidaPesquisa(txtPesquisa.getText()))
+					return;
+				String pesquisa = txtPesquisa.getText();
 				dadoAluno = new Dado();
 				dadoAluno.setMatricula(Integer.parseInt(pesquisa));
 				if(ManipulaDados.PesquisarAluno(dadoAluno)){
@@ -302,6 +279,12 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 					e.consume();
 				}
 			}
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
+					Confirmar();
+				}
+			}
 		});
 		txtCPF.setBounds(78, 59, 200, 20);
 		panelCampos.add(txtCPF);
@@ -317,6 +300,45 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		
 		lblStatus = new JLabel("Pronto");
 		statusBar.add(lblStatus);
+	}
+	
+	private void Confirmar(){
+		//TODO Método > Confirmar
+		if(CamposVazios())
+			return;
+		switch(mode){
+		case 0:					///modo de criação
+			dadoAluno = new Dado(txtNome.getText(),txtCPF.getText());
+			ManipulaDados.CadastrarAluno(dadoAluno);					
+			break;
+		case 1:					///modo de alteração
+			dadoAluno = new Dado(Integer.parseInt(txtMatricula.getText()),txtNome.getText(),txtCPF.getText());
+			ManipulaDados.AtualizarAluno(dadoAluno);
+			break;
+		case 2:					///modo de exclusão
+			dadoAluno = new Dado();
+			dadoAluno.setMatricula(matricula);
+			ManipulaDados.RemoverAluno(dadoAluno);
+			break;
+		}
+		txtMatricula.setText((Aluno.getGerador()+1)+"");
+		FrmPrincipal.setTableEnable(true);
+		FrmPrincipal.AttLista();
+		AtivarBotoes(false);
+		AtivarCampos(false);
+		LimparCampos();
+		lblStatus.setText("Pronto");
+	}
+
+	private boolean CamposVazios(){
+		if(txtNome.getText().equals("") ||
+			txtCPF.getText().equals("")){
+			InOut.OutMessage("Para Cadastrar um Aluno: "
+					+ "\n1º - Verifique se digitou corretamente todos os Campos"
+					+ "\n2º - Verifique se digitou algum caracter invalido","Atenção",2);
+			return true;
+		}
+		return false;
 	}
 	
 	protected void AtivarCampos(boolean estado){
@@ -339,11 +361,6 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		txtCPF.setText("");
 	}
 	
-	protected void Salvar(){
-		LimparCampos();
-		listaAluno.SaveData();
-	}
-	
 	protected static void MudarCampos(Dado dados){
 		txtMatricula.setText(dados.getMatricula().toString());
 		txtCPF.setText(dados.getCpf());
@@ -352,7 +369,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 	
 	private boolean CamposVazios(String msg){
 		if(txtMatricula.getText().equals("") || txtCPF.getText().equals("")){
-			InOut.OutMessage("Para "+msg+" um Aluno, primeiro selecione-o na Tabela de Alunos\n");
+			InOut.OutMessage("Para "+msg+" um Aluno, primeiro selecione-o na Tabela de Alunos Cadastrados.\n");
 			return true;
 		}
 		return false;

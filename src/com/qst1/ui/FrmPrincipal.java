@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 
 import com.qst1.dao.AlunoDAO;
@@ -22,6 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JSeparator;
 import javax.swing.JInternalFrame;
 import javax.swing.JDesktopPane;
+import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -40,6 +42,7 @@ import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
+import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -50,37 +53,38 @@ import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import java.awt.Toolkit;
+import javax.swing.JToolBar;
+import java.awt.Component;
+import javax.swing.Box;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class FrmPrincipal extends JFrame {
 
 	private JPanel mainPane;
 	
-	private ManipulaDados interacao = new ManipulaDados();
-	
 	private static AlunoDAO listaAluno;
-	private static GradeEscolar grade;
-	private static Disciplina disc;
-	private static Aluno aluno;
 	private static boolean ProgramaJaRodou = false;
 		
 	private 	JDesktopPane 	desktopPane;
-	protected 	JButton 	btnAbrir;
 	
 	protected 	JPanel 		contentPane;
 	private 	JLabel		lblPesquisar;
 	
 	private		static		JTable		table;	
 	private		static		DefaultTableModel modelo;
-	
-	private static int mode; 
 
 	private Integer matricula;
 	private String nome;
 	private String CPF;
+	private boolean primeiraVez = true;
 	
-	private InternalFrameCadastroAluno 	frmCadAluno = new InternalFrameCadastroAluno();;
-	private InternalFrameCadastrarGradeAluno frmCadGradAluno = new InternalFrameCadastrarGradeAluno();;
+	private InternalFrameCadastroAluno 	frmCadAluno = new InternalFrameCadastroAluno();
+	private InternalFrameCadastrarGradeAluno frmCadGradAluno = new InternalFrameCadastrarGradeAluno();
+	private InternalFrameInserirNota frmEditNotAluno = new InternalFrameInserirNota();
 	
+	private JFileChooser fc = new JFileChooser();
+	private String arquivo;
 	/**
 	 * Launch the application.
 	 */
@@ -119,10 +123,16 @@ public class FrmPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public FrmPrincipal() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				SalvarTabela();
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmPrincipal.class.getResource("/com/qst1/images/appicon2.png")));
 		setTitle("Gerenciador de Faculdade");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 600);		
+		setBounds(100, 100, 900, 660);		
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -131,19 +141,21 @@ public class FrmPrincipal extends JFrame {
 		menuBar.add(mnArquivo);
 		
 		JMenuItem mntmNovo = new JMenuItem("Novo");
-		mntmNovo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/databasenex16.png")));
-		mntmNovo.setEnabled(false);
+		mntmNovo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+		mntmNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Menu > Novo
+				Novo();
+			}
+		});
+		mntmNovo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/databasenew16.png")));
 		mnArquivo.add(mntmNovo);
 		
 		JMenuItem mntmAbrir = new JMenuItem("Abrir");
 		mntmAbrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Menu > Abrir Arquivo
-				try {
-					Abrir.AbrirArquivo("DadosAluno.json");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				AbrirArquivo();
 			}
 		});
 		mntmAbrir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/open16.png")));
@@ -154,12 +166,17 @@ public class FrmPrincipal extends JFrame {
 		mntmSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO Menu > Salvar
-				ManipulaDados.Salvar();
+				SalvarArquivo();
 			}
 		});
 		mntmSalvar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/save16.png")));
 		mntmSalvar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		mnArquivo.add(mntmSalvar);
+		
+		JMenuItem mntmSalvarComo = new JMenuItem("Salvar como...");
+		mntmSalvarComo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/saveas16.png")));
+		mntmSalvarComo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.ALT_MASK));
+		mnArquivo.add(mntmSalvarComo);
 		
 		JSeparator separator_1 = new JSeparator();
 		mnArquivo.add(separator_1);
@@ -168,8 +185,7 @@ public class FrmPrincipal extends JFrame {
 		mntmImportar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Menu > Importar
-				ManipulaDados.Carregar();
-				AttLista();
+				Importar();
 			}
 		});
 		mntmImportar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/databaseimport16.png")));
@@ -177,9 +193,20 @@ public class FrmPrincipal extends JFrame {
 		mnArquivo.add(mntmImportar);
 		
 		JMenuItem mntmExportar = new JMenuItem("Exportar");
+		mntmExportar.setEnabled(false);
 		mntmExportar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/databaseexport16.png")));
 		mntmExportar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, (InputEvent.CTRL_MASK + InputEvent.SHIFT_MASK)));
 		mnArquivo.add(mntmExportar);
+		
+		JMenuItem mntmVisualizar = new JMenuItem("Visualizar");
+		mntmVisualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Menu > visualizar arquivo
+				VisualizarArquivo();
+			}
+		});
+		mntmVisualizar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/databasesearch16.png")));
+		mnArquivo.add(mntmVisualizar);
 		
 		JSeparator separator = new JSeparator();
 		mnArquivo.add(separator);
@@ -188,9 +215,12 @@ public class FrmPrincipal extends JFrame {
 		mntmSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Menu > Sair
-				if(InOut.ConfirmDialog("Deseja realmente Sair?", "Atenção")){
+				SalvarTabela();
+				if(InOut.ConfirmDialog("Deseja realmente Sair?", "Atenção") == 0){
 					System.exit(0);
-				}					
+				}else{
+					return;
+				}
 			}
 		});
 		mnArquivo.add(mntmSair);
@@ -207,42 +237,28 @@ public class FrmPrincipal extends JFrame {
 		mntmGerirAlunos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO Menu > Cadastrar Aluno
-				if(frmCadAluno.isIcon()){
-					try {
-						frmCadAluno.setIcon(false);
-					} catch (PropertyVetoException e1) {
-						e1.printStackTrace();
-					}
-				}
-				desktopPane.setLayer(frmCadAluno, 1);
-				frmCadAluno.setBounds(389,20, 400, 260);
-				desktopPane.add(frmCadAluno);
-				frmCadAluno.setVisible(true);
+				ChamarTelaGerirAluno();
 			}
 		});
 		mnAluno.add(mntmGerirAlunos);
 	
 		JMenuItem mntmGerirGrade = new JMenuItem("Gerenciar Grade dos Alunos");
-		mntmGerirGrade.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/grade16.png")));
+		mntmGerirGrade.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/disc16.png")));
 		mntmGerirGrade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Menu > Gerenciar Grade
-				if(frmCadGradAluno.isIcon()){
-					try {
-						frmCadGradAluno.setIcon(false);
-					} catch (PropertyVetoException e1) {
-						e1.printStackTrace();
-					}
-				}
-				desktopPane.setLayer(frmCadGradAluno, 1);
-				frmCadGradAluno.setBounds(389, 20, 475, 430);
-				desktopPane.add(frmCadGradAluno);
-				frmCadGradAluno.setVisible(true);
+				ChamarTelaCadastrarMateria();
 			}
 		});
 		mnAluno.add(mntmGerirGrade);
 		
 		JMenuItem mntmGerirNota = new JMenuItem("Gerenciar Notas do Aluno");
+		mntmGerirNota.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Menu > Gerenciar nota aluno
+				ChamarTelaGerirNota();
+			}
+		});
 		mntmGerirNota.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/nota16.png")));
 		mnAluno.add(mntmGerirNota);
 		
@@ -251,7 +267,7 @@ public class FrmPrincipal extends JFrame {
 		mnCadastro.add(mnDisciplina);
 		
 		JMenuItem mntmCadastrarDisciplina = new JMenuItem("Cadastrar disciplina");
-		mntmCadastrarDisciplina.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/disc16.png")));
+		mntmCadastrarDisciplina.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/grade16.png")));
 		mnDisciplina.add(mntmCadastrarDisciplina);
 		
 		JMenu mnAjuda = new JMenu("Ajuda");
@@ -279,18 +295,6 @@ public class FrmPrincipal extends JFrame {
 		desktopPane.setBackground(UIManager.getColor("control"));
 		mainPane.add(desktopPane);
 		desktopPane.setLayout(null);
-		
-		JPanel panel = new JPanel();
-		desktopPane.setLayer(panel, 0);
-		panel.setBackground(Color.LIGHT_GRAY);
-		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		flowLayout.setAlignment(FlowLayout.RIGHT);
-		panel.setBounds(0, 501, 874, 25);
-		desktopPane.add(panel);
-		
-		JLabel lblPorBrenoNunes = new JLabel("Por Breno Nunes");
-		panel.add(lblPorBrenoNunes);
-		lblPorBrenoNunes.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		JLabel lblTabelaAluno = new JLabel("Tabela de Alunos Cadastrados");
 		lblTabelaAluno.setHorizontalAlignment(SwingConstants.CENTER);
@@ -340,12 +344,243 @@ public class FrmPrincipal extends JFrame {
 				return columnEditables[column];
 			}
 		});
+		
+		JPanel panel = new JPanel();
+		mainPane.add(panel, BorderLayout.SOUTH);
+		desktopPane.setLayer(panel, 0);
+		panel.setBackground(SystemColor.controlHighlight);
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+		
+		JLabel lblPorBrenoNunes = new JLabel("Por Breno Nunes");
+		panel.add(lblPorBrenoNunes);
+		lblPorBrenoNunes.setFont(new Font("Tahoma", Font.BOLD, 13));
+		
+		JToolBar toolBar = new JToolBar();
+		toolBar.setFloatable(false);
+		mainPane.add(toolBar, BorderLayout.NORTH);
+		
+		JToolBar toolBar_1 = new JToolBar();
+		toolBar.add(toolBar_1);
+		
+		JButton btnSalvar = new JButton("");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO Button > Salvar
+				SalvarArquivo();
+			}
+		});
+		
+		JButton btnAbrir = new JButton("");
+		btnAbrir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Button > Abrir
+				AbrirArquivo();
+			}
+		});
+		
+		JButton btnNovo = new JButton("");
+		toolBar_1.add(btnNovo);
+		btnNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Button > Exportar
+				Novo();
+			}
+		});
+		btnNovo.setToolTipText("Novo");
+		btnNovo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/databasenew32.png")));
+		btnAbrir.setToolTipText("Abrir");
+		toolBar_1.add(btnAbrir);
+		btnAbrir.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/open.png")));
+		toolBar_1.add(btnSalvar);
+		btnSalvar.setToolTipText("Salvar");
+		btnSalvar.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/save32.png")));
+		
+		JButton btnSalvarComo = new JButton("");
+		btnSalvarComo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Button > Salvar Como
+				primeiraVez = true;
+				SalvarArquivo();
+			}
+		});
+		btnSalvarComo.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/saveas32.png")));
+		btnSalvarComo.setToolTipText("Salvar Como...");
+		toolBar_1.add(btnSalvarComo);
+		
+		JToolBar toolBar_3 = new JToolBar();
+		toolBar.add(toolBar_3);
+		
+		JButton btnCadAluno = new JButton("");
+		btnCadAluno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Button > Tela Cadastro Aluno
+				ChamarTelaGerirAluno();
+			}
+		});
+		toolBar_3.add(btnCadAluno);
+		btnCadAluno.setBackground(UIManager.getColor("Button.background"));
+		btnCadAluno.setToolTipText("Gerir Aluno");
+		btnCadAluno.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/user32.png")));
+		
+		JButton btnNota = new JButton("");
+		btnNota.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Button > Tela Inserir Nota Materia Aluno
+				ChamarTelaGerirNota();
+			}
+		});
+		btnNota.setToolTipText("Gerir Nota");
+		toolBar_3.add(btnNota);
+		btnNota.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/nota32.png")));
+		
+		JButton btnCadGradeAluno = new JButton("");
+		btnCadGradeAluno.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO Button > Tela Cadastro Grade Aluno
+				ChamarTelaCadastrarMateria();
+			}
+		});
+		btnCadGradeAluno.setToolTipText("Gerir Disciplina");
+		toolBar_3.add(btnCadGradeAluno);
+		btnCadGradeAluno.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/disc32.png")));
+		
+		JButton btnCadGrade = new JButton("");
+		toolBar_3.add(btnCadGrade);
+		btnCadGrade.setEnabled(false);
+		btnCadGrade.setIcon(new ImageIcon(FrmPrincipal.class.getResource("/com/qst1/images/grade32.png")));
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(70);
 		table.getColumnModel().getColumn(1).setResizable(false);
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(2).setPreferredWidth(140);
+		
+		fc.setFileFilter(new FileFilter(){
+			public boolean accept(File file){
+				return file.getName().toUpperCase().equals(".JSON");
+			}
+			public String getDescription(){
+				return "JSON file(*.json)";
+			}
+		});
+		//fc.setAcceptAllFileFilterUsed(false);
+	}
+	
+	private void Importar(){
+		//TODO Método Importar
+		ManipulaDados.LimparLista();
+		
+		if(ManipulaDados.Carregar("DadosAluno.json"))
+			AttLista();
+	}
+	private void Exportar(){
+		//TODO Método Importar
+	}
+	private void ChamarTelaGerirAluno(){
+		//TODO Método ChamarTelaGerirAluno
+		if(frmCadAluno.isIcon()){
+			try {
+				frmCadAluno.setIcon(false);
+			} catch (PropertyVetoException e1) {
+				e1.printStackTrace();
+			}
+		}
+		desktopPane.setLayer(frmCadAluno, 1);
+		frmCadAluno.setBounds(389,20, 400, 260);
+		desktopPane.add(frmCadAluno);
+		frmCadAluno.setVisible(true);
+	}
+	private void ChamarTelaGerirNota(){
+		//TODO Método ChamarTelaGerirNota
+		if(frmEditNotAluno.isIcon()){
+			try{
+				frmEditNotAluno.setIcon(false);
+			}catch(Exception e1){
+				e1.printStackTrace();
+			}
+		}
+		desktopPane.setLayer(frmEditNotAluno, 1);
+		frmEditNotAluno.setBounds(389, 20, 370, 470);
+		desktopPane.add(frmEditNotAluno);
+		frmEditNotAluno.setVisible(true);
+	}
+    private void ChamarTelaCadastrarMateria(){
+    	//TODO Método ChamarTelaCadastrarMateria
+    	if(frmCadGradAluno.isIcon()){
+			try {
+				frmCadGradAluno.setIcon(false);
+			} catch (PropertyVetoException e1) {
+				e1.printStackTrace();
+			}
+		}
+		desktopPane.setLayer(frmCadGradAluno, 1);
+		frmCadGradAluno.setBounds(389, 20, 475, 430);
+		desktopPane.add(frmCadGradAluno);
+		frmCadGradAluno.setVisible(true);
+	}
+    
+    private void Novo(){
+    	//TODO metodo Novo
+    	SalvarTabela();
+    	ManipulaDados.LimparLista();
+    	AttLista();
+    	setTitle("Gerenciador de Faculdade");
+    }
+    
+    private void SalvarTabela(){
+    	modelo = (DefaultTableModel) table.getModel();
+    	if(modelo.getRowCount() > 0){
+    		int op = InOut.ConfirmDialog("Deseja salvar a tabela atual?", "Salvar");
+    		if(op == 0){//sim
+    			SalvarArquivo();
+    		}else if(op == 1){//não
+    			//faz nada
+    		}else{//cancelou
+    			return;
+    		}
+    	}
+    }
+    private void VisualizarArquivo(){
+    	try {
+			Abrir.AbrirArquivo(arquivo);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    private void AbrirArquivo(){
+		//TODO Metodo abrir
+    	ManipulaDados.LimparLista();
+		fc.showOpenDialog(null);
+		try{
+			arquivo = fc.getSelectedFile().getAbsolutePath();
+			if(ManipulaDados.Carregar(arquivo))
+				AttLista();
+			setTitle("Gerenciador de Faculdade - "+arquivo);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+   	}
+    private void SalvarArquivo(){
+		//TODO Método Salvar
+    	if(primeiraVez && arquivo.equals("")){
+	    	fc.showSaveDialog(null);
+			arquivo = fc.getSelectedFile().getAbsolutePath();
+			if(!arquivo.contains(".json"))
+				arquivo+=".json";
+			primeiraVez = false;
+    	}
+    	ManipulaDados.Salvar(arquivo);
+   	}
+    
+    protected static void AttLista(){
+		listaAluno = ManipulaDados.getListaAluno();
+		PreencherTabela();
+	}
+	
+	protected static void setTableEnable(boolean mode){
+		table.setEnabled(mode);
 	}
 	
 	protected static void PreencherTabela(){
@@ -370,12 +605,5 @@ public class FrmPrincipal extends JFrame {
 		}
 	}
 	
-	protected static void AttLista(){
-		listaAluno = ManipulaDados.getListaAluno();
-		PreencherTabela();
-	}
 	
-	protected static void setTableEnable(boolean mode){
-		table.setEnabled(mode);
-	}
 }
