@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import com.qst1.dao.AlunoDAO;
@@ -84,7 +85,7 @@ public class FrmPrincipal extends JFrame {
 	private InternalFrameInserirNota frmEditNotAluno = new InternalFrameInserirNota();
 	
 	private JFileChooser fc = new JFileChooser();
-	private String arquivo;
+	private String arquivo = "";
 	/**
 	 * Launch the application.
 	 */
@@ -455,27 +456,18 @@ public class FrmPrincipal extends JFrame {
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(2).setPreferredWidth(140);
-		
-		fc.setFileFilter(new FileFilter(){
-			public boolean accept(File file){
-				return file.getName().toUpperCase().equals(".JSON");
-			}
-			public String getDescription(){
-				return "JSON file(*.json)";
-			}
-		});
-		//fc.setAcceptAllFileFilterUsed(false);
 	}
 	
 	private void Importar(){
 		//TODO Método Importar
 		ManipulaDados.LimparLista();
 		
-		if(ManipulaDados.Carregar("DadosAluno.json"))
-			AttLista();
+		ManipulaDados.Carregar("DadosAluno.json");
+		AttLista();
 	}
 	private void Exportar(){
 		//TODO Método Importar
+		
 	}
 	private void ChamarTelaGerirAluno(){
 		//TODO Método ChamarTelaGerirAluno
@@ -551,12 +543,14 @@ public class FrmPrincipal extends JFrame {
     private void AbrirArquivo(){
 		//TODO Metodo abrir
     	ManipulaDados.LimparLista();
-		fc.showOpenDialog(null);
+    	showOpenFileDialog();
+		//fc.showOpenDialog(null);
 		try{
-			arquivo = fc.getSelectedFile().getAbsolutePath();
-			if(ManipulaDados.Carregar(arquivo))
+			if(!arquivo.equals("") && arquivo.endsWith("json")){
+				ManipulaDados.Carregar(arquivo);
 				AttLista();
-			setTitle("Gerenciador de Faculdade - "+arquivo);
+				setTitle("Gerenciador de Faculdade - "+arquivo);
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -565,14 +559,57 @@ public class FrmPrincipal extends JFrame {
     private void SalvarArquivo(){
 		//TODO Método Salvar
     	if(primeiraVez && arquivo.equals("")){
-	    	fc.showSaveDialog(null);
-			arquivo = fc.getSelectedFile().getAbsolutePath();
-			if(!arquivo.contains(".json"))
-				arquivo+=".json";
+	    	/*fc.showSaveDialog(null);
+			arquivo = fc.getSelectedFile().getAbsolutePath();*/
+    		showSaveFileDialog();
+			/*if(!arquivo.endsWith("json"))
+				arquivo+=".json";*/
 			primeiraVez = false;
     	}
     	ManipulaDados.Salvar(arquivo);
    	}
+    private void showOpenFileDialog() {
+    	//TODO Show Open File Dialog
+        fc.setCurrentDirectory(new File(System.getProperty("user.home")));
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("JSON file(*.json)", "json"));
+        fc.setAcceptAllFileFilterUsed(true);
+        int result = fc.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            arquivo = fc.getSelectedFile().getAbsolutePath();
+        }else{
+        	arquivo = "";
+        }
+    }
+    private void showSaveFileDialog() {
+    	//TODO Show Save File Dialog
+        fc.setCurrentDirectory(new File(System.getProperty("user.home")));
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("JSON file(*.json)", "json"));
+        fc.setAcceptAllFileFilterUsed(true);
+        int result = fc.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+        	arquivo = fc.getSelectedFile().getAbsolutePath()+".json";
+        }else{
+        	arquivo = "";
+        }
+    }
+    
+    public static File getSelectedFileWithExtension(JFileChooser c) {
+        File file = c.getSelectedFile();
+        if (c.getFileFilter() instanceof FileNameExtensionFilter) {
+            String[] exts = ((FileNameExtensionFilter)c.getFileFilter()).getExtensions();
+            String nameLower = file.getName().toLowerCase();
+            for (String ext : exts) { // check if it already has a valid extension
+                if (nameLower.endsWith('.' + ext.toLowerCase())) {
+                    return file; // if yes, return as-is
+                }
+            }
+            // if not, append the first extension from the selected filter
+            file = new File(file.toString() + '.' + exts[0]);
+        }
+        return file;
+    }
     
     protected static void AttLista(){
 		listaAluno = ManipulaDados.getListaAluno();

@@ -144,13 +144,11 @@ public class ManipulaDados{
 		listaAluno.SaveData(arquivo);
 	}
 	
-	protected static boolean Carregar(String arquivo){
+	protected static void Carregar(String arquivo){
 		if(!listaAluno.LoadData(grade,arquivo)){
 			InOut.OutMessage("Não foi possivel Importar os dados,\n"
 					+ "Por favor verifique se o arquivo se encontra no sistema", "ERRO", 2);
-			return false;
 		}
-		return true;
 	}
 	
 	protected static void LimparLista(){
