@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
+import com.qst1.vo.Aluno;
 import com.qst1.vo.Disciplina;
 import com.recursos.InOut;
 
@@ -26,10 +27,6 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
 
 public class InternalFrameInserirNota extends JInternalFrame {
 	protected	static 	JTextField 	txtPesquisa;
@@ -144,13 +141,15 @@ public class InternalFrameInserirNota extends JInternalFrame {
 				Integer matricula = Integer.parseInt(txtMatricula.getText());
 				Integer codigo = (Integer) table.getValueAt(linha, 0);
 				
-				Dado dado = new Dado();
-				dado.setCodigo(codigo);
-				dado.setMatricula(matricula);
-				dado.setNota(nota);
+				Aluno aluno = new Aluno();
+				Disciplina disc = new Disciplina();
 				
-				if(ManipulaDados.EditarNota(dado)){					
-					PreencherTabela(dado);
+				aluno.setMatricula(matricula);
+				disc.setCodigo(codigo);				
+				disc.setNota(nota);
+				
+				if(ManipulaDados.EditarNota(aluno, disc, nota)){					
+					PreencherTabela(aluno);
 				}else{
 					return;
 				}
@@ -205,13 +204,13 @@ public class InternalFrameInserirNota extends JInternalFrame {
 				if(ManipulaDados.ValidaPesquisa(txtPesquisa.getText()))
 					return;
 				String pesquisa = txtPesquisa.getText();
-				Dado dado = new Dado();
-				dado.setMatricula(Integer.parseInt(pesquisa));
-				if(ManipulaDados.PesquisarAluno(dado)){
-					InOut.OutMessage("Aluno Encontrado");
-					MudarCampos(dado);
+				Aluno aluno = new Aluno();
+				aluno.setMatricula(Integer.parseInt(pesquisa));
+				if(ManipulaDados.PesquisarAluno(aluno)){
+					InOut.OutMessage("Aluno encontrado");
+					MudarCampos(aluno);
 				}else{
-					InOut.OutMessage("Aluno Não Encontrado");
+					InOut.OutMessage("Aluno não encontrado");
 				}
 			}
 		});
@@ -282,14 +281,15 @@ public class InternalFrameInserirNota extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				//TODO Evento > Click > Tabela
-				int linha  = table.getSelectedRow();
-				Dado dado = new Dado();
-				String disc = table.getValueAt(linha, 1).toString();
-				
+				int linha  = table.getSelectedRow();				
+				Disciplina disc = new Disciplina();				
+				String discNome = table.getValueAt(linha, 1).toString();				
 				Double nota = Double.parseDouble(table.getValueAt(linha, 2).toString());
-				dado.setMateria(disc);
-				dado.setNota(nota);
-				MudaCamposDisciplina(dado);
+				
+				disc.setNome(discNome);
+				disc.setNota(nota);
+				
+				MudaCamposDisciplina(disc);
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -343,24 +343,24 @@ public class InternalFrameInserirNota extends JInternalFrame {
 		btnNota.setEnabled(!estado);		
 		btnPesquisar.setEnabled(!estado);		
 	}
-	private void MudaCamposDisciplina(Dado dado){
-		txtDisciplina.setText(dado.getMateria());
-		txtNota.setText(dado.getNota().toString());
+	private void MudaCamposDisciplina(Disciplina disc){
+		txtDisciplina.setText(disc.getNome());
+		txtNota.setText(disc.getNota().toString());
 	}
-	protected static void MudarCampos(Dado dado){
+	protected static void MudarCampos(Aluno aluno){
 		//TODO MudaCampos
-		txtNome.setText(dado.getNome());
-		txtMatricula.setText(dado.getMatricula().toString());
-		PreencherTabela(dado);
+		txtNome.setText(aluno.getNome());
+		txtMatricula.setText(aluno.getMatricula().toString());
+		PreencherTabela(aluno);
 	}
-	protected void MudaDisciplina(Dado dado){
-		txtDisciplina.setText(dado.getMateria());
-		txtNota.setText(dado.getNota().toString());
+	protected void MudaDisciplina(Disciplina disc){
+		txtDisciplina.setText(disc.getNome());
+		txtNota.setText(disc.getNota().toString());
 	}
 	
-	protected static void PreencherTabela(Dado dado){
+	protected static void PreencherTabela(Aluno aluno){
 		//TODO PreencherTabela
-		List<Disciplina> listaDisciplina = ManipulaDados.DisciplinasCadastradas(dado);
+		List<Disciplina> listaDisciplina = ManipulaDados.DisciplinasCadastradas(aluno);
 		try{
 			modelo = (DefaultTableModel) table.getModel();
 			

@@ -13,22 +13,19 @@ public class ManipulaDados{
 	private static AlunoDAO listaAluno = new AlunoDAO();
 	private static GradeEscolar grade = new GradeEscolar();
 	
-	protected static void CadastrarAluno(Dado dadoAluno){
-		Aluno aluno = new Aluno(dadoAluno.getNome(),dadoAluno.getCpf());
+	protected static void CadastrarAluno(Aluno aluno){
 		listaAluno.Create(aluno);
 	}
 	
-	protected static void AtualizarAluno(Dado dadoAluno){
-		Aluno aluno = new Aluno();
-		aluno.setCPF(dadoAluno.getCpf());
-		aluno.setNome(dadoAluno.getNome());
-		aluno.setMatricula(dadoAluno.getMatricula());
+	protected static void AtualizarAluno(Aluno aluno){
+		aluno.setCPF(aluno.getCPF());
+		aluno.setNome(aluno.getNome());
+		aluno.setMatricula(aluno.getMatricula());
 		listaAluno.Update(aluno);
 	}
 	
-	protected static void RemoverAluno(Dado dadoAluno){
-		Aluno aluno = new Aluno();
-		aluno.setMatricula(dadoAluno.getMatricula());
+	protected static void RemoverAluno(Aluno aluno){
+		aluno.setMatricula(aluno.getMatricula());
 		listaAluno.Delete(aluno);
 	}
 	
@@ -40,25 +37,18 @@ public class ManipulaDados{
 		return false;
 	}
 	
-	protected static boolean PesquisarAluno(Dado dadoAluno){
-		Aluno aluno = new Aluno();
-		aluno.setMatricula(dadoAluno.getMatricula());
+	protected static boolean PesquisarAluno(Aluno aluno){
+		aluno.setMatricula(aluno.getMatricula());
 		if(listaAluno.Find(aluno,true) != -1){
-			dadoAluno.setNome(aluno.getNome());
-			dadoAluno.setCpf(aluno.getCPF());
-			dadoAluno.setMatricula(aluno.getMatricula());
+			aluno.setNome(aluno.getNome());
+			aluno.setCPF(aluno.getCPF());
+			aluno.setMatricula(aluno.getMatricula());
 			return true;
 		}
 		return false;
 	}
 	
-	protected static boolean AdicionarMateria(Dado dado){
-		Aluno aluno = new Aluno();
-		Disciplina disc = new Disciplina();
-		
-		aluno.setMatricula(dado.getMatricula());
-		disc.setCodigo(dado.getCodigo());
-		
+	protected static boolean AdicionarMateria(Aluno aluno, Disciplina disc){		
 		if(listaAluno.FindMateria(aluno, disc) == -1){
 			grade.CadastrarGrade(aluno, disc);	
 			return true;
@@ -66,19 +56,11 @@ public class ManipulaDados{
 		return false;		
 	}
 	
-	protected static void RemoverMateria(Dado dado){
-		Aluno aluno = new Aluno();
-		Disciplina disc = new Disciplina();
-		
-		aluno.setMatricula(dado.getMatricula());
-		disc.setCodigo(dado.getCodigo());
-		
+	protected static void RemoverMateria(Aluno aluno, Disciplina disc){		
 		listaAluno.RemoverGrade(aluno, disc);
 	}
 	
-	protected static List<Disciplina> DisciplinasCadastradas(Dado dado){		
-		Aluno aluno = new Aluno();
-		aluno.setMatricula(dado.getMatricula());		
+	protected static List<Disciplina> DisciplinasCadastradas(Aluno aluno){			
 		List<Disciplina> listaDisciplina = null;
 		
 		if(listaAluno.Find(aluno, true) != -1){
@@ -88,15 +70,7 @@ public class ManipulaDados{
 		return listaDisciplina;
 	}
 		
-	protected static boolean EditarNota(Dado dado){
-		Aluno aluno = new Aluno();
-		Disciplina disc = new Disciplina();
-		
-		aluno.setMatricula(dado.getMatricula());
-		disc.setCodigo(dado.getCodigo());
-		
-		Double nota = dado.getNota();
-		
+	protected static boolean EditarNota(Aluno aluno, Disciplina disc, Double nota){		
 		if(listaAluno.AddNota(aluno, disc, nota)){
 			return true;
 		}
@@ -133,11 +107,11 @@ public class ManipulaDados{
 		return grade;
 	}
 	
-	protected static void MudaCampos(Dado pdados){
-		InternalFrameCadastroAluno.MudarCampos(pdados);
-		InternalFrameCadastrarGradeAluno.MudarCampos(pdados);
-		InternalFrameCadastrarGradeAluno.AttLista(pdados);
-		InternalFrameInserirNota.MudarCampos(pdados);	
+	protected static void MudaCampos(Aluno aluno){
+		InternalFrameCadastroAluno.MudarCampos(aluno);
+		InternalFrameCadastrarGradeAluno.MudarCampos(aluno);
+		InternalFrameCadastrarGradeAluno.AttLista(aluno);
+		InternalFrameInserirNota.MudarCampos(aluno);
 	}
 	
 	protected static void Salvar(String arquivo){

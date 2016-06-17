@@ -51,10 +51,7 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 	private		String	materia;
 	private		Integer	matricula;
 	private		String	pesquisa;
-	private		Dado	dado;
 	
-	private 	Aluno		aluno;
-	private		Disciplina 	disc;
 	/**
 	 * Launch the application.
 	 */
@@ -167,14 +164,15 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Pesquisar > Pesquisar
+				//TODO Pesquisar > Pesquisar
 				if(ManipulaDados.ValidaPesquisa(txtPesquisa.getText()))
 					return;
-				pesquisa = txtPesquisa.getText();
-				dado = new Dado();
-				dado.setMatricula(Integer.parseInt(pesquisa));
-				if(ManipulaDados.PesquisarAluno(dado)){
+				String pesquisa = txtPesquisa.getText();
+				Aluno aluno = new Aluno();
+				aluno.setMatricula(Integer.parseInt(pesquisa));
+				if(ManipulaDados.PesquisarAluno(aluno)){
 					InOut.OutMessage("Aluno Encontrado");
-					MudarCampos(dado);
+					MudarCampos(aluno);
 				}else{
 					InOut.OutMessage("Aluno Não Encontrado");
 				}
@@ -253,12 +251,14 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 					matricula = Integer.parseInt(txtMatricula.getText());
 					codigo = Integer.parseInt(modeloT.getValueAt(linha, 0).toString());									
 					
-					dado = new Dado();					
-					dado.setCodigo(codigo);
-					dado.setMatricula(matricula);
+					Disciplina disc = new Disciplina();
+					Aluno aluno = new Aluno();
 					
-					if(ManipulaDados.AdicionarMateria(dado)){
-						AttLista(dado);
+					disc.setCodigo(codigo);
+					aluno.setMatricula(matricula);
+					
+					if(ManipulaDados.AdicionarMateria(aluno, disc)){
+						AttLista(aluno);
 					}else{
 						InOut.OutMessage("Não foi possivel adicionar ["+materia+"] em: "+ txtNome.getText()+
 								"\nPor favor verifique se a disciplina já está Cadastrada no Aluno\n","Erro");
@@ -284,16 +284,19 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 					InOut.OutMessage("Para remover uma Materia, primeiro selecione-a na lista de Disciplinas Cadastradas");
 					return;
 				}
+				
 				matricula = Integer.parseInt(txtMatricula.getText());
 				codigo = ((Disciplina) ((DefaultListModel)list.getModel()).getElementAt(pos)).getCodigo();
 				pos = -1;
 				
-				dado = new Dado();					
-				dado.setCodigo(codigo);
-				dado.setMatricula(matricula);
+				Disciplina disc = new Disciplina();
+				Aluno aluno = new Aluno();
 				
-				ManipulaDados.RemoverMateria(dado);
-				AttLista(dado);				
+				disc.setCodigo(codigo);
+				aluno.setMatricula(matricula);
+								
+				ManipulaDados.RemoverMateria(aluno, disc);
+				AttLista(aluno);				
 			}
 		});
 		btnRemover.setIcon(new ImageIcon(InternalFrameCadastrarGradeAluno.class.getResource("/com/qst1/images/discdel32.png")));
@@ -313,10 +316,9 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 		AttTabela();//loucura
 	}
 	
-	protected static void AttLista(Dado dado){
-		//TODO	AttLista
-		
-		List<Disciplina> listaDisciplina = ManipulaDados.DisciplinasCadastradas(dado);
+	protected static void AttLista(Aluno aluno){
+		//TODO	AttLista		
+		List<Disciplina> listaDisciplina = ManipulaDados.DisciplinasCadastradas(aluno);
 				
 		if(modeloL.getSize() > 0)
 			modeloL.clear();
@@ -355,7 +357,7 @@ public class InternalFrameCadastrarGradeAluno extends JInternalFrame {
 		}
 	}
 	
-	protected static void MudarCampos(Dado dados){
+	protected static void MudarCampos(Aluno dados){
 		txtMatricula.setText(dados.getMatricula().toString());
 		txtNome.setText(dados.getNome());
 	}

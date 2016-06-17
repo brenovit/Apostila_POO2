@@ -35,7 +35,6 @@ import java.awt.event.KeyEvent;
 
 public class InternalFrameCadastroAluno extends JInternalFrame {
 	private 	AlunoDAO	listaAluno = ManipulaDados.getListaAluno();
-	private		Dado		dadoAluno;
 	
 	protected	static	JTextField 	txtPesquisa;
 	protected	static	JTextField 	txtMatricula;
@@ -61,7 +60,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 	private		JLabel 		lblStatus;
 	private 	JLabel		lblPesquisar;
 	
-	private static int mode; 
+	private static Mode mode;
 
 	private Integer matricula;
 	
@@ -107,7 +106,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO Cadastro aluno > Botão Cadastrar
-				mode = 0;
+				mode = Mode.ADD;
 				AtivarCampos(true);
 				AtivarBotoes(true);
 				LimparCampos();
@@ -127,7 +126,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO Cadastro aluno > Botão Atualizar
-				mode = 1;
+				mode = Mode.UPDATE;
 				if(CamposVazios("Alterar"))
 					return;
 				AtivarCampos(true);
@@ -144,7 +143,7 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO Cadastro aluno > Botão Excluir
-				mode = 2;
+				mode = Mode.REMOVE;
 				if(CamposVazios("Excluir"))
 					return;
 				matricula = Integer.parseInt(txtMatricula.getText());
@@ -217,11 +216,11 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 				if(ManipulaDados.ValidaPesquisa(txtPesquisa.getText()))
 					return;
 				String pesquisa = txtPesquisa.getText();
-				dadoAluno = new Dado();
-				dadoAluno.setMatricula(Integer.parseInt(pesquisa));
-				if(ManipulaDados.PesquisarAluno(dadoAluno)){
+				Aluno aluno = new Aluno();
+				aluno.setMatricula(Integer.parseInt(pesquisa));
+				if(ManipulaDados.PesquisarAluno(aluno)){
 					InOut.OutMessage("Aluno Encontrado");
-					MudarCampos(dadoAluno);
+					MudarCampos(aluno);
 				}else{
 					InOut.OutMessage("Aluno Não Encontrado");
 				}
@@ -304,21 +303,22 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 	
 	private void Confirmar(){
 		//TODO Método > Confirmar
+		Aluno aluno;
 		if(CamposVazios())
 			return;
 		switch(mode){
-		case 0:					///modo de criação
-			dadoAluno = new Dado(txtNome.getText(),txtCPF.getText());
-			ManipulaDados.CadastrarAluno(dadoAluno);					
+		case ADD:							///modo de criação
+			aluno = new Aluno(txtNome.getText(),txtCPF.getText());
+			ManipulaDados.CadastrarAluno(aluno);					
 			break;
-		case 1:					///modo de alteração
-			dadoAluno = new Dado(Integer.parseInt(txtMatricula.getText()),txtNome.getText(),txtCPF.getText());
-			ManipulaDados.AtualizarAluno(dadoAluno);
+		case UPDATE:						///modo de alteração
+			aluno = new Aluno(txtNome.getText(), Integer.parseInt(txtMatricula.getText()),txtCPF.getText());
+			ManipulaDados.AtualizarAluno(aluno);
 			break;
-		case 2:					///modo de exclusão
-			dadoAluno = new Dado();
-			dadoAluno.setMatricula(matricula);
-			ManipulaDados.RemoverAluno(dadoAluno);
+		case REMOVE:						///modo de exclusão
+			aluno = new Aluno();
+			aluno.setMatricula(matricula);
+			ManipulaDados.RemoverAluno(aluno);
 			break;
 		}
 		txtMatricula.setText((Aluno.getGerador()+1)+"");
@@ -361,9 +361,9 @@ public class InternalFrameCadastroAluno extends JInternalFrame {
 		txtCPF.setText("");
 	}
 	
-	protected static void MudarCampos(Dado dados){
+	protected static void MudarCampos(Aluno dados){
 		txtMatricula.setText(dados.getMatricula().toString());
-		txtCPF.setText(dados.getCpf());
+		txtCPF.setText(dados.getCPF());
 		txtNome.setText(dados.getNome());
 	}
 	

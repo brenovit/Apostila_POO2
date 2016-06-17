@@ -99,13 +99,13 @@ public class FrmPrincipal extends JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmCadastroAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmCadastroAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmCadastroAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmCadastroAluno.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -319,9 +319,9 @@ public class FrmPrincipal extends JFrame {
 				nome = modelo.getValueAt(linha, 1).toString();
 				CPF = modelo.getValueAt(linha, 2).toString();
 		
-				Dado dados = new Dado(matricula,nome,CPF);
+				Aluno aluno = new Aluno(nome,matricula,CPF);
 				
-				ManipulaDados.MudaCampos(dados);
+				ManipulaDados.MudaCampos(aluno);
 			}
 		});
 		scrollPane.setViewportView(table);
@@ -460,14 +460,12 @@ public class FrmPrincipal extends JFrame {
 	
 	private void Importar(){
 		//TODO Método Importar
-		ManipulaDados.LimparLista();
-		
+		ManipulaDados.LimparLista();		
 		ManipulaDados.Carregar("DadosAluno.json");
 		AttLista();
 	}
 	private void Exportar(){
-		//TODO Método Importar
-		
+		//TODO Método Importar		
 	}
 	private void ChamarTelaGerirAluno(){
 		//TODO Método ChamarTelaGerirAluno
@@ -518,8 +516,7 @@ public class FrmPrincipal extends JFrame {
     	ManipulaDados.LimparLista();
     	AttLista();
     	setTitle("Gerenciador de Faculdade");
-    }
-    
+    }    
     private void SalvarTabela(){
     	modelo = (DefaultTableModel) table.getModel();
     	if(modelo.getRowCount() > 0){
@@ -544,7 +541,6 @@ public class FrmPrincipal extends JFrame {
 		//TODO Metodo abrir
     	ManipulaDados.LimparLista();
     	showOpenFileDialog();
-		//fc.showOpenDialog(null);
 		try{
 			if(!arquivo.equals("") && arquivo.endsWith("json")){
 				ManipulaDados.Carregar(arquivo);
@@ -553,21 +549,21 @@ public class FrmPrincipal extends JFrame {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-		}
-		
-   	}
+		}		
+   	}    
     private void SalvarArquivo(){
 		//TODO Método Salvar
     	if(primeiraVez && arquivo.equals("")){
-	    	/*fc.showSaveDialog(null);
-			arquivo = fc.getSelectedFile().getAbsolutePath();*/
     		showSaveFileDialog();
-			/*if(!arquivo.endsWith("json"))
-				arquivo+=".json";*/
-			primeiraVez = false;
-    	}
-    	ManipulaDados.Salvar(arquivo);
+    		if(!arquivo.equals("") && arquivo.endsWith("json")){
+				primeiraVez = false;
+		    	ManipulaDados.Salvar(arquivo);
+    		}
+		}else{
+	    	ManipulaDados.Salvar(arquivo);
+		}    	
    	}
+    
     private void showOpenFileDialog() {
     	//TODO Show Open File Dialog
         fc.setCurrentDirectory(new File(System.getProperty("user.home")));
@@ -593,22 +589,6 @@ public class FrmPrincipal extends JFrame {
         }else{
         	arquivo = "";
         }
-    }
-    
-    public static File getSelectedFileWithExtension(JFileChooser c) {
-        File file = c.getSelectedFile();
-        if (c.getFileFilter() instanceof FileNameExtensionFilter) {
-            String[] exts = ((FileNameExtensionFilter)c.getFileFilter()).getExtensions();
-            String nameLower = file.getName().toLowerCase();
-            for (String ext : exts) { // check if it already has a valid extension
-                if (nameLower.endsWith('.' + ext.toLowerCase())) {
-                    return file; // if yes, return as-is
-                }
-            }
-            // if not, append the first extension from the selected filter
-            file = new File(file.toString() + '.' + exts[0]);
-        }
-        return file;
     }
     
     protected static void AttLista(){
@@ -640,7 +620,5 @@ public class FrmPrincipal extends JFrame {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	}
-	
-	
+	}	
 }
